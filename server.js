@@ -8,6 +8,9 @@ const bodyParser = require('body-parser');
 const jwt = require('_helpers/jwt');
 const errorHandler = require('_helpers/error-handler');
 
+const swaggerUi = require('swagger-ui-express'),
+    swaggerDocument = require('./swagger.json');
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -20,6 +23,8 @@ const OPTIONS={ useNewUrlParser: true }
 
 mongoose.connect(URI, OPTIONS);
 
+// api documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // api routes
 app.use('/icasa_doc', require('./src/routes/icasa_doc'));
