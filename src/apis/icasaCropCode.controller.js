@@ -13,10 +13,6 @@ exports.index= (req, res)=>{
                 message: err,
             });
         }
-        res.json({
-            status: "success",
-            message: "Crops retrieved successfully",
-            data: data
-        });
+        res.json(data );
     });
 }

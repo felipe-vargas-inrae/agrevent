@@ -14,12 +14,7 @@ exports.index= (req, res)=>{
             });
         }
         data=data.map((item)=>{return item.variable_name})
-        res.json({
-            status: "success",
-            length: data.length,
-            message: "Measures retrieved successfully",
-            data: data
-        });
+        res.json(data);
     });
 }
 
@@ -30,7 +25,7 @@ exports.validatorNames= (req, res)=>{
         const dataToList=data.map((doc)=>{return doc.variable_name})
         result=reqList.map((item)=>{
             var test=dataToList.includes(item)
-            return {variable_name:item, isIn:test}
+            return {variable_name:item, is_in:test}
         })
         res.json(result)
     })
