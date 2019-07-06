@@ -1,0 +1,20 @@
+{
+    "data": [
+        {
+            "id": "DIA2017-05-19",
+            "uri": "http://www.phenome-fppn.fr/diaphen/DIA2017-05-19"
+        },
+        {
+            "id": "ARCH2017-03-30",
+            "uri": "http://www.phenome-fppn.fr/m3p/ARCH2017-03-30"
+        },
+        {
+            "id": "ARCH2012-01-01",
+            "uri": "http://www.phenome-fppn.fr/m3p/ARCH2017-11-23"
+        },
+        {
+            "id": "ARCH2010-07-01",
+            "uri": "http://www.phenome-fppn.fr/m3p/ARCH2015-07-01"
+        }
+    ]
+}

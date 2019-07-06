@@ -10,6 +10,7 @@
   "author": "@felipex",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
     "csvtojson": "^2.0.8",
@@ -22,6 +23,7 @@
     "jsonwebtoken": "^8.2.2",
     "mongoose": "^5.2.15",
     "readline-sync": "^1.4.9",
+    "request": "^2.88.0",
     "rootpath": "^0.1.2",
     "swagger-ui-express": "^4.0.2",
     "yamljs": "^0.3.0"
