@@ -55,8 +55,6 @@ const  AppDocICASAtoJson={
         callback(result);
         console.log("termina  el for each");
         
-        
-
     }
 }
 

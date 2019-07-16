@@ -5,7 +5,7 @@ const util = require('util');
 const fs_writeFile = util.promisify(fs.writeFile);
 const fs_readFile = util.promisify(fs.readFile);
 
-const TABLE= "Management_codes";
+const TABLE= "Management_codes";// special behavior for this item
 
 const additionalRules=(schema, element)=>{
     console.log("entra", element);
@@ -24,13 +24,47 @@ const printFile= (result, name) => {
     return fs_writeFile(outFolder+prefix+name+'.json', content, 'utf8'); 
 };
 
+function listObjectReduction(objList){
+    // this loop transform a list of objects in an object containing all the possible keys
+    const objReduced=objList.reduce(
+        ( accumObj, currentValueObj)=>{
+            
+            const listKeysCurrent=Object.keys(currentValueObj);
+            listKeysCurrent.forEach((key,index)=>{
+                const a=  accumObj[key], b =currentValueObj[key];
+                const aType= typeof a, bType= typeof b;
+                if(a){
+                    // types order first object, string, number this is the priority
+                    if(bType === "object"){
+                        accumObj[key]= b;
+                    }else if(bType === "string" && aType !== "object"){
+                        accumObj[key]= b;
+                    }
+                }
+                else {
+                    accumObj[key]=b;
+                }
+            })
+            return accumObj;
+
+        }, {}
+    )
+    return objReduced
+}
+
+function schemaFromJSON(objectJson){
+    const GenerateSchema = require('generate-schema')
+    var schema = GenerateSchema.mongoose( objectJson);
+    return schema
+}
+
 const AppICASAtoMongoose={
     
     run:async function(callback){
 
         let result = [];
 
-        const GenerateSchema = require('generate-schema')
+        
         
         const dataFolder=process.env.FOLDER_OUTPUT_DATA;
         const prefix=process.env.PREFIX_ICASA_DATA;
@@ -45,32 +79,8 @@ const AppICASAtoMongoose={
 
                 objList = JSON.parse(data);
 
-                // this loop transform a list of objects in an object containing all the possible keys
-                const objReduced=objList.reduce(
-                    ( accumObj, currentValueObj)=>{
-                        
-                        const listKeysCurrent=Object.keys(currentValueObj);
-                        listKeysCurrent.forEach((key,index)=>{
-                            const a=  accumObj[key], b =currentValueObj[key];
-                            const aType= typeof a, bType= typeof b;
-                            if(a){
-                                // types order first object, string, number this is the priority
-                                if(bType === "object"){
-                                    accumObj[key]= b;
-                                }else if(bType === "string" && aType !== "object"){
-                                    accumObj[key]= b;
-                                }
-                            }
-                            else {
-                                accumObj[key]=b;
-                            }
-                        })
-                        return accumObj;
-
-                    }, {}
-                )
-
-                var schema = GenerateSchema.mongoose( objReduced);
+                const objReduced= listObjectReduction(objList)
+                var schema = schemaFromJSON(objReduced);
                 // when automatic types is not enough
                 schema = additionalRules( schema, element);   
                 return printFile(schema,element )
@@ -87,6 +97,11 @@ const AppICASAtoMongoose={
         callback(result);
         console.log("termina  el for each");
           
+    },
+    addSchemaFromJSONList:async function(objectJsonList, schemaName){
+        const objReduced=listObjectReduction(objectJsonList);
+        var schema = schemaFromJSON(objReduced);
+        return printFile(schema, schemaName);
     }
 }
 
