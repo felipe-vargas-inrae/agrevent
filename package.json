@@ -24,8 +24,10 @@
     "mongoose": "^5.2.15",
     "readline-sync": "^1.4.9",
     "request": "^2.88.0",
+    "rimraf": "^2.6.3",
     "rootpath": "^0.1.2",
     "swagger-ui-express": "^4.0.2",
+    "unique-filename": "^1.1.1",
     "yamljs": "^0.3.0"
   }
 }

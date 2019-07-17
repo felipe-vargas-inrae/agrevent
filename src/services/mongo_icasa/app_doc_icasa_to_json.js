@@ -8,7 +8,7 @@ const fs_writeFile = util.promisify(fs.writeFile)
 const printFile= (result, name) => {
 
     const content = JSON.stringify(result);
-    const outFolder=process.env.FOLDER_OUTPUT_DATA;
+    const outFolder=process.env.FOLDER_OUTPUT_DATA_ICASA;
     const prefix=process.env.PREFIX_ICASA_DATA;
     return fs_writeFile(outFolder+prefix+name+'.json', content, 'utf8'); 
 };

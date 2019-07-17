@@ -10,7 +10,7 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });*/
 
-const mongoose = require('mongoose');
+/*const mongoose = require('mongoose');
 mongoose.connect("mongodb://0.tcp.ngrok.io:10844/iot_db", { useNewUrlParser: true });
 require('dotenv').config();
 

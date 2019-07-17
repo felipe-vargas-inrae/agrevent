@@ -18,16 +18,17 @@ const schemaGeneration = (schemaJson) => {
   );
   return localSchema
 }
-icasaTables.forEach(element => {
-  localFolder = process.env.FOLDER_SCHEMAS_JSON_ICASA;
-  localPrefix = process.env.PREFIX_SCHEMAS_JSON_ICASA;
-  localFile = localFolder + localPrefix + element + ".json";
-  localJsonSchema = readFileJSON(localFile);
-  localMoongooseSchema = schemaGeneration(localJsonSchema)
-
-  const PREFIX="ICASA_";
-  ModelICASAStandardList[element] = mongoose.model(PREFIX+element, localMoongooseSchema);
-});
+function run(){
+  icasaTables.forEach(element => {
+    localFolder = process.env.FOLDER_SCHEMAS_JSON_ICASA;
+    localPrefix = process.env.PREFIX_SCHEMAS_JSON_ICASA;
+    localFile = localFolder + localPrefix + element + ".json";
+    localJsonSchema = readFileJSON(localFile);
+    localMoongooseSchema = schemaGeneration(localJsonSchema)
+    const PREFIX= process.env.PREFIX_ICASA_DATA;
+    ModelICASAStandardList[element] = mongoose.model(PREFIX+element, localMoongooseSchema);
+  });
+}
 //ICASAStandardSchema.index({Timestamp:1});
 //var ICASAStandardModel= mongoose.model("ICASAStandard", ICASAStandardSchema);
 
