@@ -25,7 +25,7 @@ const envData={
     ,startDate:"2017-05-19", endDate:"2017-09-22"
 }// used for created initial schema
 
-const defaultPage= {pageSize:"20", page:"0"}
+const defaultPage= {pageSize:"1000", page:"0"}
 
 async function getExperiments(req, resInitial, next){
     getAllElements(resInitial,API_EXP)
@@ -44,6 +44,10 @@ async function getEnvironmentsByExperiment(req, resInitial, next){
     const data = {experimentURI:req.params.experimentURI }
     getAllElements(resInitial,API_ENV, data, (x)=>{
         x.experimentURI=req.params.experimentURI
+        x.codeVariable= x.codeVariable.split(" ")[0]
+        delete x.facility
+        delete x.yyyymmdd
+        
         return x
     });
 }
@@ -70,71 +74,82 @@ async function getTokenAxios(){
       const sessionId={sessionId:response.data["session_token"]} 
       return sessionId
     } catch (error) {
-      console.error(error);
+      console.error("token error");
     }
     return null
 }
 
 
 // GENERIC FUNCTIONS
-
 async function getAllPages(apiURL, myToken, queryData, limit=10, mapFunc){
     let myList = []
     // Want to use async/await? Add the `async` keyword to your outer function/method.
+    let messageResponse=[]
 
-    try {
-        const par = Object.assign(myToken, queryData);
-        let response = await axios.get(apiURL, {params:par});
-        
-        
-        response = response.data
+    
+    const par = Object.assign(myToken, queryData);
+    let response = await axios.get(apiURL, {params:par});
+    response = response.data
 
-        
+    const realTotalPages= response["metadata"]["pagination"]["totalPages"] || 0
+    const totalPages = realTotalPages > limit ? limit : realTotalPages // limit huge request
+    const folderName= apiURL.replace(API, '').split('?')[0];// always has at least the token
 
-        const realTotalPages= response["metadata"]["pagination"]["totalPages"] || 0
+    myList=response["result"]["data"]
+    //myList=response
+    if(mapFunc){
+        myList=myList.map(mapFunc);
+    }
+    saveResult(myList,myList,"file", folderName)
 
-        const totalPages = realTotalPages > limit ? limit : realTotalPages // limit huge request
+    let arrayPromises=[]
+    const counter={count:1.0}
 
-        const folderName= apiURL.replace(API, '').split('?')[0];// always has at least the token
-
-        //myList=response["result"]["data"]
-        myList=response
-        if(mapFunc){
-            //myList=myList.map(mapFunc);
+    const myInterval=setInterval(function () { 
+        console.log("counting progress "+totalPages)
+        console.log(counter.count/totalPages)
+        if(counter.count>=totalPages){
+            clearInterval(myInterval)
         }
-        saveResult(myList,myList,"file", folderName)
+    }, 3000);
+        
 
-        let arrayPromises=[]
-        for (let i=1; i< totalPages; i++){
+    for (let i=1; i< totalPages; i++){
+        const auxFunCallAxios = (itera)=>{
+            const clonePar=Object.assign({}, par)
+            clonePar.page=itera
+            return axios.get(apiURL, {params:clonePar})
+        }
+        const myPromise =  auxFunCallAxios(i)
+        myPromise.then((resp)=> { 
 
             
-            let clonePar=Object.assign(par, {page:i})
-            //console.log(clonePar)
-
-
-            const myPromise =  axios.get(apiURL, {params:clonePar}).then((resp)=> { 
-                //let resultList=resp["data"]["result"]["data"]
-
-
-                //saveResult(resp,myList,"file", folderName)
-                console.log("config", resp.config)
-
-                let resultList=resp["data"]
-                if(mapFunc){
-                    //console.log(resultList["metadata"])
-                    //resultList=resultList.map(mapFunc);
-                }
-                //saveResult(resultList,myList,"file", folderName)
-                
-             })
-            arrayPromises.push(myPromise)
-        }
-        await Promise.all(arrayPromises)
-        return myList
-    } catch (error) {
-        console.error(error);
+            let resultList=resp["data"]["result"]["data"]
+            //let resultList=resp["data"]
+            
+            if(mapFunc){
+                resultList=resultList.map(mapFunc);
+            }
+            saveResult(resultList,myList,"file", folderName)
+            counter.count=counter.count+1.0;
+            console.error("success "+i);
+            
+            }).catch(function (error) {
+                // handle error
+                console.error("error "+i);
+                //console.error(error);
+                counter.count=counter.count+1.0;
+                messageResponse.push({"message": "error page:"+i})
+            })
+        arrayPromises.push(myPromise)
     }
-    return null
+    try {
+        await axios.all(arrayPromises)
+    }
+    catch(bad) {
+        console.log("error catch all"); 
+    }
+    return messageResponse
 }  
 
 async function getAllElements(resInitial,currentApi, dataRequest, mapFunc){
@@ -145,9 +160,12 @@ async function getAllElements(resInitial,currentApi, dataRequest, mapFunc){
 
     console.log("main function",myToken )
     if (myToken){
-       let allElements= await getAllPages(currentApi, myToken, data, 10 , mapFunc)// limit of pages
+       let allElements= await getAllPages(currentApi, myToken, data,999999999999999 , mapFunc)// no limit of pages
        //allElements=allElements.map(mapFunc)
        resInitial.json({"data":allElements})
+    }
+    else {
+        resInitial.json({"message":"token was not generated"})
     }
 }
 async function createSchemas(resInitial,currentApi, schemaName, dataRequest){
@@ -160,6 +178,9 @@ async function createSchemas(resInitial,currentApi, schemaName, dataRequest){
         createSchemaFromList(allElements, schemaName, ()=>{
                 resInitial.json({"message":schemaName+" schema created"})
         })
+    }
+    else {
+        resInitial.json({"message":"token was not generated"})
     }
 }
 function createSchemaFromList(list, schemaName, callback){
