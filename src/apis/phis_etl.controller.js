@@ -10,6 +10,10 @@ ctrl.loadExperimentsDB=loadExperimentsDB;
 // enviroments 
 ctrl.createEnvironmentsSchemas=createEnvironmentsSchemas;
 ctrl.getEnvironmentsByExperiment=getEnvironmentsByExperiment;
+// image analysis
+ctrl.getImagenAnalysisByExperiment=getImagenAnalysisByExperiment;
+// germplasm
+ctrl.getGermByExperiment=getGermByExperiment;
 
 module.exports = ctrl;
 
@@ -17,6 +21,8 @@ var myToken=null;
 const API="http://147.100.179.156:8080/phenomeapi/resources/"
 const API_EXP = API + "experiments"
 const API_ENV = API + "environment"
+const API_IMG = API + "imagesAnalysis"
+const API_GRM= API+"germplasms"
 const API_TOKEN= API + "token"
 
 const authData= {username:"guestphis@supagro.inra.fr",password:"guestphis" }
@@ -48,6 +54,33 @@ async function getEnvironmentsByExperiment(req, resInitial, next){
         delete x.facility
         delete x.yyyymmdd
         
+        return x
+    });
+}
+
+async function getImagenAnalysisByExperiment(req, resInitial, next){
+    
+    cleanFolder("image_analysis")
+    const data = {experimentURI:req.params.experimentURI }
+    getAllElements(resInitial,API_IMG, data, (x)=>{
+        x.experimentURI=req.params.experimentURI
+        /*x.codeVariable= x.codeVariable.split(" ")[0]
+        delete x.facility
+        delete x.yyyymmdd*/
+        
+        return x
+    });
+}
+
+async function getGermByExperiment(req, resInitial, next){
+    
+    cleanFolder("germplasm")
+    const data = {experimentURI:req.params.experimentURI }
+    getAllElements(resInitial,API_GRM, data, (x)=>{
+        x.experimentURI=req.params.experimentURI
+        /*x.codeVariable= x.codeVariable.split(" ")[0]
+        delete x.facility
+        delete x.yyyymmdd*/
         return x
     });
 }
@@ -160,7 +193,7 @@ async function getAllElements(resInitial,currentApi, dataRequest, mapFunc){
 
     console.log("main function",myToken )
     if (myToken){
-       let allElements= await getAllPages(currentApi, myToken, data,999999999999999 , mapFunc)// no limit of pages
+       let allElements= await getAllPages(currentApi, myToken, data,5 , mapFunc)// no limit of pages
        //allElements=allElements.map(mapFunc)
        resInitial.json({"data":allElements})
     }
@@ -193,6 +226,7 @@ function cleanFolder(folderName){
     const AppResultToJsonFile = require("../services/phis_etl/app_phis_etl")
     AppResultToJsonFile.cleanPhisFolder(folderName)
 }
+
 function saveResult(resultList, ListOptional, option, folderName){
     
     switch(option){

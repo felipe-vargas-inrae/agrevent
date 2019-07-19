@@ -11,6 +11,10 @@ router.get('/load_experiments_db', ctrl.loadExperimentsDB);
 // routes
 router.get('/create_enviroments_schemas', ctrl.createEnvironmentsSchemas)
 router.get('/get_environments/:experimentURI', ctrl.getEnvironmentsByExperiment)
-
-
+router.get('/get_imagen_analysis/:experimentURI', ctrl.getImagenAnalysisByExperiment)
+router.get('/get_germplasm/:experimentURI', ctrl.getGermByExperiment)
+router.get('/get_germplasm/:experimentURI', ctrl.getGermByExperiment)
+//router.get('/get_plots/:experimentURI', ctrl.getGermByExperiment)
+router.get('/get_plants/:experimentURI', ctrl.getGermByExperiment)
+// al parecer en el servicio plants se encuentra toda la informacion correspondiente a las plantas
 module.exports = router;
