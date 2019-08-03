@@ -23,13 +23,13 @@ app.use(cors());
 const URI= "mongodb://localhost:27017/iot_db"
 const OPTIONS={ useNewUrlParser: true }
 
-//mongoose.connect(URI, OPTIONS);
+mongoose.connect(URI, OPTIONS);
 
 // api documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // api routes
-app.use('/icasa_doc', require('./src/routes/icasa_doc'));
+app.use('/icasa_etl', require('./src/routes/icasa_etl'));
 app.use('/icasa_api', require('./src/routes/icasa_api'));
 app.use('/phis_etl', require('./src/routes/phis_etl'));
 

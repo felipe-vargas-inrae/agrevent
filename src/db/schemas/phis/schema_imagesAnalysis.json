@@ -1,0 +1,1 @@
+{"plantURI":{"type":"String"},"experimentURI":{"type":"String"},"imageUri":{"type":"String"},"labelView":{"type":"String"},"date":{"type":"Date"},"variableCodeId":{"type":"String"},"value":{"type":"Number"},"confidence":{"type":"String"},"stationId":{"type":"Number"}}

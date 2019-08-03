@@ -16,11 +16,9 @@ const additionalRules=(schema, element)=>{
     return schema;
 }
 
-const printFile= (result, name) => {
+const printFile= (result, name, outFolder) => {
     const content = JSON.stringify(result);
-    const outFolder=process.env.FOLDER_SCHEMAS_JSON_ICASA;
-    const prefix=process.env.PREFIX_SCHEMAS_JSON_ICASA;
-
+    const prefix=process.env.PREFIX_SCHEMAS_JSON;
     return fs_writeFile(outFolder+prefix+name+'.json', content, 'utf8'); 
 };
 
@@ -98,10 +96,10 @@ const AppICASAtoMongoose={
         console.log("termina  el for each");
           
     },
-    addSchemaFromJSONList:async function(objectJsonList, schemaName){
+    addPhisSchemaFromJSONList:async function(objectJsonList, schemaName){
         const objReduced=listObjectReduction(objectJsonList);
         var schema = schemaFromJSON(objReduced);
-        return printFile(schema, schemaName);
+        return printFile(schema, schemaName,process.env.FOLDER_SCHEMAS_JSON_PHIS);
     }
 }
 

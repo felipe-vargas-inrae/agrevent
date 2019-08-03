@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 //const userService = require('./user.service');
-const ctrl= require('../apis/icasa.controller')
+const ctrl= require('../apis/icasa_etl.controller')
 
 // routes
 router.get('/download_doc', ctrl.downloadDoc);
