@@ -7,16 +7,19 @@ ctrl.createExperimentsSchemas=createExperimentsSchemas;
 // enviroments 
 ctrl.createEnvironmentsSchemas=createEnvironmentsSchemas;
 ctrl.getEnvironmentsByExperiment=getEnvironmentsByExperiment;
+ctrl.getAllEnvironments=getAllEnvironments
 // image analysis
 ctrl.createImagenAnalysisSchemas=createImagenAnalysisSchemas;
 ctrl.getImagenAnalysisByExperiment=getImagenAnalysisByExperiment;
+ctrl.getAllImagesAnalysis=getAllImagesAnalysis
 // germplasm
 ctrl.getGermByExperiment=getGermByExperiment;
 
-//for all
-ctrl.getAllEnvironments=getAllEnvironments
+// weigthing
+ctrl.createWeighingSchemas=createWeighingSchemas;
+ctrl.getWeighingByExperiment=getWeighingByExperiment;
+ctrl.getAllWeighing=getAllWeighing
 
-ctrl.getAllImagesAnalysis=getAllImagesAnalysis
 
 module.exports = ctrl;
 
@@ -25,6 +28,7 @@ const API_EXP = API + "experiments"
 const API_ENV = API + "environment"
 const API_IMG = API + "imagesAnalysis"
 const API_GRM= API+"germplasms"
+const API_WEIG= API+"weighing"
 const API_TOKEN= API + "token"
 
 const authData= {username:"guestphis@supagro.inra.fr",password:"guestphis" }
@@ -35,6 +39,8 @@ const envData={
 const imgData={
     experimentURI:"http://www.phenome-fppn.fr/m3p/ARCH2017-03-30"
 }// used for created initial schema
+
+const wgData = imgData;
 
 const defaultPage= {pageSize:"1000", page:"0"}
 
@@ -50,14 +56,11 @@ async function createExperimentsSchemas(req, resInitial, next){
     createSchemas(resInitial,API_EXP);
 }
 
-// environments
+// environments ----------------------------------------------------
 async function createEnvironmentsSchemas(req, resInitial, next){
-    // se hace necesario saber cual es el elemento que al consultarlo genera una lista
     createSchemas(resInitial,API_ENV, envData);
 }
-
 async function getAllEnvironments(req, resInitial,next){
-    //query all the experiment
     getAllGenericIteraExperiment(req,resInitial,"/get_environments/")  
 }
 async function getEnvironmentsByExperiment(req, resInitial, next){
@@ -74,7 +77,7 @@ async function getEnvironmentsByExperiment(req, resInitial, next){
     });
 }
 
-// imagen analysis
+// imagen analysis -------------------------------------------
 async function createImagenAnalysisSchemas(req, resInitial, next){
     createSchemas(resInitial,API_IMG, imgData);
 }
@@ -84,32 +87,42 @@ async function getImagenAnalysisByExperiment(req, resInitial, next){
     const data = {experimentURI:req.params.experimentURI }
     getAllElements(resInitial,API_IMG, data, (x)=>{
         x.experimentURI=req.params.experimentURI
-        /*x.codeVariable= x.codeVariable.split(" ")[0]
-        delete x.facility
-        delete x.yyyymmdd*/
-        
         return x
     });
 }
-
 async function getAllImagesAnalysis(req,resInitial){
     getAllGenericIteraExperiment(req,resInitial,"/get_imagen_analysis/")
 }
 
+
+// germ ------------------------------------------------------------
 async function getGermByExperiment(req, resInitial, next){
     
     cleanFolder("germplasm")
     const data = {experimentURI:req.params.experimentURI }
     getAllElements(resInitial,API_GRM, data, (x)=>{
         x.experimentURI=req.params.experimentURI
-        /*x.codeVariable= x.codeVariable.split(" ")[0]
-        delete x.facility
-        delete x.yyyymmdd*/
         return x
     });
 }
 
-// HELPER
+// weighing ------------------------------------------------------------------
+async function createWeighingSchemas(req, resInitial, next){
+    createSchemas(resInitial,API_WEIG, wgData);
+}
+async function getWeighingByExperiment(req, resInitial, next){
+    cleanFolder("weighing")
+    const data = {experimentURI:req.params.experimentURI }
+    getAllElements(resInitial,API_IMG, data, (x)=>{
+        x.experimentURI=req.params.experimentURI
+        return x
+    });
+}
+async function getAllWeighing(req,resInitial){
+    getAllGenericIteraExperiment(req,resInitial,"/get_weighing/")
+}
+
+// HELPERS---------------------
 async function getTokenAxios(){
     // Want to use async/await? Add the `async` keyword to your outer function/method.
     try {
@@ -123,7 +136,7 @@ async function getTokenAxios(){
 }
 
 
-// GENERIC FUNCTIONS
+// GENERIC FUNCTIONS --------------------------
 async function getAllPages(apiURL, myToken, queryData, limit=10, mapFunc, saveIn="list"){
     let myList = []
     // Want to use async/await? Add the `async` keyword to your outer function/method.
