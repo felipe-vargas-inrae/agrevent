@@ -1,0 +1,6 @@
+Experiments.
+    Schema:
+        // generaly already created
+    Get all:
+        /get_experiments
+    

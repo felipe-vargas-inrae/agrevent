@@ -1,1 +1,73 @@
-{"experimentDbId":{"type":"String"},"experimentURI":{"type":"String"},"experimentId":{"type":"String"},"experimentName":{"type":"String"},"experimentObjective":{"type":"Mixed"},"experimentType":{"type":"String"},"experimentLocation":{"type":"String"},"experimentProject":{"type":"String"},"dataSet":{"type":"Mixed"},"experimentPlateform":{"type":"String"},"startDate":{"type":"Date"},"endDate":{"type":"Date"},"programName":{"type":"Mixed"},"designType":{"type":"Mixed"},"keyContact":{"type":"String"},"contacts":{"type":["Mixed"]},"meteoStationCode":{"type":"Mixed"},"meteoStationNetwork":{"type":"Mixed"},"studyHistory":{"type":"Mixed"},"attributes":{"type":"Mixed"},"seasons":{"type":"Mixed"},"observationVariables":{"type":"Mixed"},"germplasm":{"type":"Mixed"}}
+{
+    "experimentDbId": {
+        "type": "String"
+    },
+    "experimentURI": {
+        "type": "String"
+    },
+    "experimentId": {
+        "type": "String"
+    },
+    "experimentName": {
+        "type": "String"
+    },
+    "experimentObjective": {
+        "type": "Mixed"
+    },
+    "experimentType": {
+        "type": "String"
+    },
+    "experimentLocation": {
+        "type": "String"
+    },
+    "experimentProject": {
+        "type": "String"
+    },
+    "dataSet": {
+        "type": "Mixed"
+    },
+    "experimentPlateform": {
+        "type": "String"
+    },
+    "startDate": {
+        "type": "Date"
+    },
+    "endDate": {
+        "type": "Date"
+    },
+    "programName": {
+        "type": "Mixed"
+    },
+    "designType": {
+        "type": "Mixed"
+    },
+    "keyContact": {
+        "type": "String"
+    },
+    "contacts": {
+        "type": [
+            "Mixed"
+        ]
+    },
+    "meteoStationCode": {
+        "type": "Mixed"
+    },
+    "meteoStationNetwork": {
+        "type": "Mixed"
+    },
+    "studyHistory": {
+        "type": "Mixed"
+    },
+    "attributes": {
+        "type": "Mixed"
+    },
+    "seasons": {
+        "type": "Mixed"
+    },
+    "observationVariables": {
+        "type": "Mixed"
+    },
+    "germplasm": {
+        "type": "Mixed"
+    }
+}
