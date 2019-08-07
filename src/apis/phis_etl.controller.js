@@ -213,7 +213,7 @@ async function getAllElements(resInitial,currentApi, dataRequest, mapFunc){
     data = Object.assign(defaultPage,dataRequest)
 
     if (myToken){
-       let allElements= await getAllPages(currentApi, myToken, data,5 , mapFunc, "db")// no limit of pages
+       let allElements= await getAllPages(currentApi, myToken, data,5 , mapFunc, "broker")// no limit of pages
        resInitial.json({"data":allElements})
     }
     else {
@@ -261,12 +261,14 @@ function saveResult(resultList, ListOptional, option, folderName){
         case "db":{
             const ModelPhisList = require("../db/models/model_phis_entities_list")
             const model= ModelPhisList.getModel(folderName)
-            
-           
             model.insertMany(resultList).then(()=>{console.log("inserted")}).catch(()=>{
                 console.error("error in insert many")
             })
             break
+        }
+        case "broker":{
+            const kafkaProducerBroker= require('../services/kafka/producer')
+            kafkaProducerBroker.sendDataToBroker(resultList, folderName)
         }
     }
 }

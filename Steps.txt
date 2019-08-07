@@ -1,1 +1,7 @@
 un nuevo commit
+
+Microservices share data models 
+https://www.scalyr.com/blog/microservices-communication-how-to-share-data-between-microservices
+
+Kafka 
+https://kafka.apache.org/quickstart
