@@ -1,5 +1,5 @@
 const axios = require('axios');
-const kafkaProducerBroker= require('../services/kafka/producer')
+//const kafkaProducerBroker= require('../services/kafka/producer')
 
 const ctrl={};
 //experiments 
@@ -13,8 +13,21 @@ ctrl.getAllEnvironments=getAllEnvironments
 ctrl.createImagenAnalysisSchemas=createImagenAnalysisSchemas;
 ctrl.getImagenAnalysisByExperiment=getImagenAnalysisByExperiment;
 ctrl.getAllImagesAnalysis=getAllImagesAnalysis
+
 // germplasm
-ctrl.getGermByExperiment=getGermByExperiment;
+ctrl.getGermplasmsByExperiment=getGermplasmsByExperiment;
+ctrl.createGermplasmsSchemas=createGermplasmsSchemas;
+ctrl.getAllGermplasms=getAllGermplasms
+
+// plants
+ctrl.getPlantsByExperiment=getPlantsByExperiment
+ctrl.createPlantsSchemas=createPlantsSchemas;
+ctrl.getAllPlants=getAllPlants
+
+// watering
+ctrl.getWateringByExperiment=getWateringByExperiment
+ctrl.createWateringSchemas=createWateringSchemas;
+ctrl.getAllWatering=getAllWatering
 
 // weigthing
 ctrl.createWeighingSchemas=createWeighingSchemas;
@@ -30,6 +43,8 @@ const API_ENV = API + "environment"
 const API_IMG = API + "imagesAnalysis"
 const API_GRM= API+"germplasms"
 const API_WEIG= API+"weighing"
+const API_WAT= API+"watering"
+const API_PLANTS=API + "plants"
 const API_TOKEN= API + "token"
 
 const authData= {username:"guestphis@supagro.inra.fr",password:"guestphis" }
@@ -78,6 +93,42 @@ async function getEnvironmentsByExperiment(req, resInitial, next){
     });
 }
 
+
+
+// plants -------------------------------------------
+async function createPlantsSchemas(req, resInitial, next){
+    createSchemas(resInitial,API_PLANTS, imgData);
+}
+async function getPlantsByExperiment(req, resInitial, next){
+    
+    cleanFolder("plants")
+    const data = {experimentURI:req.params.experimentURI }
+    getAllElements(resInitial,API_PLANTS, data, (x)=>{
+        x.experimentURI=req.params.experimentURI
+        return x
+    });
+}
+async function getAllPlants(req,resInitial){
+    getAllGenericIteraExperiment(req,resInitial,"/get_plants/")
+}
+
+// watering -------------------------------------------
+async function createWateringSchemas(req, resInitial, next){
+    createSchemas(resInitial,API_WAT, imgData);
+}
+async function getWateringByExperiment(req, resInitial, next){
+    
+    cleanFolder("watering")
+    const data = {experimentURI:req.params.experimentURI }
+    getAllElements(resInitial,API_WAT, data, (x)=>{
+        x.experimentURI=req.params.experimentURI
+        return x
+    });
+}
+async function getAllWatering(req,resInitial){
+    getAllGenericIteraExperiment(req,resInitial,"/get_watering/")
+}
+
 // imagen analysis -------------------------------------------
 async function createImagenAnalysisSchemas(req, resInitial, next){
     createSchemas(resInitial,API_IMG, imgData);
@@ -95,16 +146,21 @@ async function getAllImagesAnalysis(req,resInitial){
     getAllGenericIteraExperiment(req,resInitial,"/get_imagen_analysis/")
 }
 
-
-// germ ------------------------------------------------------------
-async function getGermByExperiment(req, resInitial, next){
+// germplasm
+async function createGermplasmsSchemas(req, resInitial, next){
+    createSchemas(resInitial,API_GRM, imgData);
+}
+async function getGermplasmsByExperiment(req, resInitial, next){
     
-    cleanFolder("germplasm")
+    cleanFolder("germplasms")
     const data = {experimentURI:req.params.experimentURI }
     getAllElements(resInitial,API_GRM, data, (x)=>{
         x.experimentURI=req.params.experimentURI
         return x
     });
+}
+async function getAllGermplasms(req,resInitial){
+    getAllGenericIteraExperiment(req,resInitial,"/get_germplasms/")
 }
 
 // weighing ------------------------------------------------------------------
@@ -149,8 +205,9 @@ async function getAllPages(apiURL, myToken, queryData, limit=10, mapFunc, saveIn
     try {
         response = await axios.get(apiURL, {params:par});
         response = response.data
+       
     }catch(error){
-        const message={message:"no information associated in sheet 0 ", url:apiURL, settings:par}
+        const message={message:"no information associated in sheet 0 "}
         console.log(message)
         return [message]
     }
@@ -171,8 +228,8 @@ async function getAllPages(apiURL, myToken, queryData, limit=10, mapFunc, saveIn
     const counter={count:1.0}
 
     const myInterval=setInterval(function () { 
-        console.log("counting progress "+totalPages)
-        console.log(counter.count/totalPages)
+        //console.log("counting progress "+totalPages)
+        console.log("progress",counter.count/totalPages)
         if(counter.count>=totalPages){
             clearInterval(myInterval)
         }
@@ -227,8 +284,8 @@ async function getAllElements(resInitial,currentApi, dataRequest, mapFunc){
     data = Object.assign(defaultPage,dataRequest)
 
     if (myToken){
-       let allElements= await getAllPages(currentApi, myToken, data,5 , mapFunc, "broker")// no limit of pages
-       resInitial.json({"data":allElements})
+       let allElements= await getAllPages(currentApi, myToken, data,5 , mapFunc, "db")// no limit of pages
+       resInitial.json({"message":allElements})
     }
     else {
         resInitial.json({"message":"token was not generated"})
@@ -275,13 +332,16 @@ function saveResult(resultList, ListOptional, option, folderName){
         case "db":{
             const ModelPhisList = require("../db/models/model_phis_entities_list")
             const model= ModelPhisList.getModel(folderName)
-            model.insertMany(resultList).then(()=>{console.log("inserted")}).catch(()=>{
-                console.error("error in insert many")
+
+            let resultList2= [{repetition:'12-12-1991'},{repetition:'www'}]
+
+            model.insertMany(resultList2).then(()=>{console.log("inserted")}).catch((error)=>{
+                console.error("error in insert many", error)
             })
             break
         }
         case "broker":{
-            kafkaProducerBroker.sendDataToBroker(resultList, folderName)
+            //kafkaProducerBroker.sendDataToBroker(resultList, folderName)
             if(folderName=="experiments"){// save experiments in database for retrieval information
                 saveResult(resultList, ListOptional, "db", folderName)
             }
@@ -303,10 +363,11 @@ async function getAllGenericIteraExperiment(req, resInitial, shorUrl){
             const axiosArray=[]
             allExperiments.forEach((experiment)=>{
                 const axiosCall=axios.get(urlInterna+encodeURIComponent(experiment.experimentURI)).then((response)=>{
-                    responseArray.push({message:shorUrl+" for experiment "+experiment.experimentURI})
+                    responseArray.push({message:shorUrl+" for experiment "+experiment.experimentURI, response:response.data})
                     console.log("experiment "+experiment.experimentURI)
                 }).catch((error)=>{
                     console.log("error axios "+experiment.experimentURI)
+                    responseArray.push({message:shorUrl+" for experiment "+experiment.experimentURI, response:error })
                 })
                 axiosArray.push(axiosCall)
             })

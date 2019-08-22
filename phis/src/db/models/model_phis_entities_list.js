@@ -14,7 +14,7 @@ const schemaGeneration = (schemaJson, modelName) => {
     _id: mongoose.Schema.Types.ObjectId
   }
 
-  if(["environment","imagesAnalysis"].includes(modelName)){
+  if(["environment","imagesAnalysis","plants","watering", "germplasms"].includes(modelName)){
     schemaId = {...schemaId, ...{experimentURI:{type:"String"}}}
   }
   const localSchema = mongoose.Schema(
