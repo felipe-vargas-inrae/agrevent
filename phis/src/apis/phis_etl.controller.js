@@ -1,4 +1,5 @@
 const axios = require('axios');
+const kafkaProducerBroker= require('../services/kafka/producer')
 
 const ctrl={};
 //experiments 
@@ -280,12 +281,13 @@ function saveResult(resultList, ListOptional, option, folderName){
             break
         }
         case "broker":{
-            const kafkaProducerBroker= require('../services/kafka/producer')
             kafkaProducerBroker.sendDataToBroker(resultList, folderName)
+            if(folderName=="experiments"){// save experiments in database for retrieval information
+                saveResult(resultList, ListOptional, "db", folderName)
+            }
         }
     }
 }
-
 
 async function getAllGenericIteraExperiment(req, resInitial, shorUrl){
     //query all the experiment
@@ -301,11 +303,10 @@ async function getAllGenericIteraExperiment(req, resInitial, shorUrl){
             const axiosArray=[]
             allExperiments.forEach((experiment)=>{
                 const axiosCall=axios.get(urlInterna+encodeURIComponent(experiment.experimentURI)).then((response)=>{
-                    responseArray.push({message:shorUrl+" for experiment"+experiment.experimentURI})
+                    responseArray.push({message:shorUrl+" for experiment "+experiment.experimentURI})
                     console.log("experiment "+experiment.experimentURI)
                 }).catch((error)=>{
                     console.log("error axios "+experiment.experimentURI)
-                    console.log(error)
                 })
                 axiosArray.push(axiosCall)
             })
