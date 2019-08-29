@@ -14,32 +14,25 @@ const fs_unlink = util.promisify(fs.unlink)
 
 const  AppResultToJsonFile={
     printPhisData(result,folderName){
-        return printFile(result,folderName );
+        return printFile(result,folderName, process.env.FOLDER_OUTPUT_DATA_PHIS );
     },
-
     cleanPhisFolder(folderName){
         const outFolder=process.env.FOLDER_OUTPUT_DATA_PHIS;
         const completeOutFolder=outFolder+folderName
         rimraf.sync(completeOutFolder);
+    },
+    printLog(result,folderName){
+        return printFile(result,folderName, process.env.FOLDER_OUTPUT_LOGS_PHIS );
     }
 }
 
-const printFile= (result, folderName) => {
+const printFile= (result, folderName, outFolder) => {
 
-    
     const content = JSON.stringify(result);
-    const outFolder=process.env.FOLDER_OUTPUT_DATA_PHIS;
-    const prefix=process.env.PREFIX_PHIS_DATA;
-
-   
-
     createFolder(outFolder)// block code
-    
     const completeOutFolder=outFolder+folderName
     createFolder(completeOutFolder)
     const name=  uniqueFilename(completeOutFolder)
-
-
     return fs_writeFile(name+'.json', content, 'utf8'); 
 };
 

@@ -1,4 +1,6 @@
 const axios = require('axios');
+const ModelPhisList = require("../db/models/model_phis_entities_list")
+const AppResultToJsonFile = require("../services/phis_etl/app_phis_etl")
 //const kafkaProducerBroker= require('../services/kafka/producer')
 
 const ctrl={};
@@ -192,9 +194,24 @@ async function getTokenAxios(){
     return null
 }
 
+//helper function for avoid stress the servers
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
+async function  validatePreviousCall(myApi, experimentURI){
+    const schemaName= getRootApi(myApi)// always has at least the token
+    const model= ModelPhisList.getModel(schemaName)
+    const resultList=await model.findOne({experimentURI:experimentURI})
+    return resultList != null 
+}
 // GENERIC FUNCTIONS --------------------------
 async function getAllPages(apiURL, myToken, queryData, limit=10, mapFunc, saveIn="list"){
+
+    wasCalledBefore=await validatePreviousCall(apiURL,queryData.experimentURI)
+    if(wasCalledBefore){
+        return {"message":"This call was made previously, delete the records associated" }
+    }
     let myList = []
     // Want to use async/await? Add the `async` keyword to your outer function/method.
     let messageResponse=[]
@@ -209,10 +226,10 @@ async function getAllPages(apiURL, myToken, queryData, limit=10, mapFunc, saveIn
     }catch(error){
         const message={message:"no information associated in sheet 0 "}
         console.log(message)
-        return [message]
+        return message
     }
     
-
+    
     const realTotalPages= response["metadata"]["pagination"]["totalPages"] || 0
     const totalPages = realTotalPages > limit ? limit : realTotalPages // limit huge request
     const folderName= getRootApi(apiURL)// always has at least the token
@@ -235,8 +252,15 @@ async function getAllPages(apiURL, myToken, queryData, limit=10, mapFunc, saveIn
         }
     }, 3000);
         
-
+    let requestCounter=0
+    const MAX_REQUEST=5
+    const TIME_MS=10000
     for (let i=1; i< totalPages; i++){
+
+        console.log("current i:", i)
+        console.log("not resolved :", i-counter.count)
+
+        
         const auxFunCallAxios = (itera)=>{
             const clonePar=Object.assign({}, par)
             clonePar.page=itera
@@ -245,7 +269,6 @@ async function getAllPages(apiURL, myToken, queryData, limit=10, mapFunc, saveIn
         const myPromise =  auxFunCallAxios(i)
         myPromise.then((resp)=> { 
 
-            
             let resultList=resp["data"]["result"]["data"]
             //let resultList=resp["data"]
             
@@ -256,25 +279,33 @@ async function getAllPages(apiURL, myToken, queryData, limit=10, mapFunc, saveIn
             counter.count=counter.count+1.0;
             console.error("success "+i);
             
-            }).catch(function (error) {
-                // handle error
-                console.error("error "+i);
-                //console.error(error);
-                counter.count=counter.count+1.0;
-                messageResponse.push({"message": "error page:"+i})
-            })
+        }).catch(function (error) {
+            // handle error
+            console.error("error "+i);
+            //console.error(error);
+            counter.count=counter.count+1.0;
+            messageResponse.push({"message": "error page:"+i})
+        })
+
+        if(i%MAX_REQUEST==0){
+            // wait every 10 calls 10 seconds
+            await timeout(TIME_MS)
+        }
         arrayPromises.push(myPromise)
     }
     try {
         await axios.all(arrayPromises)
+        if (saveIn=="list"){
+            return myList
+        }
+        return messageResponse
     }
     catch(bad) {
         console.log("error catch all"); 
+        messageResponse.push({"message": "error catch all"})
+        return messageResponse
     }
-    if (saveIn=="list"){
-        return myList
-    }
-    return messageResponse
+    
 }  
 
 async function getAllElements(resInitial,currentApi, dataRequest, mapFunc){
@@ -284,7 +315,7 @@ async function getAllElements(resInitial,currentApi, dataRequest, mapFunc){
     data = Object.assign(defaultPage,dataRequest)
 
     if (myToken){
-       let allElements= await getAllPages(currentApi, myToken, data,5 , mapFunc, "db")// no limit of pages
+       let allElements= await getAllPages(currentApi, myToken, data,Number.MAX_VALUE , mapFunc, "db")// no limit of pages
        resInitial.json({"message":allElements})
     }
     else {
@@ -313,7 +344,7 @@ function createSchemaFromList(list, schemaName, callback){
     AppICASAtoMongoose.addPhisSchemaFromJSONList(list,schemaName ).then(callback);
 }
 function cleanFolder(folderName){
-    const AppResultToJsonFile = require("../services/phis_etl/app_phis_etl")
+    
     AppResultToJsonFile.cleanPhisFolder(folderName)
 }
 
@@ -325,12 +356,12 @@ function saveResult(resultList, ListOptional, option, folderName){
             break;
         }
         case "file":{
-            const AppResultToJsonFile = require("../services/phis_etl/app_phis_etl")
+            
             AppResultToJsonFile.printPhisData(resultList, folderName)
             break;
         }
         case "db":{
-            const ModelPhisList = require("../db/models/model_phis_entities_list")
+            
             const model= ModelPhisList.getModel(folderName)
 
             //let resultList2= [{repetition:'12-12-1991'},{repetition:'www'}]
@@ -353,7 +384,7 @@ function saveResult(resultList, ListOptional, option, folderName){
 
 async function getAllGenericIteraExperiment(req, resInitial, shorUrl){
     //query all the experiment
-    const ModelPhisList = require("../db/models/model_phis_entities_list")
+    
     const modelExperiments= ModelPhisList.getModel(getRootApi(API_EXP))
     const projection={experimentURI:1, _id:0}
     
@@ -364,6 +395,7 @@ async function getAllGenericIteraExperiment(req, resInitial, shorUrl){
             const responseArray=[]
             const axiosArray=[]
             allExperiments.forEach((experiment)=>{
+
                 const axiosCall=axios.get(urlInterna+encodeURIComponent(experiment.experimentURI)).then((response)=>{
                     responseArray.push({message:shorUrl+" for experiment "+experiment.experimentURI, response:response.data})
                     console.log("experiment "+experiment.experimentURI)
@@ -374,6 +406,9 @@ async function getAllGenericIteraExperiment(req, resInitial, shorUrl){
                 axiosArray.push(axiosCall)
             })
             await axios.all(axiosArray)
+
+            
+            AppResultToJsonFile.printPhisData(responseArray, shorUrl.replace('/',''))
             resInitial.json(responseArray)
         }
     }).catch((error)=>{
