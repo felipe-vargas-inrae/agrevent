@@ -170,7 +170,7 @@ async function createWeighingSchemas(req, resInitial, next){
 async function getWeighingByExperiment(req, resInitial, next){
     cleanFolder("weighing")
     const data = {experimentURI:req.params.experimentURI }
-    getAllElements(resInitial,API_IMG, data, (x)=>{
+    getAllElements(resInitial,API_WEIG, data, (x)=>{
         x.experimentURI=req.params.experimentURI
         return x
     });
@@ -333,10 +333,12 @@ function saveResult(resultList, ListOptional, option, folderName){
             const ModelPhisList = require("../db/models/model_phis_entities_list")
             const model= ModelPhisList.getModel(folderName)
 
-            let resultList2= [{repetition:'12-12-1991'},{repetition:'www'}]
+            //let resultList2= [{repetition:'12-12-1991'},{repetition:'www'}]
 
-            model.insertMany(resultList2).then(()=>{console.log("inserted")}).catch((error)=>{
+            model.insertMany(resultList, { ordered: false })
+                .then((resp,errors)=>{console.log("inserted");}).catch((error)=>{
                 console.error("error in insert many", error)
+                //queda pendiente capturar los registros que no fueron insertados
             })
             break
         }
