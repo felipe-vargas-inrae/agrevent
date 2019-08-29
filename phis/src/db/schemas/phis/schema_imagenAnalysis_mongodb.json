@@ -1,0 +1,16 @@
+{
+    
+    "date": {
+        "type": "Date"
+    },
+    "context": {
+        "type": "Mixed"
+    },
+    "images": {
+        "type": "Mixed"
+    },
+    "data":{
+        "type": "Mixed"
+    }
+
+}
