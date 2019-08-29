@@ -415,3 +415,4 @@ async function getAllGenericIteraExperiment(req, resInitial, shorUrl){
         console.log(error)
     })
 }
+

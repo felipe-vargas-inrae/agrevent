@@ -3,6 +3,8 @@ const router = express.Router();
 //const userService = require('./user.service');
 const ctrl= require('../apis/phis_etl.controller')
 
+const ctrlMongo= require('../apis/phis_etl_mongo.controller')
+
 // routes
 router.get('/get_experiments', ctrl.getExperiments);
 router.get('/create_experiment_schemas', ctrl.createExperimentsSchemas)
@@ -16,6 +18,8 @@ router.get('/get_environments/:experimentURI', ctrl.getEnvironmentsByExperiment)
 //img 
 router.get('/create_imagen_analysis_schemas', ctrl.createImagenAnalysisSchemas)
 router.get('/get_imagen_analysis/:experimentURI', ctrl.getImagenAnalysisByExperiment)
+
+router.get('/extract_imagen_analysis_mongodb', ctrlMongo.extractAllImagenAnalysisFromMongoDB)
 
 
 // weigthing
