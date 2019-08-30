@@ -17,7 +17,7 @@
     "variableCodeId": {
         "type": "String"
     },
-    "variablesObject":{
+    "variablesCodeList":{
         "type":"Mixed"
     },
     "value": {

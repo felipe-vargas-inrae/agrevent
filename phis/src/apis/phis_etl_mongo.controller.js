@@ -6,6 +6,7 @@ module.exports = ctrl;
 
 const IMG_SCHEMA="imagesAnalysis"
 const EXP_SCHEMA="experiments"
+const model= ModelPhisList.getModel(IMG_SCHEMA)
 
 async function  validatePreviousCall(myApi, experimentURI){
     const schemaName= myApi
@@ -47,7 +48,7 @@ async function extractImagenAnalysisFromMongoDB(expURI){
 
     while(pageSize*skipIterator<countRecords && skipIterator<4){
         console.log("begin while")
-        await timeout(1000)// 2 second per request
+        //await timeout(1000)// 2 second per request
         try {
             debugger
             const resultData= await model1.find({"context.experiment":expURI},{},{skip:skipIterator*pageSize,limit:pageSize})
@@ -58,22 +59,29 @@ async function extractImagenAnalysisFromMongoDB(expURI){
                 const baseObject={
                     experimentURI:item.context.experiment,
                     plantURI: item.context.plant,
-                    date:item.imageAcquisitionDate,
+                    date:""+item.imageAcquisitionDate,
                     imageUri: item.images["1"].uri,
-                    variablesObject:item.data
+                   // variablesCodeList:"prueba" //item.data
                 }
 
-                transformedList.push(baseObject)
-                /*const jsonLikeVariables=item.data
+                //console.log(item.data)
+
+                
+                const jsonLikeVariables=item.data
                 const keys= Object.keys(jsonLikeVariables)
+                const listKeysValue=[]
                 for(let i = 0;i<keys.length ;i++){
                     const currentKey= keys[i];
                     const currentValue=jsonLikeVariables[currentKey]
-                    const finalObject= Object.assign({variableCodeId:currentKey,value:currentValue.value }, baseObject)
-                    transformedList.push(finalObject)
-                }*/
+                    const obj= {variableCodeId:currentKey,value:currentValue.value }
+                    listKeysValue.push(obj)
+                    //transformedList.push(finalObject)
+                }
+                const finalObject = Object.assign(baseObject,{variablesCodeList:listKeysValue})
+
+                transformedList.push(finalObject)
             }
-            saveLocalDb(transformedList,skipIterator)
+            await saveLocalDb(transformedList,skipIterator)// one by moment
             
 
         } catch(error){
@@ -88,11 +96,19 @@ async function extractImagenAnalysisFromMongoDB(expURI){
 }
 
 async function saveLocalDb(resultList,page){
-    const model= ModelPhisList.getModel(IMG_SCHEMA)
-    model.collection.insertMany(resultList,{ordered:false}).then(()=>{
-        console.log("data saved locally")
-    }).catch((error)=>{
+    try {
+        const res= await model.insertMany(resultList,{ordered:false, rawResult: true })
+        
+        let inserted = res.ops;
+        let notInserted = res.mongoose.validationErrors
+        
+        //console.log('Inserted:\n', inserted);
+        console.log(' Inserted:\n', res.insertedCount);    
+        console.log("Insertion finalized ")
+    }
+    catch(error){
         console.error("Mongo", "error  page "+page)
+        //console.error(resultList)
         //console.error(error)
         /*var maxSize=0.0
         for(let item of resultList){
@@ -105,8 +121,7 @@ async function saveLocalDb(resultList,page){
         }
         console.log(maxSize)*/
         console.log(error)
-        
-    })
+    }
 }
 
 //helper function for avoid stress the servers
