@@ -42,12 +42,12 @@ async function extractImagenAnalysisFromMongoDB(expURI){
     
     //const cursor=model1.find({"context.experiment":expURI})
     const countRecords=await model1.find({"context.experiment":expURI}).countDocuments();
-    const pageSize=1000
+    const pageSize=5000
     let skipIterator=0
 
-    while(pageSize*skipIterator<countRecords && skipIterator<1){
+    while(pageSize*skipIterator<countRecords && skipIterator<4){
         console.log("begin while")
-
+        await timeout(1000)// 2 second per request
         try {
             debugger
             const resultData= await model1.find({"context.experiment":expURI},{},{skip:skipIterator*pageSize,limit:pageSize})
@@ -58,10 +58,11 @@ async function extractImagenAnalysisFromMongoDB(expURI){
                 const baseObject={
                     experimentURI:item.context.experiment,
                     plantURI: item.context.plant,
-                    date:item.date,
+                    date:item.imageAcquisitionDate,
                     imageUri: item.images["1"].uri,
                     variablesObject:item.data
                 }
+
                 transformedList.push(baseObject)
                 /*const jsonLikeVariables=item.data
                 const keys= Object.keys(jsonLikeVariables)
@@ -72,7 +73,7 @@ async function extractImagenAnalysisFromMongoDB(expURI){
                     transformedList.push(finalObject)
                 }*/
             }
-            saveLocalDb(transformedList)
+            saveLocalDb(transformedList,skipIterator)
             
 
         } catch(error){
@@ -86,9 +87,29 @@ async function extractImagenAnalysisFromMongoDB(expURI){
     }
 }
 
-async function saveLocalDb(resultList){
+async function saveLocalDb(resultList,page){
     const model= ModelPhisList.getModel(IMG_SCHEMA)
-    model.insertMany(resultList,{ordered:false}).then(()=>{
+    model.collection.insertMany(resultList,{ordered:false}).then(()=>{
         console.log("data saved locally")
+    }).catch((error)=>{
+        console.error("Mongo", "error  page "+page)
+        //console.error(error)
+        /*var maxSize=0.0
+        for(let item of resultList){
+
+            const bson = require('bson')
+            var objSize= bson.calculateObjectSize(item)
+            var kbSize= Math.round(objSize/(1024))
+            if(maxSize<kbSize) maxSize=kbSize
+            //console.log(objSize)
+        }
+        console.log(maxSize)*/
+        console.log(error)
+        
     })
+}
+
+//helper function for avoid stress the servers
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

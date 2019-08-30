@@ -11,6 +11,9 @@
     },
     "data":{
         "type": "Mixed"
+    },
+    "imageAcquisitionDate": {
+        "type": "Date"
     }
 
 }
