@@ -43,7 +43,7 @@ async function extractImagenAnalysisFromMongoDB(expURI){
     
     //const cursor=model1.find({"context.experiment":expURI})
     const countRecords=await model1.find({"context.experiment":expURI}).countDocuments();
-    const pageSize=5000
+    const pageSize=10000
     let skipIterator=0
 
     while(pageSize*skipIterator<countRecords && skipIterator<4){
@@ -59,7 +59,7 @@ async function extractImagenAnalysisFromMongoDB(expURI){
                 const baseObject={
                     experimentURI:item.context.experiment,
                     plantURI: item.context.plant,
-                    date:""+item.imageAcquisitionDate,
+                    date:item.images["1"].timestamp,
                     imageUri: item.images["1"].uri,
                    // variablesCodeList:"prueba" //item.data
                 }
@@ -73,7 +73,7 @@ async function extractImagenAnalysisFromMongoDB(expURI){
                 for(let i = 0;i<keys.length ;i++){
                     const currentKey= keys[i];
                     const currentValue=jsonLikeVariables[currentKey]
-                    const obj= {variableCodeId:currentKey,value:currentValue.value }
+                    const obj= {variableCodeId:currentKey,value:currentValue.value, angle:item.images["1"].cameraAngle }
                     listKeysValue.push(obj)
                     //transformedList.push(finalObject)
                 }
@@ -82,6 +82,7 @@ async function extractImagenAnalysisFromMongoDB(expURI){
                 transformedList.push(finalObject)
             }
             await saveLocalDb(transformedList,skipIterator)// one by moment
+            //console.log(transformedList)
             
 
         } catch(error){
@@ -97,10 +98,10 @@ async function extractImagenAnalysisFromMongoDB(expURI){
 
 async function saveLocalDb(resultList,page){
     try {
-        const res= await model.insertMany(resultList,{ordered:false, rawResult: true })
+        const res= await model.insertMany(resultList,{ordered:true, rawResult: true })
         
         let inserted = res.ops;
-        let notInserted = res.mongoose.validationErrors
+        //let notInserted = res.mongoose.validationErrors
         
         //console.log('Inserted:\n', inserted);
         console.log(' Inserted:\n', res.insertedCount);    

@@ -12,7 +12,7 @@
         "type": "String"
     },
     "date": {
-        "type": "Date"
+        "type": "String"
     },
     "variableCodeId": {
         "type": "String"
