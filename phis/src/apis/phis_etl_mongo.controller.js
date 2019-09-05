@@ -46,11 +46,11 @@ async function extractImagenAnalysisFromMongoDB(expURI){
     const pageSize=10000
     let skipIterator=0
 
-    while(pageSize*skipIterator<countRecords && skipIterator<4){
-        console.log("begin while")
+    while(pageSize*skipIterator<countRecords && skipIterator<Number.MAX_VALUE){
+        console.log("begin while "+(countRecords-(pageSize*skipIterator)))
         //await timeout(1000)// 2 second per request
         try {
-            debugger
+            
             const resultData= await model1.find({"context.experiment":expURI},{},{skip:skipIterator*pageSize,limit:pageSize})
             const transformedList= []
 
