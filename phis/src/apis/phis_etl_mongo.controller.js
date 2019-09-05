@@ -1,4 +1,6 @@
 const ModelPhisList = require("../db/models/model_phis_entities_list")
+
+const Performance  = require("../utils/performance")
 const ctrl={}
 ctrl.extractAllImagenAnalysisFromMongoDB=extractAllImagenAnalysisFromMongoDB
 
@@ -46,7 +48,8 @@ async function extractImagenAnalysisFromMongoDB(expURI){
     const pageSize=10000
     let skipIterator=0
 
-    while(pageSize*skipIterator<countRecords && skipIterator<Number.MAX_VALUE){
+    const start = new Date();
+    while(pageSize*skipIterator<countRecords && skipIterator<4){
         console.log("begin while "+(countRecords-(pageSize*skipIterator)))
         //await timeout(1000)// 2 second per request
         try {
@@ -59,7 +62,7 @@ async function extractImagenAnalysisFromMongoDB(expURI){
                 const baseObject={
                     experimentURI:item.context.experiment,
                     plantURI: item.context.plant,
-                    date:item.images["1"].timestamp,
+                    date:item.images["1"].date,
                     imageUri: item.images["1"].uri,
                    // variablesCodeList:"prueba" //item.data
                 }
@@ -94,6 +97,13 @@ async function extractImagenAnalysisFromMongoDB(expURI){
         skipIterator=skipIterator+1;
         console.log("page::"+skipIterator)
     }
+
+    const end = new Date()
+
+    Performance.timeUsage(start,end)
+    Performance.memoryUsage()
+
+
 }
 
 async function saveLocalDb(resultList,page){
