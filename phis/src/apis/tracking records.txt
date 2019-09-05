@@ -1,0 +1,68 @@
+
+
+db.getCollection('phis_imagesanalyses').aggregate(
+[
+    {$match: { plantURI: "http://www.phenome-fppn.fr/m3p/arch/2017/c17000496",  } },
+    {$group:{_id:{exp:"$experimentURI",plant:"$plantURI",dayOfYear:{$dayOfYear: "$date" }}, count: {$sum:1} , 
+        variablesCodeListArray: { 
+           "$push":{
+               
+                    $filter: {
+                                 input: "$variablesCodeList",
+                                 as: "num",
+                                 cond: { $and: [
+                                    { $eq: [{ $type: "$$num.value" }, "double"]},
+                                    { $gte: [ "$$num.value", NumberLong("0") ] }//,
+                                    //{ $lte: [ "$$num", NumberLong("9223372036854775807") ] }
+                                  ] }
+                             
+                                  }
+                   }     
+           }
+        }
+     },
+     
+     
+     
+     {$project: {
+        count:1 ,
+        selectedTags: { $reduce: {
+            input: "$variablesCodeListArray",
+            initialValue: [],
+            in: {$setUnion : ["$$value", "$$this"]}
+        }}
+      }},
+      
+      {$project: {
+        count:1 ,
+        selectedTags:
+             { $map: {
+                input: "$selectedTags",
+                in: { k :"$$this.variableCodeId" , v: "$$this.value"}
+                }
+             }
+      }},
+      
+      {$unwind: "$selectedTags" },
+      
+      {$group:{_id:{group:"$_id",count:"$count", variableCode:"$selectedTags.k"}, variableValueList:{$push:"$selectedTags.v" } }},
+      
+      
+      
+     {$project: {
+            _id:0,
+            experimentURI:"$_id.group.exp", plantURI:"$_id.group.plant", dayOfYear:"$_id.group.dayOfYear", numberOfMeasures:"$_id.count", 
+            variableCode:"$_id.variableCode", variableValueList:"$variableValueList"
+            
+      }},
+      
+      {$sort:{"dayOfYear":1}},
+      
+      { $out: "phis_imagenanalyses_aggregated_by_day" }
+           
+],  
+{allowDiskUse:true}
+)
+
+
+Este query tardo 538 segundos con 3' de registros
