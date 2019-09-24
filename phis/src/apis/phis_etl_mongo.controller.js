@@ -6,7 +6,7 @@ ctrl.extractAllImagenAnalysisFromMongoDB=extractAllImagenAnalysisFromMongoDB
 
 module.exports = ctrl;
 
-const IMG_SCHEMA="imagesAnalysis"
+const IMG_SCHEMA="imagesAnalysisAngle"
 const EXP_SCHEMA="experiments"
 const model= ModelPhisList.getModel(IMG_SCHEMA)
 
@@ -37,7 +37,7 @@ async function extractAllImagenAnalysisFromMongoDB(req,response){
 async function extractImagenAnalysisFromMongoDB(expURI){
     
     console.log(expURI)
-    const connectionURI = 'mongodb://147.100.175.101:27017/m3p'
+    const connectionURI = 'mongodb://147.100.175.101:27017/phispubli'
     const fileSchema="imagenAnalysis_mongodb"
     const collectionName='imagesAnalysisResults'
     const model1= ModelPhisList.getModelDifferentConnection(fileSchema,connectionURI,collectionName)
@@ -49,7 +49,7 @@ async function extractImagenAnalysisFromMongoDB(expURI){
     let skipIterator=0
 
     const start = new Date();
-    while(pageSize*skipIterator<countRecords && skipIterator<4){
+    while(pageSize*skipIterator<countRecords && skipIterator<9999999999){
         console.log("begin while "+(countRecords-(pageSize*skipIterator)))
         //await timeout(1000)// 2 second per request
         try {
@@ -76,7 +76,10 @@ async function extractImagenAnalysisFromMongoDB(expURI){
                 for(let i = 0;i<keys.length ;i++){
                     const currentKey= keys[i];
                     const currentValue=jsonLikeVariables[currentKey]
-                    const obj= {variableCodeId:currentKey,value:currentValue.value, angle:item.images["1"].cameraAngle }
+                    const obj= {
+                        variableCodeId:currentKey,value:currentValue.valueFloat, angle:item.images["1"].cameraAngle,
+                        variableURI:currentValue.variable, unit:currentValue.unit
+                    }
                     listKeysValue.push(obj)
                     //transformedList.push(finalObject)
                 }

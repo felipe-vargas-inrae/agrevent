@@ -11,7 +11,7 @@ ctrl.memoryUsage=()=>{
 
 ctrl.timeUsage=(start,end)=>{
 
-    console.log("time: "+(end-start)+"ms")
+    console.log("time: "+(end-start)+" ms")
 }
 
 
