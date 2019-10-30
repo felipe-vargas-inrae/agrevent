@@ -1,0 +1,20 @@
+{
+    "date": {
+        "type": "Date"
+    },
+    "yyyymmdd": {
+        "type": "String"
+    },
+    "value": {
+        "type": "Number"
+    },
+    "sensor": {
+        "type": "String"
+    },
+    "codeVariable": {
+        "type": "String"
+    },
+    "facility": {
+        "type": "String"
+    }
+}

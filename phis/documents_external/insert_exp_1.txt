@@ -1,0 +1,9 @@
+numero de registros 960090
+
+Insertion finalized 
+page::97
+time: 826505 ms
+rss 398.7 MB
+heapTotal 354 MB
+heapUsed 315.33 MB
+external 21.22 MB
