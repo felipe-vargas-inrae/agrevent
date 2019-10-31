@@ -6,11 +6,13 @@ import {BrowserRouter} from 'react-router-dom';
 import store from './app/store';
 import ScrollToTop from './app/ScrollToTop';
 
+
+
 render(
   <Provider store={store}>
     <BrowserRouter basename='/easydev'>
       <ScrollToTop>
-        <App/>
+        <App />
       </ScrollToTop>
     </BrowserRouter>
   </Provider>,

@@ -7,6 +7,7 @@ import GooglePlusIcon from 'mdi-react/GooglePlusIcon';
 export default class LogIn extends PureComponent {
   
   render() {
+
     return (
       <div className='account'>
         <div className='account__wrapper'>

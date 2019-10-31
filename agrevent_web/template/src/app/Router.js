@@ -59,7 +59,9 @@ import MaterialForm from '../containers/form/material_form';
 import FloatingLabelsForm from '../containers/form/floating_labels_form';
 import FormPicker from '../containers/form/form_picker';
 
-import SensorForm from '../containers/sensor/sensor_form';
+
+import Preprocessing from '../containers/analytics/preprocessing/'
+//import SensorForm from '../containers/sensor/sensor_form';
 import SensorCrud from '../containers/sensor/sensor_crud';
 
 import Cart from '../containers/e-commerce/cart';
@@ -125,6 +127,7 @@ const wrappedRoutes = () => (
       <Route path='/chat' component={Chat}/>
       <Route path='/forms' component={Forms}/> */}
       <Route path='/sensor' component={Sensor}/>
+      <Route path='/analytics' component={Analytics}/>
 
       {/* <Route path='/tables' component={Tables}/>
       <Route path='/charts' component={Charts}/>
@@ -159,6 +162,15 @@ const UI = () => (
 const Sensor = () => (
   <Switch>
     <Route path='/sensor/sensor_crud' component={SensorCrud}/> 
+    {/* <Route path='/sensor/:id' component={ProductEdit}/>
+    <Route path='/e-commerce/product_page' component={ProductPage}/>
+    <Route path='/e-commerce/products_list' component={ProductsList}/> */}
+  </Switch>
+);
+
+const Analytics = () => (
+  <Switch>
+    <Route path='/analytics/preprocessing' component={Preprocessing}/> 
     {/* <Route path='/sensor/:id' component={ProductEdit}/>
     <Route path='/e-commerce/product_page' component={ProductPage}/>
     <Route path='/e-commerce/products_list' component={ProductsList}/> */}

@@ -4,6 +4,7 @@ import cryptoTableReducer from './cryptoTableReducer';
 import newOrderTableReducer from './newOrderTableReducer';
 import customizerReducer from './customizerReducer';
 import sensorReducer from './sensorReducer';
+import analyticsReducer from './analyticsReducer'
 
 export {
   themeReducer,
@@ -11,5 +12,6 @@ export {
   cryptoTableReducer,
   newOrderTableReducer,
   customizerReducer,
-  sensorReducer
+  sensorReducer,
+  analyticsReducer
 }

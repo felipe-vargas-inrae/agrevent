@@ -1,0 +1,61 @@
+import React, {PureComponent} from 'react';
+import {Container,Row,Card, CardBody, Col, Button, ButtonToolbar} from 'reactstrap';
+import {Field, reduxForm} from 'redux-form';
+//import renderFileInputField from '../../../../components/form/FileInput';
+import renderSelectField from '../../../../components/form/Select';
+//import renderMultiSelectField from '../../../../components/form/MultiSelect';
+
+import {translate} from 'react-i18next';
+
+class DataframeListForm extends PureComponent {
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
+  render() {
+    const {dataframes ,handleSubmit, reset, t} = this.props;
+    
+    return (
+      <Container >
+        <Row>
+          <Col md={12} lg={12}>
+            <Card>
+              <CardBody>
+                <div className='card__title'>
+                  <h5 className='bold-text'>Dataframes </h5>
+                  <h5 className='subhead'>Add some dataframe to create the pipeline over it</h5>
+                </div>
+
+                <form className='form form--vertical' onSubmit={handleSubmit}>
+                  
+                  <div className='form__form-group'>
+                    {/* <label className='form__form-group-label'>Dataframes</label> */}
+                    <div className='form__form-group-field'>
+                      <Field
+                        name='dataframeName'
+                        component={renderSelectField}
+                        options={dataframes}
+                      />
+                    </div>
+                  </div>
+                  <ButtonToolbar className='form__button-toolbar'>
+                    <Button color='primary' type='submit'>Add</Button>
+                    <Button type='button' onClick={reset}>
+                      Reset
+                    </Button>
+                  </ButtonToolbar>
+                </form>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    )
+  }
+}
+
+export default reduxForm({
+  form: 'dataframe_list', // a unique identifier for this form
+})(translate('common')(DataframeListForm));

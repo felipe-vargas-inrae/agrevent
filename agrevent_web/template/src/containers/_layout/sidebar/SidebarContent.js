@@ -73,6 +73,21 @@ class SidebarContent extends PureComponent {
             <SidebarLink title='Material Form' route='/forms/material_form' onClick={this.hideSidebar}/>
             <SidebarLink title='Wizard Form' route='/forms/wizard_form' onClick={this.hideSidebar}/> */}
           </SidebarCategory>
+
+          <SidebarCategory title='Analytics' icon='file-add'> 
+            <SidebarLink title='Pre-processing ' route='/analytics/preprocessing' onClick={this.hideSidebar}/>
+            <SidebarLink title='Modelling' route='/analytics/modelling' onClick={this.hideSidebar}/>
+            {/* <SidebarLink title='Check Form Controls' route='/forms/check_form_controls' onClick={this.hideSidebar}/>
+            <SidebarLink title='File Upload' route='/forms/file_upload' onClick={this.hideSidebar}/>
+            <SidebarLink title='Floating Labels Form' route='/forms/floating_labels_form' onClick={this.hideSidebar}/>
+            <SidebarLink title='Form Dropzone' route='/forms/form_dropzone' onClick={this.hideSidebar}/>
+            <SidebarLink title='Form Layouts' route='/forms/form_layouts' onClick={this.hideSidebar}/>
+            <SidebarLink title='Form Picker' route='/forms/form_picker' onClick={this.hideSidebar}/>
+            <SidebarLink title='Form Validation' route='/forms/form_validation' onClick={this.hideSidebar}/>
+            <SidebarLink title='Mask Form' route='/forms/mask_form' onClick={this.hideSidebar}/>
+            <SidebarLink title='Material xForm' route='/forms/material_form' onClick={this.hideSidebar}/>
+            <SidebarLink title='Wizard Form' route='/forms/wizard_form' onClick={this.hideSidebar}/> */}
+          </SidebarCategory>
           {/* <SidebarCategory title='Tables' icon='list'>
             <SidebarLink title='Basic tables' route='/tables/basic_tables' onClick={this.hideSidebar}/>
             <SidebarLink title='Data table' route='/tables/data_table' onClick={this.hideSidebar}/>

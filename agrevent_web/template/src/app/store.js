@@ -7,7 +7,8 @@ import {
   sidebarReducer,
   themeReducer,
   customizerReducer,
-  sensorReducer
+  sensorReducer,
+  analyticsReducer
 } from '../redux/reducers/index';
 
 const reducer = combineReducers({
@@ -17,7 +18,8 @@ const reducer = combineReducers({
   cryptoTable: cryptoTableReducer,
   newOrder: newOrderTableReducer,
   customizer: customizerReducer,
-  sensor:sensorReducer
+  sensor:sensorReducer,
+  analytics: analyticsReducer
 });
 
 
