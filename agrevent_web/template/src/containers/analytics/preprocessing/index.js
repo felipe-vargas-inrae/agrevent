@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import {Col, Container, Row, Card, CardBody, Button} from 'reactstrap';
 import DataframeList from './components/DataframeList';
+import Pipeline from './components/Pipeline';
 import {translate} from 'react-i18next';
 import {connect} from "react-redux";
 
@@ -24,19 +25,20 @@ class Preprocessing extends PureComponent {
           <Col md={12}>
             <Card>
               <CardBody>
-                  {/* <Button  color="primary"  >Add Dataframe </Button> */}
                   <DataframeList ></DataframeList>
               </CardBody>
             </Card>
           </Col>
-          {/* <Col md={6}>
+        </Row>
+
+        <Row>
+          <Col md={12}>
             <Card>
-              <CardBody>  
-                { <SensorCreate />
-                <SensorEdit /> }
+              <CardBody>
+                  <Pipeline ></Pipeline>
               </CardBody>
             </Card>
-          </Col> */}
+          </Col>
         </Row>
       </Container>
     )

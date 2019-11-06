@@ -4,69 +4,82 @@ import React,{Component} from 'react'
 import {Field, reduxForm} from 'redux-form';
 
 import { 
-    fetchDataframes, fetchDataframesSuccess,fetchDataframesFailure
+    //fetchDataframes, fetchDataframesSuccess,fetchDataframesFailure,
+    updateDataframesList, pushItemPipelinesList
 } from '../../../../redux/actions/analyticsActions';
 
-import renderSelectField from '../../../../components/form/Select';
-
+import DataframesInfo from './db/DataframesInfo'
 import DataframeListForm from '../forms/DataframeListForm'
 
 
+import NotificationMessages from '../components/NotificationsMessages'
+
 const mapStateToProps = (state) => {
-    console.log("map to props")
+    
     return { 
-      dataframesFetch: state.analytics.dataframesFetch,
+      dataframesList: state.analytics.dataframesList,
+      pipelinesList:state.analytics.pipelinesList
     };
 }
 const mapDispatchToProps = (dispatch) => {
 
   // en este espacio se crean funciones locales que se enlazan a acciones importadas
   return {
-    fetchDataframes: () => {
-      dispatch(fetchDataframes()).then((response) => {
-            !response.error ? dispatch(fetchDataframesSuccess(response.payload.data)) : dispatch(fetchDataframesFailure(response.payload.data));
-          });
+    updateDataframesList:(newDataframesListList)=>{
+      dispatch(updateDataframesList(newDataframesListList))
+    },
+    pushItemPipelinesList:(pipelineItem)=>{
+      dispatch(pushItemPipelinesList(pipelineItem))
     }
   }
 }
 
+const isNameIncluded = (currentName, pipelinesList)=>{
+  const NOT_INCLUDED= -1
+  const pipelinesListName = pipelinesList.map((item)=>{ return item.name});
+  const index=pipelinesListName.indexOf(currentName);
+  return index > NOT_INCLUDED
+}
+
 class DataframeList extends Component {
     componentWillMount() {
-        this.props.fetchDataframes();
+      this.props.updateDataframesList(DataframesInfo)
+      this.notify=new NotificationMessages()
     }
-    showDetail(item){
-      console.log(item);
-      //this.props.showEditSensor(item) // notify store global
-      //this.setState({...this.state, selectedId:item.id})
-    }
-
+    componentWillUnmount() {
+      this.notify.destroy();
+    };
     handleSubmit = (e)=>{
       console.log("inside submit ", e);
-      console.log()
-      //e.preventDefault();
+      if(isNameIncluded(e.name, this.props.pipelinesList)){
+        //launch alert
+        
+        this.notify.errorMessages("Pipeline name was already used")
+      }
+
+      else {
+
+        const pipeline= {name:e.name, methods :[ { method:"read", params:{df:e.dataframeName} }] }
+        this.props.pushItemPipelinesList(pipeline)
+      }
     }
+
     constructor(props) {
       super(props);
       this.state = {
       };
-      //this.showDetail=this.showDetail.bind(this)
       this.handleSubmit=this.handleSubmit.bind(this)
     }
     render(){
-        const { dataframes, loading, error } = this.props.dataframesFetch;
-        console.log("in render list",dataframes)
-        const list= dataframes.map((item,i)=>{
-          return  {value: item.id, label: item.title}
-        })
-        if(loading){
-          return (<p>Loading</p>)
-        }
-        if(error){
-          return (<p>error</p>)
-        }
-        return ( 
-         <DataframeListForm onSubmit={this.handleSubmit} dataframes={list} ></DataframeListForm>
-        )
+      
+      const dataframesList= this.props.dataframesList;
+      
+      const list= dataframesList.map((item,i)=>{
+        return  {value: item.name, label: item.name}
+      })
+      return ( 
+        <DataframeListForm onSubmit={this.handleSubmit} dataframes={list} ></DataframeListForm>
+      )
     }
 }
 

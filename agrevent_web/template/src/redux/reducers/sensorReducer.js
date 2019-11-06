@@ -26,8 +26,6 @@ const initialState = {
 export default function (state = initialState, action) {
   let error;
 
-  console.log("reducer state", state)
-  console.log("reducer  action", action)
   switch (action.type) {
     case CONNECT_SENSOR:
       return { ...state, formSensorInfo: {} };
