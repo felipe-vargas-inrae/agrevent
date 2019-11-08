@@ -5,7 +5,9 @@ import {
   UPDATE_DATAFRAME_LIST,
   UPDATE_PIPELINES_LIST,
   PUSH_ITEM_PIPELINES_LIST,
-  DELETE_ITEM_PIPELINES_LIST
+  DELETE_ITEM_PIPELINES_LIST,
+  PUSH_TRANSFORMATION,
+  DELETE_TRANSFORMATION
 } from '../actions/analyticsActions';
 
 
@@ -50,6 +52,23 @@ export default function (state = initialState, action) {
       const newList = state.pipelinesList.filter(item => item.name  !== action.payload );
       return {...state, pipelinesList:newList }
     }
+    case DELETE_TRANSFORMATION: 
+    {
+      const newList = state.pipelinesList.map(item => {
+        if(item.name==action.payload){
+          item.methods.splice(index, 1);
+        }
+      });
+      return {...state, pipelinesList:newList }
+    }
+
+    case PUSH_TRANSFORMATION: 
+    {
+      
+      const newList = state.pipelinesList.filter(item => item.name  !== action.payload );
+      return {...state, pipelinesList:newList }
+    }
+
     default:
       return state;
   }

@@ -1,7 +1,7 @@
 
 import { connect } from 'react-redux';
 import React,{Component} from 'react'
-import Modal from './ModalTransformation';
+import ModalTransformation from './ModalTransformation';
 
 
 import {Button} from 'reactstrap';
@@ -32,8 +32,7 @@ class PipelineDetail extends Component {
     render(){
         const myPipeline = this.props.pipeline;
         
-        const methods= myPipeline.methods.map((item2,i)=>{
-          
+        const methods= myPipeline.methods.map((item2,i)=>{ 
           return (<p key={i}> {item2.method}  </p>)
         })
         const title= (<h3>{myPipeline.name}</h3>)
@@ -42,9 +41,11 @@ class PipelineDetail extends Component {
         return  (
         <div> 
         {title} {methods} 
-        <Modal color='primary' title='Congratulations!' colored btn='Default'
+        <ModalTransformation color='primary' title='Congratulations!'  btn='Default'
                     message='Expect warmly its tended garden him esteem had remove off. Effects dearest staying
-                  now sixteen nor improve.'/>
+                  now sixteen nor improve.'
+                  pipeline={myPipeline}
+                  />
 
         <Button onClick={this.delete}>Delete </Button> 
         </div>)

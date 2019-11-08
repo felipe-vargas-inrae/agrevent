@@ -15,6 +15,10 @@ export const UPDATE_PIPELINES_LIST='UPDATE_PIPELINES_LIST'
 
 export const PUSH_ITEM_PIPELINES_LIST='PUSH_ITEM_PIPELINES_LIST'
 export const DELETE_ITEM_PIPELINES_LIST = 'DELETE_ITEM_PIPELINES_LIST'
+
+export const DELETE_TRANSFORMATION = "DELETE_TRANSFORMATION" 
+export const PUSH_TRANSFORMATION = "PUSH_TRANSFORMATION"
+
 export function fetchDataframes() {
   console.log("entra al la action");
   const request = axios({
@@ -69,5 +73,22 @@ export function deleteItemPipelinesList(pipelineName){
   return {
     type: DELETE_ITEM_PIPELINES_LIST,
     payload: pipelineName
+  };
+}
+
+
+export function deleteTransformation(pipelineName, index){
+  return {
+    type: DELETE_TRANSFORMATION,
+    payload: pipelineName,
+    index: index
+  };
+}
+
+export function pushTransformation(pipelineName, method){
+  return {
+    type: PUSH_TRANSFORMATION,
+    payload: pipelineName,
+    method: method
   };
 }
