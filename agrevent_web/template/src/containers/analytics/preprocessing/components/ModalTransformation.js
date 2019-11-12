@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {Button, ButtonToolbar, Modal} from 'reactstrap';
-
+import TransformationForm from '../forms/TransformationForm'
 export default class ModalTransformation extends PureComponent {
   static propTypes = {
     title: PropTypes.string,
@@ -19,13 +19,17 @@ export default class ModalTransformation extends PureComponent {
     };
     
     this.toggle = this.toggle.bind(this);
-    
+    this.deleteTransformation=this.deleteTransformation.bind(this);
   }
   
   toggle() {
     this.setState({
       modal: !this.state.modal
     });
+  }
+
+  deleteTransformation(name, i){
+    this.props.deleteTransformation(name, i)
   }
 
   
@@ -52,8 +56,8 @@ export default class ModalTransformation extends PureComponent {
     const myPipeline = this.props.pipeline;
 
     const methods= myPipeline.methods.map((item2,i)=>{ 
-      return (<li> <p key={i}> {item2.method}  </p> <span onClick={()=>{
-        this.props.deleteTransformation(myPipeline.name, i)
+      return (<li key={i}> <p > {item2.method}  </p> <span onClick={()=>{
+        this.deleteTransformation(myPipeline.name, i)
       }}> Delete </span> </li>)
     })
 
@@ -71,11 +75,15 @@ export default class ModalTransformation extends PureComponent {
             
             {myPipeline.name}
 
+            {methods}
+
           </div>
-          <ButtonToolbar className='modal__footer'>
-            <Button onClick={this.toggle}>Cancel</Button>{' '}
-            <Button outline={this.props.colored} color={this.props.color} onClick={this.toggle}>Ok</Button>
-          </ButtonToolbar>
+          
+
+          < TransformationForm 
+          transformations={this.props.transformations} 
+          transformationsTypesList = {this.props.transformationsTypesList}
+          ></TransformationForm>
         </Modal>
       </div>
     );

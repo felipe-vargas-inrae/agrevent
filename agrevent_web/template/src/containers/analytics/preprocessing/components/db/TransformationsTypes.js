@@ -1,51 +1,17 @@
 
 const list= [
 {
-    name:"pipeline1",
-    methods:[
-        {
-            method:"map", params:{col:"platURI"}
-        },
-        {
-            method:"mean", params:{col:"platURI"}
-        },
-        {
-            method:"select", params:{cols:["platURI","OthreColumn"]}
-        }
+    method:"map",
+    params:[
+        {name:"col1" , value:"", type:"value" },
+        {name:"col2" , value:"", type:"value" }
     ]
 },
-
 {
-
-    name:"pipeline2",
-    methods:[
-        {
-            method:"map", params:{col:"platURI"}
-        },
-        {
-            method:"mean", params:{col:"platURI"}
-        },
-        {
-            method:"select", params:{cols:["platURI","OthreColumn"]}
-        }
+    method:"select",
+    params:[
+        {name:"cols" , value:"", type:"list" }
     ]
-},
-
-{
-
-    name:"pipeline3",
-    methods:[
-        {
-            method:"map", params:{col:"platURI"}
-        },
-        {
-            method:"mean", params:{col:"platURI"}
-        },
-        {
-            method:"select", params:{cols:["platURI","OthreColumn"]}
-        }
-    ]
-}
-]
+}]
 
 export default list

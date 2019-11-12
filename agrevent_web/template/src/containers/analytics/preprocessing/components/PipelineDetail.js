@@ -3,14 +3,22 @@ import { connect } from 'react-redux';
 import React,{Component} from 'react'
 import ModalTransformation from './ModalTransformation';
 
+import {deleteTransformation} from '../../../../redux/actions/analyticsActions'
 
 import {Button} from 'reactstrap';
 
 const mapStateToProps = (state) => {
-    return {}
+    return {
+      transformationsTypesList:state.analytics.transformationsTypesList
+    }
 }
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+
+    deleteTransformation: (pipelineName, i)=>{
+      dispatch(deleteTransformation(pipelineName, i))
+    }
+  }
 }
 
 class PipelineDetail extends Component {
@@ -25,10 +33,10 @@ class PipelineDetail extends Component {
     }
    
     delete(){
-      
       const pipelineName=this.props.pipeline.name
       this.props.deletePipeline(pipelineName)
     }
+    
     render(){
         const myPipeline = this.props.pipeline;
         
@@ -45,6 +53,10 @@ class PipelineDetail extends Component {
                     message='Expect warmly its tended garden him esteem had remove off. Effects dearest staying
                   now sixteen nor improve.'
                   pipeline={myPipeline}
+
+                  deleteTransformation={this.props.deleteTransformation}
+                  transformationsTypesList ={this.props.transformationsTypesList}
+
                   />
 
         <Button onClick={this.delete}>Delete </Button> 

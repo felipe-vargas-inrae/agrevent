@@ -5,10 +5,11 @@ import {Field, reduxForm} from 'redux-form';
 
 import { 
     //fetchDataframes, fetchDataframesSuccess,fetchDataframesFailure,
-    updateDataframesList, pushItemPipelinesList
+    updateDataframesList, pushItemPipelinesList, updateTransformationTypes
 } from '../../../../redux/actions/analyticsActions';
 
 import DataframesInfo from './db/DataframesInfo'
+import TransformationsTypesInfo from './db/TransformationsTypes'
 import DataframeListForm from '../forms/DataframeListForm'
 
 
@@ -30,6 +31,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     pushItemPipelinesList:(pipelineItem)=>{
       dispatch(pushItemPipelinesList(pipelineItem))
+    },
+    updateTransformationTypes:(transformationsTypesList)=>{
+      dispatch(updateTransformationTypes(transformationsTypesList))
     }
   }
 }
@@ -44,6 +48,8 @@ const isNameIncluded = (currentName, pipelinesList)=>{
 class DataframeList extends Component {
     componentWillMount() {
       this.props.updateDataframesList(DataframesInfo)
+      this.props.updateTransformationTypes(TransformationsTypesInfo)
+      
       this.notify=new NotificationMessages()
     }
     componentWillUnmount() {

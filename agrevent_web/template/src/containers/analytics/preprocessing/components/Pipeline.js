@@ -29,8 +29,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 class PipelinesList extends Component {
-
-
     componentWillMount() {
       this.props.updatePipelinesList(ListPipelines)
     }
@@ -49,7 +47,10 @@ class PipelinesList extends Component {
         const pipelinesList = this.props.pipelinesList;
         console.log("in render pipeline list",pipelinesList)
         const list= pipelinesList.map((item,i)=>{
-          return  (<PipelineDetail key={i} pipeline={item} deletePipeline={this.deletePipeline}></PipelineDetail>)
+          return  (<PipelineDetail key={i} pipeline={item} 
+            deletePipeline={this.deletePipeline}
+           
+            ></PipelineDetail>)
         })
         return ( 
         <div>
