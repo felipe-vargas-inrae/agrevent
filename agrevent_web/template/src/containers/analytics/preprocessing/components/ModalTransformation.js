@@ -55,6 +55,10 @@ export default class ModalTransformation extends PureComponent {
     // }
     const myPipeline = this.props.pipeline;
 
+    const listTypes= this.props.transformationsTypesList.map((item,i)=>{
+      return  {...item, value: item.method, label: item.method}
+    })
+
     const methods= myPipeline.methods.map((item2,i)=>{ 
       return (<li key={i}> <p > {item2.method}  </p> <span onClick={()=>{
         this.deleteTransformation(myPipeline.name, i)
@@ -82,7 +86,7 @@ export default class ModalTransformation extends PureComponent {
 
           < TransformationForm 
           transformations={this.props.transformations} 
-          transformationsTypesList = {this.props.transformationsTypesList}
+          transformationsTypesList = {listTypes}
           ></TransformationForm>
         </Modal>
       </div>

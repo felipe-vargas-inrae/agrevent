@@ -15,15 +15,32 @@ const renderField = ({input, label, placeholder, type, meta: {touched, error}}) 
   </div>
 );
 class TransformationForm extends PureComponent {
-  
+  componentDidMount(){
+    
+  }
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.onChange=this.onChange.bind(this)
+    this.state = {};
   }
+
+  onChange(e){
+    debugger
+    this.setState(()=>{
+      return {selectTransformation:e }
+    })
+  }
+
   render() {
     const {transformationsTypesList ,handleSubmit, reset, t} = this.props;
-    debugger
+    let paramsContainer={}
+    const selected=this.state.selectTransformation
+    if(selected){
+      paramsContainer = selected.params.map((item,i)=>{
+        return  (<li key={i}><Field  name={item.name}  /></li>)
+      })
+    }
+    
     return (
       <Container >
         <Row>
@@ -31,23 +48,26 @@ class TransformationForm extends PureComponent {
             <Card>
               <CardBody>
                 <div className='card__title'>
-                  <h5 className='bold-text'>Dataframes </h5>
+                  <h5 className='bold-text'>Dataframes  </h5>
                   <h5 className='subhead'>Add some dataframe to create the pipeline over it</h5>
                 </div>
                 <form className='form form--horizontal' onSubmit={handleSubmit}>
                   
                   <div className='form__form-group'>
-                    {/* <label className='form__form-group-label'>Dataframes</label> */}
                     <label className='form__form-group-label'>Select a transformation</label>
                     <div className='form__form-group-field'>
                       <Field
                         name='transformation'
                         component={renderSelectField}
                         options={transformationsTypesList}
+                        onChange={this.onChange}
                       />
                     </div>                    
-                  </div>
                   
+                  <div className='form__form-group'></div>
+                    <label className='form__form-group-label'>Params</label>
+                    <ul>{paramsContainer}</ul>
+                  </div>
                   <ButtonToolbar className='form__button-toolbar'>
                     <Button color='primary' type='submit'>Add</Button>
                     {/* <Button type='button' onClick={reset}>
