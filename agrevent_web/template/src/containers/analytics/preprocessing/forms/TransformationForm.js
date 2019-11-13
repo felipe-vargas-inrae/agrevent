@@ -33,11 +33,11 @@ class TransformationForm extends PureComponent {
 
   render() {
     const {transformationsTypesList ,handleSubmit, reset, t} = this.props;
-    let paramsContainer={}
+    let paramsContainer=[]
     const selected=this.state.selectTransformation
     if(selected){
       paramsContainer = selected.params.map((item,i)=>{
-        return  (<li key={i}><Field  name={item.name}  /></li>)
+        return  (<li key={i}><Field component="renderField" name={item.name}  /></li>)
       })
     }
     
