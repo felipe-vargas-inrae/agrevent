@@ -24,16 +24,7 @@ export default function (state = initialState, action) {
   let error;
 
   switch (action.type) {
-    //get list  method
-    // case FETCH_DATAFRAMES:// start fetching sensors and set loading = true
-    //   return { ...state, dataframesFetch: { dataframes: [], error: null, loading: true } };
-    // case FETCH_DATAFRAMES_SUCCESS :// return list of sensors and make loading = false
-    //   return { ...state, dataframesFetch: { dataframes: action.payload, error: null, loading: false } };
-    // case FETCH_DATAFRAMES_FAILURE:// return error and make loading = false
-    //   error = action.payload || { message: action.payload.message };//2nd one is network or server down errors
-    //   return { ...state, dataframesFetch: { dataframes: [], error: error, loading: false } };
-
-    
+  
     case UPDATE_DATAFRAME_LIST: 
       {
         
@@ -57,10 +48,8 @@ export default function (state = initialState, action) {
     }
     case DELETE_TRANSFORMATION: 
     {
-      
       const newList = state.pipelinesList.map(item => {
         if(item.name==action.payload){
-
           const methods=[
             ...item.methods.slice(0, action.index),
             ...item.methods.slice(action.index + 1)
@@ -74,7 +63,16 @@ export default function (state = initialState, action) {
 
     case PUSH_TRANSFORMATION: 
     {
-      const newList = state.pipelinesList.filter(item => item.name  !== action.payload );
+      const newList = state.pipelinesList.map(item => {
+        if(item.name==action.payload){
+          const methods=[
+            ...item.methods,
+            item.method
+          ]
+          item.methods=methods; 
+        }
+        return {...item}
+      });
       return {...state, pipelinesList:newList }
     }
 

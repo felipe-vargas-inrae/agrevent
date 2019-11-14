@@ -19,7 +19,9 @@ export default class ModalTransformation extends PureComponent {
     };
     
     this.toggle = this.toggle.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.deleteTransformation=this.deleteTransformation.bind(this);
+    this.pushTransformation=this.pushTransformation.bind(this)
   }
   
   toggle() {
@@ -32,27 +34,25 @@ export default class ModalTransformation extends PureComponent {
     this.props.deleteTransformation(name, i)
   }
 
-  
+  pushTransformation(name, transformation){
+    this.props.pushTransformation(name, transformation)
+  }
+
+  handleSubmit=(values)=>{
+    debugger
+    const transformation = {}
+
+    transformation.method=values.transformation.method
+    transformation.params = values.transformation.params.map((currentParam)=>{
+      const paramName=currentParam.name
+      return {...currentParam, value:values[paramName] }
+    })
+    const myPipeline = this.props.pipeline;
+    this.pushTransformation(myPipeline.name, transformation)
+  }
   
   render() {
     let Icon;
-    
-    // switch (this.props.color) {
-    //   case 'primary':
-    //     Icon = <span className='lnr lnr-pushpin modal__title-icon'/>;
-    //     break;
-    //   case 'success':
-    //     Icon = <span className='lnr lnr-thumbs-up modal__title-icon'/>;
-    //     break;
-    //   case 'warning':
-    //     Icon = <span className='lnr lnr-flag modal__title-icon'/>;
-    //     break;
-    //   case 'danger':
-    //     Icon = <span className='lnr lnr-cross-circle modal__title-icon'/>;
-    //     break;
-    //   default:
-    //     break;
-    // }
     const myPipeline = this.props.pipeline;
 
     const listTypes= this.props.transformationsTypesList.map((item,i)=>{
@@ -87,6 +87,7 @@ export default class ModalTransformation extends PureComponent {
           < TransformationForm 
           transformations={this.props.transformations} 
           transformationsTypesList = {listTypes}
+          onSubmit={this.handleSubmit}
           ></TransformationForm>
         </Modal>
       </div>

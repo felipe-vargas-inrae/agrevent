@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React,{Component} from 'react'
 import ModalTransformation from './ModalTransformation';
 
-import {deleteTransformation} from '../../../../redux/actions/analyticsActions'
+import {deleteTransformation, pushTransformation} from '../../../../redux/actions/analyticsActions'
 
 import {Button} from 'reactstrap';
 
@@ -17,6 +17,9 @@ const mapDispatchToProps = (dispatch) => {
 
     deleteTransformation: (pipelineName, i)=>{
       dispatch(deleteTransformation(pipelineName, i))
+    },
+    pushTransformation:(pipelineName, method)=>{
+      dispatch(pushTransformation(pipelineName, method))
     }
   }
 }
@@ -55,6 +58,7 @@ class PipelineDetail extends Component {
                   pipeline={myPipeline}
 
                   deleteTransformation={this.props.deleteTransformation}
+                  pushTransformation={this.props.pushTransformation}
                   transformationsTypesList ={this.props.transformationsTypesList}
 
                   />

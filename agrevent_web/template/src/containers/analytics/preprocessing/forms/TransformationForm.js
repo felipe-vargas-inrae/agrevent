@@ -8,7 +8,7 @@ import renderSelectField from '../../../../components/form/Select';
 import validate from './validate'; 
 import {translate} from 'react-i18next';
 
-const renderField = ({input, label, placeholder, type, meta: {touched, error}}) => (
+const RenderField = ({input, label, placeholder, type, meta: {touched, error}}) => (
   <div className='form__form-group-input-wrap'>
     <input {...input} placeholder={placeholder} type={type}/>
     {touched && error && <span className='form__form-group-error'>{error}</span>}
@@ -25,7 +25,7 @@ class TransformationForm extends PureComponent {
   }
 
   onChange(e){
-    debugger
+    
     this.setState(()=>{
       return {selectTransformation:e }
     })
@@ -33,11 +33,12 @@ class TransformationForm extends PureComponent {
 
   render() {
     const {transformationsTypesList ,handleSubmit, reset, t} = this.props;
+    debugger
     let paramsContainer=[]
     const selected=this.state.selectTransformation
     if(selected){
       paramsContainer = selected.params.map((item,i)=>{
-        return  (<li key={i}><Field component="renderField" name={item.name}  /></li>)
+        return  (<li className='form__form-group-field' key={i}><Field component={RenderField} name={item.name}  type='text' placeholder={item.name}/></li>)
       })
     }
     
@@ -51,7 +52,7 @@ class TransformationForm extends PureComponent {
                   <h5 className='bold-text'>Dataframes  </h5>
                   <h5 className='subhead'>Add some dataframe to create the pipeline over it</h5>
                 </div>
-                <form className='form form--horizontal' onSubmit={handleSubmit}>
+                <form className='form form--vertical' onSubmit={handleSubmit}>
                   
                   <div className='form__form-group'>
                     <label className='form__form-group-label'>Select a transformation</label>
