@@ -39,7 +39,7 @@ export default class ModalTransformation extends PureComponent {
   }
 
   handleSubmit=(values)=>{
-    debugger
+    
     const transformation = {}
 
     transformation.method=values.transformation.method

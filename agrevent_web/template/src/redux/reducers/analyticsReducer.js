@@ -63,11 +63,12 @@ export default function (state = initialState, action) {
 
     case PUSH_TRANSFORMATION: 
     {
+      debugger
       const newList = state.pipelinesList.map(item => {
         if(item.name==action.payload){
           const methods=[
             ...item.methods,
-            item.method
+            action.method
           ]
           item.methods=methods; 
         }

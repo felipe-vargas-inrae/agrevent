@@ -5,7 +5,7 @@ import {Field, reduxForm} from 'redux-form';
 import renderSelectField from '../../../../components/form/Select';
 //import renderMultiSelectField from '../../../../components/form/MultiSelect';
 
-import validate from './validate'; 
+import validate from './validate_transform'; 
 import {translate} from 'react-i18next';
 
 const RenderField = ({input, label, placeholder, type, meta: {touched, error}}) => (
@@ -14,6 +14,9 @@ const RenderField = ({input, label, placeholder, type, meta: {touched, error}}) 
     {touched && error && <span className='form__form-group-error'>{error}</span>}
   </div>
 );
+
+const required = value => value ? undefined : 'Required'
+
 class TransformationForm extends PureComponent {
   componentDidMount(){
     
@@ -33,12 +36,12 @@ class TransformationForm extends PureComponent {
 
   render() {
     const {transformationsTypesList ,handleSubmit, reset, t} = this.props;
-    debugger
+    
     let paramsContainer=[]
     const selected=this.state.selectTransformation
     if(selected){
       paramsContainer = selected.params.map((item,i)=>{
-        return  (<li className='form__form-group-field' key={i}><Field component={RenderField} name={item.name}  type='text' placeholder={item.name}/></li>)
+        return  (<li className='form__form-group-field' key={i}><Field component={RenderField} name={item.name}  type='text' placeholder={item.name} validate={required}/></li>)
       })
     }
     
@@ -86,5 +89,5 @@ class TransformationForm extends PureComponent {
 }
 
 export default reduxForm({
-  form: 'dataframe_list',  // a unique identifier for this form
+  form: 'dataframe_transformation' // a unique identifier for this form
 })(translate('common')(TransformationForm));

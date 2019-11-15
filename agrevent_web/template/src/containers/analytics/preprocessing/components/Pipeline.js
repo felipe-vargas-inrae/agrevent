@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import React,{Component} from 'react'
 import {Field, reduxForm} from 'redux-form';
 
+import {Container,Row} from 'reactstrap';
+
 import ListPipelines from './db/PipelineListFactory';
 
 import PipelineDetail from './PipelineDetail'
@@ -53,9 +55,12 @@ class PipelinesList extends Component {
             ></PipelineDetail>)
         })
         return ( 
-        <div>
-          {list}
-        </div>
+         
+            <Row>
+              {list}
+            </Row>
+          
+              
         )
     }
 }

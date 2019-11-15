@@ -1,5 +1,6 @@
 const validate = values => {
   const errors = {};
+
   if (!values.name) {
     errors.name = 'Name field shouldn’t be empty';
   }

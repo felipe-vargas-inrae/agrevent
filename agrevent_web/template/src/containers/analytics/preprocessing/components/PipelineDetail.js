@@ -4,8 +4,7 @@ import React,{Component} from 'react'
 import ModalTransformation from './ModalTransformation';
 
 import {deleteTransformation, pushTransformation} from '../../../../redux/actions/analyticsActions'
-
-import {Button} from 'reactstrap';
+import {Card, CardBody,  Button} from 'reactstrap';
 
 const mapStateToProps = (state) => {
     return {
@@ -50,21 +49,24 @@ class PipelineDetail extends Component {
         
         //<Button className='icon' outline><p><SettingsIcon/> Settings</p></Button>
         return  (
-        <div> 
-        {title} {methods} 
-        <ModalTransformation color='primary' title='Congratulations!'  btn='Default'
-                    message='Expect warmly its tended garden him esteem had remove off. Effects dearest staying
-                  now sixteen nor improve.'
-                  pipeline={myPipeline}
+        <div className="col-12 col-md-12 col-lg-6 col-xl-3">
+        <Card> 
+          <CardBody>  
+            {title} {methods} 
+            <ModalTransformation color='primary' title='Congratulations!'  btn='Default'
+                        message='Expect warmly its tended garden him esteem had remove off. Effects dearest staying
+                      now sixteen nor improve.'
+                      pipeline={myPipeline}
 
-                  deleteTransformation={this.props.deleteTransformation}
-                  pushTransformation={this.props.pushTransformation}
-                  transformationsTypesList ={this.props.transformationsTypesList}
+                      deleteTransformation={this.props.deleteTransformation}
+                      pushTransformation={this.props.pushTransformation}
+                      transformationsTypesList ={this.props.transformationsTypesList}
 
-                  />
+                      />
 
-        <Button onClick={this.delete}>Delete </Button> 
-        </div>)
+            <Button onClick={this.delete}>Delete </Button> 
+          </CardBody>
+        </Card></div>)
      }
 }
 
