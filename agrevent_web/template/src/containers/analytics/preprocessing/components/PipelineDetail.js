@@ -4,7 +4,7 @@ import React,{Component} from 'react'
 import ModalTransformation from './ModalTransformation';
 
 import {deleteTransformation, pushTransformation} from '../../../../redux/actions/analyticsActions'
-import {Card, CardBody,  Button} from 'reactstrap';
+import {Card, CardBody,  Button, Col} from 'reactstrap';
 
 const mapStateToProps = (state) => {
     return {
@@ -49,7 +49,7 @@ class PipelineDetail extends Component {
         
         //<Button className='icon' outline><p><SettingsIcon/> Settings</p></Button>
         return  (
-        <div className="col-12 col-md-12 col-lg-6 col-xl-3">
+        <Col md={3}>
         <Card> 
           <CardBody>  
             {title} {methods} 
@@ -66,7 +66,7 @@ class PipelineDetail extends Component {
 
             <Button onClick={this.delete}>Delete </Button> 
           </CardBody>
-        </Card></div>)
+        </Card></Col>)
      }
 }
 

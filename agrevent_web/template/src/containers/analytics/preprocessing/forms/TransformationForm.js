@@ -5,7 +5,7 @@ import {Field, reduxForm} from 'redux-form';
 import renderSelectField from '../../../../components/form/Select';
 //import renderMultiSelectField from '../../../../components/form/MultiSelect';
 
-import validate from './validate_transform'; 
+ 
 import {translate} from 'react-i18next';
 
 const RenderField = ({input, label, placeholder, type, meta: {touched, error}}) => (

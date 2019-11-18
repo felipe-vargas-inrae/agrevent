@@ -23,23 +23,17 @@ class Preprocessing extends PureComponent {
       <Container>
         <Row>
           <Col md={12}>
-            <Card>
-              <CardBody>
-                  <DataframeList ></DataframeList>
-              </CardBody>
-            </Card>
+            <h3 className='page-title'>Data Pre-processing </h3>
+            <h3 className='page-subhead subhead'> You can add some transformation pipelines starting with a dataframe    </h3>
           </Col>
         </Row>
+        
+        <DataframeList ></DataframeList>
+        
 
-        <Row>
-          <Col md={12}>
-            <Card>
-              <CardBody>
-                  <Pipeline ></Pipeline>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+       
+        <Pipeline ></Pipeline>
+              
       </Container>
     )
   }

@@ -25,7 +25,7 @@ class DataframeListForm extends PureComponent {
     const {dataframes ,handleSubmit, reset, t} = this.props;
     
     return (
-      <Container >
+      
         <Row>
           <Col md={12} lg={12}>
             <Card>
@@ -69,7 +69,7 @@ class DataframeListForm extends PureComponent {
             </Card>
           </Col>
         </Row>
-      </Container>
+    
     )
   }
 }
