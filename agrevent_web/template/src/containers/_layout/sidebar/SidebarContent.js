@@ -74,7 +74,7 @@ class SidebarContent extends PureComponent {
             <SidebarLink title='Wizard Form' route='/forms/wizard_form' onClick={this.hideSidebar}/> */}
           </SidebarCategory>
 
-          <SidebarCategory title='Analytics' icon='file-add'> 
+          <SidebarCategory title='Analytics' icon='pie-chart'> 
             <SidebarLink title='Pre-processing ' route='/analytics/preprocessing' onClick={this.hideSidebar}/>
             <SidebarLink title='Modelling' route='/analytics/modelling' onClick={this.hideSidebar}/>
             {/* <SidebarLink title='Check Form Controls' route='/forms/check_form_controls' onClick={this.hideSidebar}/>

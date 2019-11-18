@@ -24,7 +24,7 @@ class Preprocessing extends PureComponent {
         <Row>
           <Col md={12}>
             <h3 className='page-title'>Data Pre-processing </h3>
-            <h3 className='page-subhead subhead'> You can add some transformation pipelines starting with a dataframe    </h3>
+            <h3 className='page-subhead subhead'> You can build data pipelines starting with a dataframe    </h3>
           </Col>
         </Row>
         

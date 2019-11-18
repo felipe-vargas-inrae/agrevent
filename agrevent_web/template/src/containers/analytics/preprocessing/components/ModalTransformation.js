@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {Button, ButtonToolbar, Modal} from 'reactstrap';
 import TransformationForm from '../forms/TransformationForm'
+import LayersIcon from 'mdi-react/LayersIcon'
 export default class ModalTransformation extends PureComponent {
   static propTypes = {
     title: PropTypes.string,
@@ -67,7 +68,11 @@ export default class ModalTransformation extends PureComponent {
 
     return (
       <div>
-        <Button color={this.props.color} onClick={this.toggle}>{this.props.btn}</Button>
+        <Button color={this.props.color} onClick={this.toggle}>
+          <LayersIcon></LayersIcon>
+          {this.props.btn}
+
+        </Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle}
                className={`modal-dialog--${this.props.color} ${this.props.colored ? 'modal-dialog--colored' : ''} ${this.props.header ? 'modal-dialog--header' : ''}`}>
           <div className='modal__header'>

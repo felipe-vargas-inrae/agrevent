@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import {Container,Row,Card, CardBody, Col, Button, ButtonToolbar} from 'reactstrap';
 import {Field, reduxForm} from 'redux-form';
+import LayersIcon from 'mdi-react/LayersIcon'
 //import renderFileInputField from '../../../../components/form/FileInput';
 import renderSelectField from '../../../../components/form/Select';
 //import renderMultiSelectField from '../../../../components/form/MultiSelect';

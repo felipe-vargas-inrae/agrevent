@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import React,{Component} from 'react'
 import ModalTransformation from './ModalTransformation';
 
+import DeleteForeverIcon from 'mdi-react/DeleteForeverIcon';
+import LayersTriple from 'mdi-react/LayersIcon'
 import {deleteTransformation, pushTransformation} from '../../../../redux/actions/analyticsActions'
-import {Card, CardBody,  Button, Col} from 'reactstrap';
+import {Card, CardBody,  Button, Col, ButtonGroup, ButtonToolbar} from 'reactstrap';
 
 const mapStateToProps = (state) => {
     return {
@@ -53,7 +55,10 @@ class PipelineDetail extends Component {
         <Card> 
           <CardBody>  
             {title} {methods} 
-            <ModalTransformation color='primary' title='Congratulations!'  btn='Default'
+
+            <ButtonToolbar>
+              <ButtonGroup className='btn-group--icons'>
+                <ModalTransformation color='primary' title='Congratulations!'  btn='Modify'
                         message='Expect warmly its tended garden him esteem had remove off. Effects dearest staying
                       now sixteen nor improve.'
                       pipeline={myPipeline}
@@ -63,8 +68,11 @@ class PipelineDetail extends Component {
                       transformationsTypesList ={this.props.transformationsTypesList}
 
                       />
-
-            <Button onClick={this.delete}>Delete </Button> 
+         
+                <Button onClick={this.delete} color='danger'  className='icon'  outline><p> <DeleteForeverIcon /> Remove </p></Button>
+         
+              </ButtonGroup>
+            </ButtonToolbar>
           </CardBody>
         </Card></Col>)
      }
