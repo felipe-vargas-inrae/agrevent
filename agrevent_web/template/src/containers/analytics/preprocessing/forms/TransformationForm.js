@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {Container,Row,Card, CardBody, Col, Button, ButtonToolbar} from 'reactstrap';
 import {Field, reduxForm} from 'redux-form';
-import LayersIcon from 'mdi-react/LayersIcon'
+
 //import renderFileInputField from '../../../../components/form/FileInput';
 import renderSelectField from '../../../../components/form/Select';
 //import renderMultiSelectField from '../../../../components/form/MultiSelect';
@@ -16,7 +16,7 @@ const RenderField = ({input, label, placeholder, type, meta: {touched, error}}) 
   </div>
 );
 
-const required = value => value ? undefined : 'Required'
+const required = value => value ? undefined : 'This field shouldn’t be empty'
 
 class TransformationForm extends PureComponent {
   componentDidMount(){
@@ -41,47 +41,71 @@ class TransformationForm extends PureComponent {
     let paramsContainer=[]
     const selected=this.state.selectTransformation
     if(selected){
+
+     
       paramsContainer = selected.params.map((item,i)=>{
-        return  (<li className='form__form-group-field' key={i}><Field component={RenderField} name={item.name}  type='text' placeholder={item.name} validate={required}/></li>)
+        return  (
+      <div key={i} className='form__form-group'>
+        <div className='form__form-group-field'>
+        <Field component={RenderField} name={item.name}  type='text'
+         placeholder={item.name} validate={required}/>
+         </div>
+      </div>
+         
+         )
       })
     }
     
     return (
-      <Container >
+      <Container className="theme-light">
         <Row>
           <Col md={12} lg={12}>
-            <Card>
+            <Card className="border border-info">
               <CardBody>
-                <div className='card__title'>
-                  <h5 className='bold-text'>Dataframes  </h5>
-                  <h5 className='subhead'>Add some dataframe to create the pipeline over it</h5>
-                </div>
-                <form className='form form--vertical' onSubmit={handleSubmit}>
-                  
-                  <div className='form__form-group'>
-                    <label className='form__form-group-label'>Select a transformation</label>
-                    <div className='form__form-group-field'>
-                      <Field
-                        name='transformation'
-                        component={renderSelectField}
-                        options={transformationsTypesList}
-                        onChange={this.onChange}
-                      />
-                    </div>                    
-                  
-                  <div className='form__form-group'></div>
-                    <label className='form__form-group-label'>Params</label>
-                    <ul>{paramsContainer}</ul>
+                <form  className="form form--vertical" onSubmit={handleSubmit}>
+                <div className='form-row'>  
+                  <div className='col-md-12'>
+                    <div  className='form__form-group'>
+                      <label className='form__form-group-label'>Method</label>
+                      <div className='form__form-group-field'>
+                        <Field
+                          name='transformation'
+                          component={renderSelectField}
+                          options={transformationsTypesList}
+                          onChange={this.onChange}
+                          validate={required}
+                        />
+                      </div>
+                    </div>
+
+                    
+                    
                   </div>
-                  <ButtonToolbar className='form__button-toolbar'>
-                    <Button color='primary' type='submit'>Add</Button>
-                    {/* <Button type='button' onClick={reset}>
-                      Reset
-                    </Button> */}
-                  </ButtonToolbar>
+                  <div className='col-md-12'>
+                    <label>Params </label>
+                  </div>
+                  <div className='col-md-12'>
+                    {paramsContainer}
+                    <ButtonToolbar className='form__button-toolbar'>
+                      <Button color='primary' type='submit'>Add</Button>
+                      {/* <Button type='button' onClick={reset}>
+                        Reset
+                      </Button> */}
+                    </ButtonToolbar>
+                  </div>
+                </div>
+
+                                        
+                  
+                  
+                  
+
+
+                  
                 </form>
-              </CardBody>
-            </Card>
+                </CardBody>
+
+                </Card>
           </Col>
         </Row>
       </Container>

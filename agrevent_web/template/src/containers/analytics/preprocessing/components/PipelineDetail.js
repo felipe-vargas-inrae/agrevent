@@ -4,9 +4,10 @@ import React,{Component} from 'react'
 import ModalTransformation from './ModalTransformation';
 
 import DeleteForeverIcon from 'mdi-react/DeleteForeverIcon';
-import LayersTriple from 'mdi-react/LayersIcon'
+
 import {deleteTransformation, pushTransformation} from '../../../../redux/actions/analyticsActions'
-import {Card, CardBody,  Button, Col, ButtonGroup, ButtonToolbar} from 'reactstrap';
+import {ListGroup, ListGroupItem,CardText,CardTitle,Card, CardBody,  Button, Col, ButtonGroup, ButtonToolbar} from 'reactstrap';
+
 
 const mapStateToProps = (state) => {
     return {
@@ -44,34 +45,55 @@ class PipelineDetail extends Component {
     render(){
         const myPipeline = this.props.pipeline;
         
+        
         const methods= myPipeline.methods.map((item2,i)=>{ 
-          return (<p key={i}> {item2.method}  </p>)
+          return (
+            <ListGroupItem key={i}><p> <span className="text-uppercase">{item2.method}</span> </p></ListGroupItem>
+          
+          )
         })
-        const title= (<h3>{myPipeline.name}</h3>)
+        const title= myPipeline.name
         
         //<Button className='icon' outline><p><SettingsIcon/> Settings</p></Button>
         return  (
-        <Col md={3}>
+        <Col sm="6" md="4">
         <Card> 
           <CardBody>  
-            {title} {methods} 
+            <div className='card__title'>
+              <h5 className='bold-text'>
+                {title} 
+                <a href="#" className="float-right text-danger"  onClick={this.delete}> 
+                  <DeleteForeverIcon />
+                </a>
+              </h5>
+              <h5 className='subhead'>Ordered list of transformations</h5>
+            </div>
+
+            <ListGroup >
+              {methods} 
+            </ListGroup>
+
+
+            
 
             <ButtonToolbar>
-              <ButtonGroup className='btn-group--icons'>
-                <ModalTransformation color='primary' title='Congratulations!'  btn='Modify'
-                        message='Expect warmly its tended garden him esteem had remove off. Effects dearest staying
-                      now sixteen nor improve.'
-                      pipeline={myPipeline}
+              
+              <ModalTransformation color='primary' title='Congratulations!'  btn='Modify'
+                      message='Expect warmly its tended garden him esteem had remove off. Effects dearest staying
+                    now sixteen nor improve.'
+                    pipeline={myPipeline}
 
-                      deleteTransformation={this.props.deleteTransformation}
-                      pushTransformation={this.props.pushTransformation}
-                      transformationsTypesList ={this.props.transformationsTypesList}
+                    deleteTransformation={this.props.deleteTransformation}
+                    pushTransformation={this.props.pushTransformation}
+                    transformationsTypesList ={this.props.transformationsTypesList}
 
-                      />
+                    header
+
+                    />
+        
+              
          
-                <Button onClick={this.delete} color='danger'  className='icon'  outline><p> <DeleteForeverIcon /> Remove </p></Button>
-         
-              </ButtonGroup>
+              
             </ButtonToolbar>
           </CardBody>
         </Card></Col>)
