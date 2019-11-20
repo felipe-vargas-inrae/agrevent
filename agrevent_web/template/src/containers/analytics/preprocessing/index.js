@@ -4,6 +4,7 @@ import DataframeList from './components/DataframeList';
 import Pipeline from './components/Pipeline';
 import {translate} from 'react-i18next';
 import {connect} from "react-redux";
+import Joiner from './components/Joiner';
 
 //import {showCreateSensor,hideCreateSensor} from "../../../redux/actions/sensorActions"
 
@@ -33,6 +34,9 @@ class Preprocessing extends PureComponent {
 
        
         <Pipeline ></Pipeline>
+
+
+        <Joiner />
               
       </Container>
     )
