@@ -5,7 +5,7 @@ import React,{Component} from 'react'
 
 import JoinerForm from '../forms/JoinerForm'
 import {Card, CardBody,   Col} from 'reactstrap';
-
+import amber from '@material-ui/core/colors/amber';
 
 const mapStateToProps = (state) => {
     
@@ -47,10 +47,12 @@ class Joiner extends Component {
       const list= pipelinesList.map((item,i)=>{
         return  {value: item.name, label: item.name}
       })
+
+      // style={{"background":amber[200]}}
       return ( 
         <Col sm="12" md="12">
-        <Card> 
-          <CardBody>  
+        <Card style={{width:"560px"}} > 
+          <CardBody  >  
             <div className='card__title'>
               <h5 className='bold-text'>
                 Joiner

@@ -35,9 +35,9 @@ class Preprocessing extends PureComponent {
        
         <Pipeline ></Pipeline>
 
-
+      <Row>
         <Joiner />
-              
+      </Row>   
       </Container>
     )
   }

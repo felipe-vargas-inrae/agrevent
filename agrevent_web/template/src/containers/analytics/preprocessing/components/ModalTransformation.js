@@ -4,6 +4,7 @@ import { Card, CardBody, Button, ButtonToolbar, Modal, ListGroupItem, ListGroup,
 import TransformationForm from '../forms/TransformationForm'
 import LayersIcon from 'mdi-react/LayersIcon'
 import DeleteForeverIcon from 'mdi-react/DeleteForeverIcon';
+
 export default class ModalTransformation extends PureComponent {
   static propTypes = {
     title: PropTypes.string,

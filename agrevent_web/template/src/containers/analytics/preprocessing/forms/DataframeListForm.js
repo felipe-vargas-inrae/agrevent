@@ -34,7 +34,7 @@ class DataframeListForm extends PureComponent {
                   <h5 className='bold-text'>Dataframes </h5>
                   <h5 className='subhead'>Add some dataframe to create the pipeline over it</h5>
                 </div>
-                <form className='form form--horizontal' onSubmit={handleSubmit}>
+                <form className='form ' onSubmit={handleSubmit}>
                   
                   <div className='form__form-group'>
                     {/* <label className='form__form-group-label'>Dataframes</label> */}
