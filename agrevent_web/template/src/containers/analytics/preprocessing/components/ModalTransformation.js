@@ -5,6 +5,8 @@ import TransformationForm from '../forms/TransformationForm'
 import LayersIcon from 'mdi-react/LayersIcon'
 import DeleteForeverIcon from 'mdi-react/DeleteForeverIcon';
 
+
+const READ = "read"
 export default class ModalTransformation extends PureComponent {
   static propTypes = {
     title: PropTypes.string,
@@ -63,20 +65,33 @@ export default class ModalTransformation extends PureComponent {
     })
 
     const methods = myPipeline.methods.map((item2, i) => {
-      const params= JSON.stringify(item2.params)
+
+      const params = item2.params.map((item) => {
+        let result = {}
+        result[item.name] = item.value
+        return result
+      })
+      const paramsString = JSON.stringify(params)
+      let closeButton = null
+
+      if (item2.method !== READ) {
+        closeButton= (<a href="#" className="float-right text-danger" onClick={() => { this.deleteTransformation(myPipeline.name, i) }}>
+          <DeleteForeverIcon />
+        </a>)
+      }
 
       return (
         <ListGroupItem key={i}>
-          <p className="text-uppercase"> 
-            {item2.method}
-            <a href="#" className="float-right text-danger"  onClick={() => { this.deleteTransformation(myPipeline.name, i)}}> 
-              <DeleteForeverIcon />
-            </a> 
-            <br></br>
-            {params} 
+          <p >
+            <span className="text-uppercase">{item2.method}</span>
+            
+            {closeButton}
 
-         </p>
-        
+            <br></br>
+            {paramsString}
+
+          </p>
+
         </ListGroupItem>
       )
     })

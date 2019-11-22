@@ -64,8 +64,7 @@ class DataframeList extends Component {
       }
 
       else {
-
-        const pipeline= {name:e.name, methods :[ { method:"read", params:{df:e.dataframeName} }] }
+        const pipeline= {name:e.name, methods :[ { method:"read", params:[{name:"dataframeName",value:e.dataframeName.value,type:"value"}] }] }
         this.props.pushItemPipelinesList(pipeline)
       }
     }

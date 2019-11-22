@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 //import renderFileInputField from '../../../../components/form/FileInput';
 import renderSelectField from '../../../../components/form/Select';
 //import renderMultiSelectField from '../../../../components/form/MultiSelect';
-import { formValueSelector } from 'redux-form';  // ES6
+import { formValueSelector, getFormValues } from 'redux-form';  // ES6
 
 import { connect } from 'react-redux';
 import validate from './validate';
@@ -16,27 +16,53 @@ const renderField = ({ input, label, placeholder, type, meta: { touched, error }
     {touched && error && <span className='form__form-group-error'>{error}</span>}
   </div>
 );
+const required = value => value ? undefined : 'This field shouldn’t be empty'
+const PIPELINE="Pipeline"
 class JoinerForm extends PureComponent {
 
   constructor(props) {
     super(props);
     this.state = {
     };
-    this.onChange = this.onChange.bind(this);
+    
   }
 
-  onChange(e){
-    
-    //console.log(e.target.name)
+  componentWillMount(){
     
   }
+  componentWillUpdate(){
+    
+  }
+  componentWillReceiveProps(nextProps) {
+    
+    const newPipelineList =  nextProps.pipelinesList;
+  
+    if (newPipelineList !== this.props.pipelinesList) {
+      this.props.reset(); 
+    }
+  }
+
   render() {
-    const { pipelinesList, handleSubmit, reset, t } = this.props;
-    debugger
-    formValueSelector
-    const listOption = pipelinesList.map((item) => {
-      return { option: item.name, value: item.name }
+    const { pipelinesList, handleSubmit, reset, t, formValues } = this.props;
+    
+
+    
+    const values= formValues || {} 
+    // get current used pipelines in join
+    const usedPipelines=Object.keys(values).filter((key)=>{
+      return key.includes(PIPELINE)
+    }).map((key)=>{
+      return values[key].value
     })
+    
+    const listOption = pipelinesList.filter((item)=>{
+      // filter used pipelines from list
+      return !usedPipelines.includes(item.name)
+    }).map((item)=>{
+      return {value: item.name, label: item.name}
+    })
+    
+    
 
 
     let fieldsjoin = []
@@ -58,6 +84,7 @@ class JoinerForm extends PureComponent {
                     name={leftColumnName}
                     component={renderField}
                     type='text'
+                    validate={required}
                    
                   />
                 </div>
@@ -71,6 +98,7 @@ class JoinerForm extends PureComponent {
                     name={rightColumnName}
                     component={renderField}
                     type='text'
+                    validate={required}
                   />
                 </div>
               </div>
@@ -84,25 +112,18 @@ class JoinerForm extends PureComponent {
                     name={rightPipelineName}
                     component={renderSelectField}
                     options={listOption}
-                    onChange={this.onChange}
+                    
+                    validate={required}
                   />
                 </div>
-
-
-
               </div>
             </div>
           </Row>
         )
-
         fieldsjoin.push(fieldsInline)
-
       }
-
     }
-    else {
-
-    }
+    
 
 
     
@@ -120,7 +141,8 @@ class JoinerForm extends PureComponent {
                 name='leftPipeline'
                 component={renderSelectField}
                 options={listOption}
-                onChange={this.onChange}
+                
+                validate={required}
               />
             </div>
             </Col>
@@ -130,8 +152,7 @@ class JoinerForm extends PureComponent {
 
 
         <ButtonToolbar className='form__button-toolbar'>
-          <Button color='primary' type='submit'>Add</Button>
-
+          <Button color='success' type='submit'>Save Pre-processing, Continue  </Button>
         </ButtonToolbar>
       </form>
 
@@ -139,25 +160,18 @@ class JoinerForm extends PureComponent {
   }
 }
 
-
-
 let myForm= reduxForm({
-  form: 'joiner',  // a unique identifier for this form
+  form: 'joiner' // a unique identifier for this form
 })(translate('common')(JoinerForm));
 
 const selector = formValueSelector('joiner')
 
 myForm = connect(
   state => {
-     
-    
-    // do some calculation
-    debugger
     return {
-      formValues: myForm.values
+      formValues: getFormValues('joiner')(state)
     }
   }
-
 )(myForm)
 
 export default myForm

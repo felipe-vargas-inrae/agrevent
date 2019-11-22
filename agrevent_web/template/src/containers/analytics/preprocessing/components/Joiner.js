@@ -31,7 +31,18 @@ class Joiner extends Component {
      
     };
     handleSubmit = (e)=>{
-     
+      debugger
+      let values={}
+      for (let key in e ){
+        const value=e[key]
+        if(typeof(value)==='object'){
+          values[key]=value.value
+        }
+        else {
+          values[key]=value
+        }
+      }
+      const response= {pipelineList:this.props.pipelinesList,joinner: values}
     }
 
     constructor(props) {

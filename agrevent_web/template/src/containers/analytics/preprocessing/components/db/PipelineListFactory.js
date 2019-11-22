@@ -1,52 +1,44 @@
 
-const list= [
-{
-
-    name:"pipeline1",
-    methods:[
-        {
-            method:"map", params:{col:"platURI"}
-        },
-        {
-            method:"mean", params:{col:"platURI"}
-        },
-        {
-            method:"select", params:{cols:["platURI","OthreColumn"]}
-        }
-    ]
-},
-
-{
-
-    name:"pipeline2",
-    methods:[
-        {
-            method:"map", params:{col:"platURI"}
-        },
-        {
-            method:"mean", params:{col:"platURI"}
-        },
-        {
-            method:"select", params:{cols:["platURI","OthreColumn"]}
-        }
-    ]
-},
-
-{
-
-    name:"pipeline3",
-    methods:[
-        {
-            method:"map", params:{col:"platURI"}
-        },
-        {
-            method:"mean", params:{col:"platURI"}
-        },
-        {
-            method:"select", params:{cols:["platURI","OthreColumn"]}
-        }
-    ]
-}
+const list = [
+    {
+        "name": "pipeline1",
+        "methods": [
+            {
+                "method": "read",
+                "params": [
+                    {
+                        "name": "dataframeName",
+                        "value": "phis_biomass",
+                        "type": "value"
+                    }
+                ]
+            },
+            {
+                "method": "map",
+                "params": [
+                    {
+                        "name": "col1",
+                        "value": "plantURI",
+                        "type": "value"
+                    },
+                    {
+                        "name": "col2",
+                        "value": "ConvexHullArea",
+                        "type": "value"
+                    }
+                ]
+            },
+            {
+                "method": "select",
+                "params": [
+                    {
+                        "name": "cols",
+                        "value": "biomass,treatment",
+                        "type": "list"
+                    }
+                ]
+            }]
+    }
 ]
 
 export default list
