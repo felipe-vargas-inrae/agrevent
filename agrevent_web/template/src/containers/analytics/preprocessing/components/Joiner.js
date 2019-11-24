@@ -6,6 +6,10 @@ import React,{Component} from 'react'
 import JoinerForm from '../forms/JoinerForm'
 import {Card, CardBody,   Col} from 'reactstrap';
 import amber from '@material-ui/core/colors/amber';
+import axios from 'axios';
+
+
+import {API_PREPROCESSING_PIPELINES} from '../constans'
 
 const mapStateToProps = (state) => {
     
@@ -31,7 +35,10 @@ class Joiner extends Component {
      
     };
     handleSubmit = (e)=>{
-      debugger
+
+
+      
+      
       let values={}
       for (let key in e ){
         const value=e[key]
@@ -42,7 +49,18 @@ class Joiner extends Component {
           values[key]=value
         }
       }
-      const response= {pipelineList:this.props.pipelinesList,joinner: values}
+      const requestData= {pipelineList:this.props.pipelinesList,joinner: values}
+
+      
+      const request = axios({
+        method: 'post',
+        url: API_PREPROCESSING_PIPELINES,
+        data:requestData,
+        headers: []
+      }).then((response)=>{
+
+        console.log('response axios', response)
+      });
     }
 
     constructor(props) {

@@ -1,4 +1,12 @@
 
+
+// df_images_anaysis.select("plantURI", "dayOfYear", "variableCode", "variableCodeValueAvg")
+// df_images_anaysis.groupBy("plantURI", "dayOfYear").pivot("variableCode").mean("variableCodeValueAvg")
+// df_grp_img_analysis.orderBy("plantURI","dayOfYear")
+
+// actions 
+// def cal_correlation(df)
+
 const list= [
 {
     method:"map",
@@ -12,6 +20,40 @@ const list= [
     params:[
         {name:"cols" , value:"", type:"list" }
     ]
-}]
+},
+{
+    method:"groupBy",
+    params:[
+        {name:"cols" , value:"", type:"list" }
+    ]
+},
+{
+    method:"pivot",
+    params:[
+        {name:"col" , value:"", type:"value" }
+    ]
+},
+{
+    method:"mean",
+    params:[
+        {name:"col" , value:"", type:"value" }
+    ]
+},
+{
+    method:"orderBy",
+    params:[
+        {name:"cols" , value:"", type:"list" }
+    ]
+}
+// elaborated
+,
+{
+    method:"TimeSeriesSumarization",
+    params:[
+        {name:"daysNumber" , value:"", type:"value" },
+        {name:"daysNumberPerGroup" , value:"", type:"value" }
+    ]
+}
+]
 
 export default list

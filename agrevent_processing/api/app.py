@@ -8,11 +8,13 @@ from flask import request
 from flask import jsonify
 
 from pyspark_helper import PysparkHelper
+from flask_cors import CORS
 
 # flask app and logger
 #logging.basicConfig(level=logging.INFO)
 #logger = logging.getLogger(__name__)
 app = flask.Flask(__name__)
+cors = CORS(app)
 #app.config["DEBUG"] = True
 
 
@@ -23,17 +25,13 @@ ERRORS={"parameter_missing":"No %s field provided. Please specify a %s.",
 
 print("begin the code state one")
 
-def get_first_n_rows(dataframe_name, n_rows):
-    df= get_dataframe_spark(dataframe_name)
-    df_take=df.toJSON().map(lambda j: json.loads(j)).take(n_rows)
-    return df_take
+my_spark_helper=PysparkHelper()
 def init():
-    PysparkHelper.init_spark_session()
+    my_spark_helper.init_spark_session()
 
 @app.route('/', methods=['GET'])
 def home():
-    
-    return "<h1>Distant Reading Archive</h1><p>This site is a prototype API for distant reading of science fiction novels.</p>%d"%(x)
+    return "<h1>AgrevenT Processin API</h1><p>This API allows to interact with Spark Methods.</p>"
 
 # /api/v1/resources/dataframes?name=<df_name>
 @app.route('/api/v1/resources/dataframes')
@@ -47,13 +45,23 @@ def get_dataframe():
         return ERRORS["parameter_missing"]%(PARAM,PARAM)
 
 '''
-json= {[{method:"", params:[{"param_name":"param_value"}]}]}
+json= {name:"", methods:[{method:"", params:{"param_name":"param_value"}}]}
 '''
 @app.route('/api/v1/resources/dataframes/sql_pipeline')
 def apply_sql_pipeline():
     if not request.json:
         abort(400)
 
+@app.route('/api/v1/resources/dataframes/preprocessing_pipelines',  methods=['POST'])
+def preprocessing_pipelines():
+    if not request.json:
+        abort(400)
+    
+    #validate structure
+
+    print(request.json)
+    rows=my_spark_helper.preprocessing_pipelines(request.json)
+    return jsonify(rows)
 
 @app.errorhandler(404)
 def page_not_found(e):

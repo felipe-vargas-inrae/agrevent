@@ -33,7 +33,7 @@ const list = [
                 "params": [
                     {
                         "name": "cols",
-                        "value": "biomass,treatment",
+                        "value": "Biomass(gramos_pesofresco),Treatment",
                         "type": "list"
                     }
                 ]
