@@ -8,7 +8,8 @@ import {
   DELETE_ITEM_PIPELINES_LIST,
   PUSH_TRANSFORMATION,
   DELETE_TRANSFORMATION,
-  UPDATE_TRANSFORMATIONS_TYPES
+  UPDATE_TRANSFORMATIONS_TYPES,
+  UPDATE_JOINER_DATASET
 } from '../actions/analyticsActions';
 
 
@@ -79,6 +80,10 @@ export default function (state = initialState, action) {
 
     case UPDATE_TRANSFORMATIONS_TYPES:{
       return {...state, transformationsTypesList:action.payload }
+    }
+
+    case UPDATE_JOINER_DATASET:{
+      return {...state, joinerDataset:action.payload }
     }
 
     default:

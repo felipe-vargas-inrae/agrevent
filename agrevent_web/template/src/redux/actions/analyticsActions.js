@@ -21,6 +21,8 @@ export const PUSH_TRANSFORMATION = "PUSH_TRANSFORMATION"
 
 export const UPDATE_TRANSFORMATIONS_TYPES = "UPDATE_TRANSFORMATIONS_TYPES"
 
+export const UPDATE_JOINER_DATASET = "UPDATE_JOINER_DATASET"
+
 export function fetchDataframes() {
   console.log("entra al la action");
   const request = axios({
@@ -100,5 +102,12 @@ export function updateTransformationTypes(transformationsTypesList){
   return {
     type: UPDATE_TRANSFORMATIONS_TYPES,
     payload: transformationsTypesList,
+  };
+}
+
+export function updateJoinerDataset(dataset){
+  return {
+    type: UPDATE_JOINER_DATASET,
+    payload: dataset,
   };
 }

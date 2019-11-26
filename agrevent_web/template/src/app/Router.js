@@ -61,6 +61,7 @@ import FormPicker from '../containers/form/form_picker';
 
 
 import Preprocessing from '../containers/analytics/preprocessing/'
+import ReviewJoiner from '../containers/analytics/review_joiner'
 //import SensorForm from '../containers/sensor/sensor_form';
 import SensorCrud from '../containers/sensor/sensor_crud';
 
@@ -128,6 +129,7 @@ const wrappedRoutes = () => (
       <Route path='/forms' component={Forms}/> */}
       <Route path='/sensor' component={Sensor}/>
       <Route path='/analytics' component={Analytics}/>
+      
 
       {/* <Route path='/tables' component={Tables}/>
       <Route path='/charts' component={Charts}/>
@@ -171,6 +173,7 @@ const Sensor = () => (
 const Analytics = () => (
   <Switch>
     <Route path='/analytics/preprocessing' component={Preprocessing}/> 
+    <Route path='/analytics/review_joiner' component={ReviewJoiner}/> 
     {/* <Route path='/sensor/:id' component={ProductEdit}/>
     <Route path='/e-commerce/product_page' component={ProductPage}/>
     <Route path='/e-commerce/products_list' component={ProductsList}/> */}

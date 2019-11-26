@@ -22,3 +22,8 @@ const data = [
 
 
 export default data
+
+/**
+ * se necesita la matrix de correlacion de las variables numericas
+ * 
+ */

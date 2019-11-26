@@ -1,13 +1,18 @@
 
 import { connect } from 'react-redux';
 import React,{Component} from 'react'
+import { 
+  updateJoinerDataset
+} from '../../../../redux/actions/analyticsActions';
 
+
+import { withRouter } from 'react-router-dom';
 
 import JoinerForm from '../forms/JoinerForm'
 import {Card, CardBody,   Col} from 'reactstrap';
 import amber from '@material-ui/core/colors/amber';
 import axios from 'axios';
-
+import datasetJoiner from './db/PipelineResult'
 
 import {API_PREPROCESSING_PIPELINES} from '../constans'
 
@@ -21,11 +26,12 @@ const mapDispatchToProps = (dispatch) => {
 
   // en este espacio se crean funciones locales que se enlazan a acciones importadas
   return {
+    updateJoinerDataset:(datasetJoiner)=>{
+      dispatch(updateJoinerDataset(datasetJoiner))
+    }
     
   }
 }
-
-
 
 class Joiner extends Component {
     componentWillMount() {
@@ -35,9 +41,6 @@ class Joiner extends Component {
      
     };
     handleSubmit = (e)=>{
-
-
-      
       
       let values={}
       for (let key in e ){
@@ -49,18 +52,25 @@ class Joiner extends Component {
           values[key]=value
         }
       }
+
+
       const requestData= {pipelineList:this.props.pipelinesList,joinner: values}
-
       
-      const request = axios({
-        method: 'post',
-        url: API_PREPROCESSING_PIPELINES,
-        data:requestData,
-        headers: []
-      }).then((response)=>{
+      this.props.updateJoinerDataset(datasetJoiner)
 
-        console.log('response axios', response)
-      });
+      debugger
+
+      this.props.history.push('/analytics/review_joiner');
+
+      // const request = axios({
+      //   method: 'post',
+      //   url: API_PREPROCESSING_PIPELINES,
+      //   data:requestData,
+      //   headers: []
+      // }).then((response)=>{
+
+      //   console.log('response axios', response)
+      // });
     }
 
     constructor(props) {
@@ -99,5 +109,5 @@ class Joiner extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Joiner);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Joiner));
 
