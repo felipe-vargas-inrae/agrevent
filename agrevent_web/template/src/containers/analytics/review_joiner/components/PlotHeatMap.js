@@ -30,13 +30,13 @@ class PlotHeatMap extends React.Component {
    
   }
   render() {
-    debugger
+    
     const {trace1, trace2} = this.state
     return (
       <Row>
         <Plot
           data={[trace1, trace2]}
-          layout={{ width: 450, height: 340, title: 'Correlation for Numerical Features' }}
+          layout={{ width: 450, height: 340, title: 'Box Plot for Numerical Features' }}
         />
 
         <Plot

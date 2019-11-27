@@ -19,6 +19,9 @@ export const DELETE_ITEM_PIPELINES_LIST = 'DELETE_ITEM_PIPELINES_LIST'
 export const DELETE_TRANSFORMATION = "DELETE_TRANSFORMATION" 
 export const PUSH_TRANSFORMATION = "PUSH_TRANSFORMATION"
 
+export const DELETE_TRANSFORMATION_ML = "DELETE_TRANSFORMATION_ML" 
+export const PUSH_TRANSFORMATION_ML = "PUSH_TRANSFORMATION_ML"
+
 export const UPDATE_TRANSFORMATIONS_TYPES = "UPDATE_TRANSFORMATIONS_TYPES"
 
 export const UPDATE_JOINER_DATASET = "UPDATE_JOINER_DATASET"
@@ -109,5 +112,20 @@ export function updateJoinerDataset(dataset){
   return {
     type: UPDATE_JOINER_DATASET,
     payload: dataset,
+  };
+}
+
+
+export function deleteTransformationML( index){
+  return {
+    type: DELETE_TRANSFORMATION_ML,
+    index: index
+  };
+}
+
+export function pushTransformationML( method){
+  return {
+    type: PUSH_TRANSFORMATION_ML,
+    method: method
   };
 }

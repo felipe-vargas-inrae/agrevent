@@ -62,6 +62,7 @@ import FormPicker from '../containers/form/form_picker';
 
 import Preprocessing from '../containers/analytics/preprocessing/'
 import ReviewJoiner from '../containers/analytics/review_joiner'
+import PipelineMLContainer from '../containers/analytics/pipeline_ml'
 //import SensorForm from '../containers/sensor/sensor_form';
 import SensorCrud from '../containers/sensor/sensor_crud';
 
@@ -174,6 +175,8 @@ const Analytics = () => (
   <Switch>
     <Route path='/analytics/preprocessing' component={Preprocessing}/> 
     <Route path='/analytics/review_joiner' component={ReviewJoiner}/> 
+    <Route path='/analytics/pipeline_ml' component={PipelineMLContainer}/> 
+    
     {/* <Route path='/sensor/:id' component={ProductEdit}/>
     <Route path='/e-commerce/product_page' component={ProductPage}/>
     <Route path='/e-commerce/products_list' component={ProductsList}/> */}

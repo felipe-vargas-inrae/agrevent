@@ -1,7 +1,4 @@
 import {
-  FETCH_DATAFRAMES,
-  FETCH_DATAFRAMES_FAILURE,
-  FETCH_DATAFRAMES_SUCCESS,
   UPDATE_DATAFRAME_LIST,
   UPDATE_PIPELINES_LIST,
   PUSH_ITEM_PIPELINES_LIST,
@@ -9,15 +6,38 @@ import {
   PUSH_TRANSFORMATION,
   DELETE_TRANSFORMATION,
   UPDATE_TRANSFORMATIONS_TYPES,
-  UPDATE_JOINER_DATASET
+  UPDATE_JOINER_DATASET,
+  PUSH_TRANSFORMATION_ML,
+  DELETE_TRANSFORMATION_ML,
 } from '../actions/analyticsActions';
 
+
+function deleteTransformationPipeline(pipeline,index){
+  const pipe= pipeline
+  const methods=[
+    ...pipe.methods.slice(0, index),
+    ...pipe.methods.slice(index + 1)
+  ]
+  pipe.methods=methods
+  return {...pipe}
+}
+function pushTransformationPipeline(pipeline,method){
+  const pipe=pipeline
+  const methods=[
+    ...pipe.methods,
+    method
+  ]
+  pipe.methods=methods;
+  return {...pipe} 
+}
 
 const initialState = {
   //dataframesFetch: {dataframes: [], error:null, loading: false}
   dataframesList:[],
   pipelinesList:[],
   transformationsTypesList:[],
+  pipelineML:{name:"PipelineML", methods:[]},
+  joinerDataset:[]
 
 };
 
@@ -51,11 +71,7 @@ export default function (state = initialState, action) {
     {
       const newList = state.pipelinesList.map(item => {
         if(item.name==action.payload){
-          const methods=[
-            ...item.methods.slice(0, action.index),
-            ...item.methods.slice(action.index + 1)
-          ]
-          item.methods=methods; 
+          return deleteTransformationPipeline(item,action.index)
         }
         return {...item}
       });
@@ -64,14 +80,10 @@ export default function (state = initialState, action) {
 
     case PUSH_TRANSFORMATION: 
     {
-      debugger
+      
       const newList = state.pipelinesList.map(item => {
         if(item.name==action.payload){
-          const methods=[
-            ...item.methods,
-            action.method
-          ]
-          item.methods=methods; 
+         return pushTransformationPipeline(item,action.method)
         }
         return {...item}
       });
@@ -84,6 +96,17 @@ export default function (state = initialState, action) {
 
     case UPDATE_JOINER_DATASET:{
       return {...state, joinerDataset:action.payload }
+    }
+
+    case DELETE_TRANSFORMATION_ML:{
+      const newPipeline=deleteTransformationPipeline(state.pipelineML,action.index)
+      return {...state, pipelineML:newPipeline}
+    }
+
+    case PUSH_TRANSFORMATION_ML:{
+      debugger
+      const newPipeline=pushTransformationPipeline(state.pipelineML,action.method)
+      return {...state, pipelineML:newPipeline}
     }
 
     default:

@@ -1,7 +1,5 @@
 import React, {PureComponent} from 'react';
 import {Col, Container, Row} from 'reactstrap';
-import HorizontalForm from './components/HorizontalForm';
-import VerticalForm from './components/VerticalForm';
 //import showResults from './components/Show';
 import {translate} from 'react-i18next';
 //import  * as actions  from '../../../redux/actions/sensorActions'
