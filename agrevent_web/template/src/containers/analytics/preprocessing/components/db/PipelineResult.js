@@ -20,7 +20,6 @@ const data = [
     { "Biomass(gramos_pesofresco)": "223", "Treatment": "WD" }, 
     { "Biomass(gramos_pesofresco)": "243", "Treatment": "WD" }]
 
-
 export default data
 
 /**
