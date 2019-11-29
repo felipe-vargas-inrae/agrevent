@@ -58,7 +58,6 @@ def preprocessing_pipelines():
         abort(400)
     
     #validate structure
-
     print(request.json)
     rows=my_spark_helper.preprocessing_pipelines(request.json)
     return jsonify(rows)

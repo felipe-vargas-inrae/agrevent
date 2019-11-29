@@ -48,10 +48,12 @@ const list= [
 // elaborated
 ,
 {
-    method:"TimeSeriesSumarization",
+    method:"timeSeriesSumarization",
     params:[
-        {name:"daysNumber" , value:"", type:"value" },
-        {name:"daysNumberPerGroup" , value:"", type:"value" }
+        {name:"colPartition" , value:"", type:"value" },
+        {name:"colOrderBy" , value:"", type:"value" },
+        {name:"nDays" , value:"", type:"value" },
+        {name:"groupSizeDays" , value:"", type:"value" }
     ]
 }
 ]

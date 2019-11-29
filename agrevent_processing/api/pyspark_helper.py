@@ -20,8 +20,7 @@ class PysparkHelper:
 
     def init_spark_session(self):
         MONGO_URI="mongodb://localhost:27017/iot_db" 
-        global my_spark_session
-        my_spark_session = SparkSession \
+        self.my_spark_session = SparkSession \
         .builder \
         .appName("agreventPrototypeV1") \
         .master('local[*]')\
@@ -30,11 +29,11 @@ class PysparkHelper:
         .getOrCreate()
     
     def stop_spark_session(self):
-        my_spark_session.stop()
+        self.my_spark_session.stop()
     
     def restart_spark_session(self):
-        my_spark_session.stop()
-        init_spark_session()
+        self.my_spark_session.stop()
+        self.init_spark_session()
     
     def get_dataframe_spark(self,dataframe_name) : 
         print(dataframe_name)
@@ -57,7 +56,7 @@ class PysparkHelper:
         corr_df.index, corr_df.columns = col_names, col_names
         return corr_df
     
-    def join_dataframes(df1,df2, f1_column, f2_column):
+    def join_dataframes(self,df1,df2, f1_column, f2_column):
         ta = df1.alias('ta')
         tb = df2.alias('tb')
         df_join = ta.join(tb, ta[f1_column] == tb[f2_column])
@@ -94,20 +93,32 @@ class PysparkHelper:
             cols= self.pipeline_param_value(params,"cols")
             return df_previous.select(cols)
         elif m == 'groupBy':
-            cols = pipeline_properties["params"]["cols"]
+            cols = self.pipeline_param_value(params,"cols")
             return df_previous.groupBy(cols)
         elif m == 'pivot':
-            col = pipeline_properties["params"]["col"]
+            col = self.pipeline_param_value(params,"col")
             return df_previous.pivot(col)
         elif m == 'mean':
-            col = pipeline_properties["params"]["col"]
+            col = self.pipeline_param_value(params,"cols")
             return df_previous.mean(col)
+        elif m == 'timeseriesSumarizator':
+            col_partition = self.pipeline_param_value(params,"colPartition")
+            col_order_by = self.pipeline_param_value(params,"colOrderBy")
+            group_size_days = self.pipeline_param_value(params,"groupSizeDays")
+            n_days = self.pipeline_param_value(params,"nDays")
+            col_group=col_partition
+
+            df_current = sequential_basedon_window( df_previous, col_partition, col_order_by)
+            df_current = filter_n_days( df_current, n_days)
+            df_current = create_ts_groups( df_current, group_size_days)
+            df_current = pivot_ts_groups_variables(df_current, col_group, n_days, group_size_days)
+            
+            return df_current
         else:
             return "function not included"
     
     def iterator_sql_join(self,joiner):
         
-
         LEFT_PIPELINE="leftPipeline"
 
         RIGHT_PIPELINE_FACTOR="rightPipeline"
@@ -129,17 +140,10 @@ class PysparkHelper:
                 col2=joiner[RIGHT_COLUMN_FACTOR+index]
 
                 self.sql_joiner=self.join_dataframes(df1,df2,col1,col2)
-
-            
-
-        
-
     
     def preprocessing_pipelines(self, json_pipelines_joiner):
-
         pipelines_list=json_pipelines_joiner["pipelineList"]
         joiner=json_pipelines_joiner["joinner"]
-
         # this method add the pipeline to global self.sql_pipeline_dfs
         for pipe in pipelines_list:
             self.iterator_sql_pipeline(pipe)
@@ -147,12 +151,29 @@ class PysparkHelper:
         # this method assume that pipelines exists in PysparkHelper.self.sql_pipeline_dfs
         # result is saved in final_dataset
         self.iterator_sql_join(joiner)
-
-        
         df_take=self.sql_joiner.toJSON().map(lambda j: json.loads(j)).take(20)
-
         return df_take
-        
 
+    def sequential_basedon_window(self, dataframe, col_partition, col_order_by):
+        from pyspark.sql.windows import *
+        import pyspark.sql.functions as F
+        window_spec=Window.parititionBy(col_partition,col_order_by) 
+        dataframe= dataframe.withColumn("row_number", F.row_number().over(window_spec))
+        return dataframe
+    def filter_n_days(self, dataframe, n_days):
+        # no used yet
+        dataframe= dataframe[dataframe["row_number"]<= n_days]
+        return dataframe
+    def create_ts_groups(self, dataframe, group_size_days):
+        import pyspark.sql.functions as F
+        dataframe=dataframe.withColumn("ts_groups", F.ceil(F.col("row_number")/group_size_days))
+        return dataframe
+    def pivot_ts_groups_variables(selft,dataframe, col_group, n_days, group_size_days):
+        number_groups=n_days/group_size_days
+        calculated_groups= list(range(0,number_groups)) # optimizing pivot function 
+        dataframe= dataframe.groupBy(col_group).pivot("ts_groups", calculated_groups).mean()
+        return dataframe
+
+   
 
         
