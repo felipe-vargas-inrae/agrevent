@@ -59,10 +59,10 @@ class SidebarContent extends PureComponent {
           <SidebarLink title='Mail Application' icon='envelope' route='/mail' onClick={this.hideSidebar}/>
           <SidebarLink title='Chat Application' icon='bubble' route='/chat' onClick={this.hideSidebar}/>
           */}
-          <SidebarCategory title='Sensors' icon='file-add'> 
+          {/* <SidebarCategory title='Sensors' icon='file-add'> 
             <SidebarLink title='Sensor Form' route='/sensor/sensor_form' onClick={this.hideSidebar}/>
             <SidebarLink title='Sensor Crud' route='/sensor/sensor_crud' onClick={this.hideSidebar}/>
-            {/* <SidebarLink title='Check Form Controls' route='/forms/check_form_controls' onClick={this.hideSidebar}/>
+            { <SidebarLink title='Check Form Controls' route='/forms/check_form_controls' onClick={this.hideSidebar}/>
             <SidebarLink title='File Upload' route='/forms/file_upload' onClick={this.hideSidebar}/>
             <SidebarLink title='Floating Labels Form' route='/forms/floating_labels_form' onClick={this.hideSidebar}/>
             <SidebarLink title='Form Dropzone' route='/forms/form_dropzone' onClick={this.hideSidebar}/>
@@ -71,8 +71,8 @@ class SidebarContent extends PureComponent {
             <SidebarLink title='Form Validation' route='/forms/form_validation' onClick={this.hideSidebar}/>
             <SidebarLink title='Mask Form' route='/forms/mask_form' onClick={this.hideSidebar}/>
             <SidebarLink title='Material Form' route='/forms/material_form' onClick={this.hideSidebar}/>
-            <SidebarLink title='Wizard Form' route='/forms/wizard_form' onClick={this.hideSidebar}/> */}
-          </SidebarCategory>
+            <SidebarLink title='Wizard Form' route='/forms/wizard_form' onClick={this.hideSidebar}/> }
+          </SidebarCategory> */}
 
           <SidebarCategory title='Analytics' icon='pie-chart'> 
             <SidebarLink title='Pre-processing ' route='/analytics/preprocessing' onClick={this.hideSidebar}/>
