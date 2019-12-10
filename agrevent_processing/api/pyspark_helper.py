@@ -5,6 +5,9 @@ import pyspark
 from pyspark.sql import SparkSession
 import json
 
+import pyspark.sql.functions as F
+from pyspark.sql.window import *
+
 class PysparkHelper:
 
     # self.sql_pipeline_dfs={}
@@ -17,6 +20,8 @@ class PysparkHelper:
         self.sql_joiner={}
         self.ml_pipeline_df={}
         self.final_dataset={}
+
+        
 
     def init_spark_session(self):
         MONGO_URI="mongodb://localhost:27017/iot_db" 
@@ -37,7 +42,7 @@ class PysparkHelper:
     
     def get_dataframe_spark(self,dataframe_name) : 
         print(dataframe_name)
-        return my_spark_session.read.format("com.mongodb.spark.sql.DefaultSource")\
+        return self.my_spark_session.read.format("com.mongodb.spark.sql.DefaultSource")\
                                                 .option("database","iot_db")\
                                                 .option("collection", dataframe_name)\
                                                 .load()
@@ -99,7 +104,7 @@ class PysparkHelper:
             col = self.pipeline_param_value(params,"col")
             return df_previous.pivot(col)
         elif m == 'mean':
-            col = self.pipeline_param_value(params,"cols")
+            col = self.pipeline_param_value(params,"col")
             return df_previous.mean(col)
         elif m == 'timeseriesSumarizator':
             col_partition = self.pipeline_param_value(params,"colPartition")
@@ -108,10 +113,10 @@ class PysparkHelper:
             n_days = self.pipeline_param_value(params,"nDays")
             col_group=col_partition
 
-            df_current = sequential_basedon_window( df_previous, col_partition, col_order_by)
-            df_current = filter_n_days( df_current, n_days)
-            df_current = create_ts_groups( df_current, group_size_days)
-            df_current = pivot_ts_groups_variables(df_current, col_group, n_days, group_size_days)
+            df_current = self.sequential_basedon_window( df_previous, col_partition, col_order_by)
+            df_current = self.filter_n_days( df_current, n_days)
+            df_current = self.create_ts_groups( df_current, group_size_days)
+            df_current = self.pivot_ts_groups_variables(df_current, col_group, n_days, group_size_days)
             
             return df_current
         else:
@@ -126,6 +131,7 @@ class PysparkHelper:
         RIGHT_COLUMN_FACTOR="rightColumn"
 
         df1_name=joiner[LEFT_PIPELINE]
+
         self.sql_joiner=self.sql_pipeline_dfs[df1_name]
 
         keys=joiner.keys()
@@ -152,12 +158,13 @@ class PysparkHelper:
         # result is saved in final_dataset
         self.iterator_sql_join(joiner)
         df_take=self.sql_joiner.toJSON().map(lambda j: json.loads(j)).take(20)
-        return df_take
+
+        df_describe=self.sql_joiner.describe().toJSON().map(lambda j: json.loads(j)).collect()
+        return df_describe
 
     def sequential_basedon_window(self, dataframe, col_partition, col_order_by):
-        from pyspark.sql.windows import *
-        import pyspark.sql.functions as F
-        window_spec=Window.parititionBy(col_partition,col_order_by) 
+       
+        window_spec=Window.partitionBy(col_partition).orderBy(col_order_by) 
         dataframe= dataframe.withColumn("row_number", F.row_number().over(window_spec))
         return dataframe
     def filter_n_days(self, dataframe, n_days):
@@ -165,12 +172,14 @@ class PysparkHelper:
         dataframe= dataframe[dataframe["row_number"]<= n_days]
         return dataframe
     def create_ts_groups(self, dataframe, group_size_days):
-        import pyspark.sql.functions as F
+        
         dataframe=dataframe.withColumn("ts_groups", F.ceil(F.col("row_number")/group_size_days))
         return dataframe
     def pivot_ts_groups_variables(selft,dataframe, col_group, n_days, group_size_days):
-        number_groups=n_days/group_size_days
-        calculated_groups= list(range(0,number_groups)) # optimizing pivot function 
+        number_groups=int(int(n_days)/int(group_size_days))
+
+        print(number_groups)
+        calculated_groups= list(range(1,number_groups+1)) # optimizing pivot function 
         dataframe= dataframe.groupBy(col_group).pivot("ts_groups", calculated_groups).mean()
         return dataframe
 

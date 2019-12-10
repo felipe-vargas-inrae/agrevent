@@ -62,15 +62,15 @@ class Joiner extends Component {
 
       this.props.history.push('/analytics/review_joiner');
 
-      // const request = axios({
-      //   method: 'post',
-      //   url: API_PREPROCESSING_PIPELINES,
-      //   data:requestData,
-      //   headers: []
-      // }).then((response)=>{
+      const request = axios({
+        method: 'post',
+        url: API_PREPROCESSING_PIPELINES,
+        data:requestData,
+        headers: []
+      }).then((response)=>{
 
-      //   console.log('response axios', response)
-      // });
+        console.log('response axios', response)
+      });
     }
 
     constructor(props) {

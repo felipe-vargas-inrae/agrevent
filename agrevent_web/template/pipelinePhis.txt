@@ -1,0 +1,11 @@
+select plantURI,dayOfYear,variableCode,variableCodeValueAvg
+
+groupBy plantURI,dayOfYear
+
+pivot variableCode 
+mean variableCodeValueAvg
+
+
+timeseriesSumarization 
+.partitionBy("plantURI").orderBy("dayOfYear")
+//df_grp_img_analysis.orderBy("plantURI","dayOfYear")
