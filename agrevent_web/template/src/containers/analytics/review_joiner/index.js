@@ -37,7 +37,7 @@ class ReviewJoiner extends PureComponent {
       <Container>
         <Row>
           <Col md={12}>
-            <h3 className='page-title'>Review Joiner Dataset </h3>
+            <h3 className='page-title'>Data Viz Review  </h3>
             <h3 className='page-subhead subhead'> You can see here a report about the data </h3>
           </Col>
         </Row>

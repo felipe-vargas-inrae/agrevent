@@ -12,6 +12,8 @@ class SidebarLink extends PureComponent {
   };
   
   render() {
+
+    console.log('re render link')
     return (
       <NavLink to={this.props.route ? this.props.route : '/'} onClick={this.props.onClick}
                activeClassName='sidebar__link-active'>

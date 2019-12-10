@@ -4,6 +4,7 @@ import SidebarCategory from './SidebarCategory';
 import {changeThemeToDark, changeThemeToLight} from '../../../redux/actions/themeActions';
 import {connect} from 'react-redux';
 
+
 class SidebarContent extends PureComponent {
   changeToDark = () => {
     this.props.dispatch(changeThemeToDark());
@@ -20,6 +21,8 @@ class SidebarContent extends PureComponent {
   };
   
   render() {
+
+    console.log('re render sidebar content')
     return (
       <div className='sidebar__content'>
         {/* <ul className='sidebar__block'>
@@ -77,7 +80,7 @@ class SidebarContent extends PureComponent {
           <SidebarCategory title='Analytics' icon='pie-chart'> 
             <SidebarLink title='Pre-processing ' route='/analytics/preprocessing' onClick={this.hideSidebar}/>
             
-            <SidebarLink title='Data Viz Review' route='/analytics/modelling' onClick={this.hideSidebar}/>
+            <SidebarLink title='Data Viz Review' route='/analytics/review_joiner' onClick={this.hideSidebar}/>
             <SidebarLink title='Machine Learning' route='/analytics/pipeline_ml' onClick={this.hideSidebar}/>
             
             

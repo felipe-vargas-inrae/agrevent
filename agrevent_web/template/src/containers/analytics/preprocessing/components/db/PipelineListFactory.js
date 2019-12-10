@@ -1,7 +1,7 @@
 
 const list = [
     {
-        "name": "pipeline1",
+        "name": "summary_pipeline",
         "methods": [
             {
                 "method": "read",
@@ -14,33 +14,19 @@ const list = [
                 ]
             },
             {
-                "method": "map",
-                "params": [
-                    {
-                        "name": "col1",
-                        "value": "plantURI",
-                        "type": "value"
-                    },
-                    {
-                        "name": "col2",
-                        "value": "ConvexHullArea",
-                        "type": "value"
-                    }
-                ]
-            },
-            {
                 "method": "select",
                 "params": [
                     {
                         "name": "cols",
-                        "value": "Biomass(gramos_pesofresco),Treatment",
+                        "value": "plantURI,Genotype,Treatment,Biomass(gramos_pesofresco)",
                         "type": "list"
                     }
                 ]
-            }]
+            }
+        ]
     },
 
-    { "name": "ts_pipeline", 
+    { "name": "timeseries_pipeline", 
     "methods": 
     [{ "method": "read", "params":
      [{ "name": "dataframeName", "value": "phis_imagenanalysesangle_aggregated_by_day", "type": "value" }] }, 
