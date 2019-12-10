@@ -54,13 +54,15 @@ class Joiner extends Component {
       }
 
 
-      const requestData= {pipelineList:this.props.pipelinesList,joinner: values}
+      // const requestData= {pipelineList:this.props.pipelinesList,joinner: values}
       
-      this.props.updateJoinerDataset(datasetJoiner)
+      // this.props.updateJoinerDataset(datasetJoiner)
+
+      // debugger
+
+      // this.props.history.push('/analytics/review_joiner');
 
       debugger
-
-      this.props.history.push('/analytics/review_joiner');
 
       // const request = axios({
       //   method: 'post',

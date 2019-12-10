@@ -76,9 +76,11 @@ class SidebarContent extends PureComponent {
 
           <SidebarCategory title='Analytics' icon='pie-chart'> 
             <SidebarLink title='Pre-processing ' route='/analytics/preprocessing' onClick={this.hideSidebar}/>
-            <SidebarLink title='Pipeline ML' route='/analytics/pipeline_ml' onClick={this.hideSidebar}/>
             
-            <SidebarLink title='Modelling' route='/analytics/modelling' onClick={this.hideSidebar}/>
+            <SidebarLink title='Data Viz Review' route='/analytics/modelling' onClick={this.hideSidebar}/>
+            <SidebarLink title='Machine Learning' route='/analytics/pipeline_ml' onClick={this.hideSidebar}/>
+            
+            
             {/* <SidebarLink title='Check Form Controls' route='/forms/check_form_controls' onClick={this.hideSidebar}/>
             <SidebarLink title='File Upload' route='/forms/file_upload' onClick={this.hideSidebar}/>
             <SidebarLink title='Floating Labels Form' route='/forms/floating_labels_form' onClick={this.hideSidebar}/>
