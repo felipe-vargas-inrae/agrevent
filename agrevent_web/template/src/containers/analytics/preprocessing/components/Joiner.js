@@ -64,15 +64,15 @@ class Joiner extends Component {
 
       debugger
 
-      // const request = axios({
-      //   method: 'post',
-      //   url: API_PREPROCESSING_PIPELINES,
-      //   data:requestData,
-      //   headers: []
-      // }).then((response)=>{
+      const request = axios({
+        method: 'post',
+        url: API_PREPROCESSING_PIPELINES,
+        data:requestData,
+        headers: []
+      }).then((response)=>{
 
-      //   console.log('response axios', response)
-      // });
+        console.log('response axios', response)
+      });
     }
 
     constructor(props) {

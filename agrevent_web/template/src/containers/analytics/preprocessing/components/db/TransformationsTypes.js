@@ -48,7 +48,7 @@ const list= [
 // elaborated
 ,
 {
-    method:"timeSeriesSumarization",
+    method:"timeseriesSumarizator",
     params:[
         {name:"colPartition" , value:"", type:"value" },
         {name:"colOrderBy" , value:"", type:"value" },

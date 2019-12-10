@@ -26,8 +26,11 @@ ERRORS={"parameter_missing":"No %s field provided. Please specify a %s.",
 print("begin the code state one")
 
 my_spark_helper=PysparkHelper()
+
 def init():
     my_spark_helper.init_spark_session()
+
+init()
 
 @app.route('/', methods=['GET'])
 def home():
@@ -67,7 +70,7 @@ def page_not_found(e):
     return ERRORS["404"], 404
 
 if __name__ == '__main__':
-    init()
     app.run()
 
 
+#hello Felipe is not working as I want be carefoul 
