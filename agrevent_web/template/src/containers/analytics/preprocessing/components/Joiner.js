@@ -10,11 +10,10 @@ import { withRouter } from 'react-router-dom';
 
 import JoinerForm from '../forms/JoinerForm'
 import {Card, CardBody,   Col} from 'reactstrap';
-import amber from '@material-ui/core/colors/amber';
 import axios from 'axios';
 import datasetJoiner from './db/PipelineResult'
 
-import {API_PREPROCESSING_PIPELINES} from '../constans'
+import {API_PREPROCESSING_PIPELINES} from '../../constans'
 
 const mapStateToProps = (state) => {
     
@@ -56,11 +55,15 @@ class Joiner extends Component {
 
       const requestData= {pipelineList:this.props.pipelinesList,joinner: values}
       
-      
+      // this.props.updateJoinerDataset(datasetJoiner)
+
+      // debugger
+
+      // this.props.history.push('/analytics/review_joiner');
 
       
 
-      const request = axios({
+      axios({
         method: 'post',
         url: API_PREPROCESSING_PIPELINES,
         data:requestData,
@@ -72,8 +75,6 @@ class Joiner extends Component {
         this.props.history.push('/analytics/pipeline_ml');
 
       
-
-        console.log('response axios', response)
       });
     }
 

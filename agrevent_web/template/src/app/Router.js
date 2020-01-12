@@ -103,7 +103,7 @@ const Router = () => (
   <MainWrapper>
     <main>
       <Switch>
-        {/* <Route exact path='/' component={Landing}/> */}
+        <Route exact path='/' component={Landing}/>
         <Route path='/404' component={NotFound404}/>
         <Route path='/lock_screen' component={LockScreen}/>
         <Route path='/log_in' component={LogIn}/>

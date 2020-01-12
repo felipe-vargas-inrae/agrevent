@@ -1,23 +1,25 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import Scrollbar from 'react-smooth-scrollbar';
-import {withRouter} from 'react-router';
+
 import classNames from 'classnames';
 import SidebarContent from './SidebarContent';
 import {changeMobileSidebarVisibility} from '../../../redux/actions/sidebarActions';
-
+import {withRouter} from 'react-router';
 class Sidebar extends PureComponent {
   
   changeMobileSidebarVisibility = () => {
-    this.props.dispatch(changeMobileSidebarVisibility());
+    // this.props.dispatch(changeMobileSidebarVisibility());
   };
   
   render() {
-    let sidebarClass = classNames({
+    let sidebarClass =  classNames({
       'sidebar': true,
       'sidebar--show': this.props.sidebar.show,
       'sidebar--collapse': this.props.sidebar.collapse
     });
+
+    console.log("re render sidebar")
     
     return (
       <div className={sidebarClass}>
@@ -36,6 +38,10 @@ class Sidebar extends PureComponent {
   }
 }
 
+// export default connect(state => {
+//   return {sidebar: state.sidebar};
+// },null,null ,{pure:false})(Sidebar);
+
 export default withRouter(connect(state => {
   return {sidebar: state.sidebar};
-})(Sidebar));
+})(Sidebar))
