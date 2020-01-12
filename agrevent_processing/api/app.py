@@ -36,6 +36,21 @@ init()
 def home():
     return "<h1>AgrevenT Processin API</h1><p>This API allows to interact with Spark Methods.</p>"
 
+
+@app.route('/run_ml', methods=['POST'])
+def run_ml():
+
+    PARAM1="modelName"
+    PARAM2="y"
+    PARAM3="xi"
+
+    model_name = request.args[PARAM1]
+    y = request.args[PARAM2]
+    xi = request.args[PARAM3]
+
+    df_final_json=my_spark_helper.run_ml(model_name,y,xi)
+    return jsonify(df_final_json)
+
 # /api/v1/resources/dataframes?name=<df_name>
 @app.route('/api/v1/resources/dataframes')
 def get_dataframe():

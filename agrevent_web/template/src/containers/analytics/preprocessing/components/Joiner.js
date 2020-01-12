@@ -56,11 +56,9 @@ class Joiner extends Component {
 
       const requestData= {pipelineList:this.props.pipelinesList,joinner: values}
       
-      this.props.updateJoinerDataset(datasetJoiner)
+      
 
-      debugger
-
-      this.props.history.push('/analytics/review_joiner');
+      
 
       const request = axios({
         method: 'post',
@@ -68,6 +66,12 @@ class Joiner extends Component {
         data:requestData,
         headers: []
       }).then((response)=>{
+
+        debugger
+        this.props.updateJoinerDataset(response)
+        this.props.history.push('/analytics/pipeline_ml');
+
+      
 
         console.log('response axios', response)
       });
