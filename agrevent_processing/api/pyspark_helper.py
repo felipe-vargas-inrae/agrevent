@@ -200,8 +200,6 @@ class PysparkHelper:
 
             rf = RandomForestRegressor(featuresCol = 'features', labelCol = 'MV')
             rf_model=rf.fit(train)
-
-
             rf_predictions = rf_model.transform(test)
             rf_evaluator = RegressionEvaluator(
             labelCol="MV", predictionCol="prediction", metricName="rmse")
@@ -210,7 +208,7 @@ class PysparkHelper:
             # feature importance
             rf_model.featureImportances
 
-        else return None
+        else: return None
 
     def pipeline_ml(self, df, target_y):
 
@@ -224,7 +222,13 @@ class PysparkHelper:
         assemblerInputs=["2_avg(object_sum_area)",categoricalCol + "classVec"]
         assembler = VectorAssembler(inputCols=assemblerInputs, outputCol="features")
 
-stages=[indexer,encoder,assembler]
+        stages=[indexer,encoder,assembler]
 
 
+    def joiner_corrrelations(self):
+
+        columnList = [item[0] for item in self.sql_joiner.dtypes if item[1].startswith('double')]
+        joiner_aux= self.sql_joiner.select(columnList)
+        correlation_df = self.cal_correlation(joiner_aux)
+        print(correlation_df)
         

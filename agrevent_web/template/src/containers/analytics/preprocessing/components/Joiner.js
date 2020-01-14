@@ -13,7 +13,7 @@ import {Card, CardBody,   Col} from 'reactstrap';
 import axios from 'axios';
 import datasetJoiner from './db/PipelineResult'
 
-import {API_PREPROCESSING_PIPELINES} from '../../constans'
+import {API_PREPROCESSING_PIPELINES} from '../../../../app/Constans'
 
 const mapStateToProps = (state) => {
     
@@ -55,13 +55,6 @@ class Joiner extends Component {
 
       const requestData= {pipelineList:this.props.pipelinesList,joinner: values}
       
-      // this.props.updateJoinerDataset(datasetJoiner)
-
-      // debugger
-
-      // this.props.history.push('/analytics/review_joiner');
-
-      
 
       axios({
         method: 'post',
@@ -72,7 +65,8 @@ class Joiner extends Component {
 
         debugger
         this.props.updateJoinerDataset(response)
-        this.props.history.push('/analytics/pipeline_ml');
+        //this.props.history.push('/analytics/pipeline_ml');
+        this.props.history.push('/analytics/review_joiner');
 
       
       });
@@ -92,7 +86,6 @@ class Joiner extends Component {
         return  {value: item.name, label: item.name}
       })
 
-      // style={{"background":amber[200]}}
       return ( 
         <Col sm="12" md="12">
         <Card style={{width:"560px"}} > 

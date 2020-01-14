@@ -80,6 +80,16 @@ def preprocessing_pipelines():
     rows=my_spark_helper.preprocessing_pipelines(request.json)
     return jsonify(rows)
 
+
+@app.route('/api/v1/resources/joiner/correlations')
+def joiner_corrrelations():
+    
+    my_spark_helper.joiner_corrrelations()
+    return jsonify({})
+
+
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return ERRORS["404"], 404
