@@ -8,6 +8,12 @@ import json
 import pyspark.sql.functions as F
 from pyspark.sql.window import *
 
+from pyspark.ml.regression import RandomForestRegressor
+from pyspark.ml.evaluation import RegressionEvaluator
+
+from pyspark.ml.feature import OneHotEncoderEstimator, StringIndexer, VectorAssembler
+
+
 class PysparkHelper:
 
     # self.sql_pipeline_dfs={}
@@ -157,10 +163,10 @@ class PysparkHelper:
         # this method assume that pipelines exists in PysparkHelper.self.sql_pipeline_dfs
         # result is saved in final_dataset
         self.iterator_sql_join(joiner)
-        df_take=self.sql_joiner.toJSON().map(lambda j: json.loads(j)).take(20)
+        df_take=self.sql_joiner.toJSON().map(lambda j: json.loads(j)).take(50)
 
         df_describe=self.sql_joiner.describe().toJSON().map(lambda j: json.loads(j)).collect()
-        return df_describe
+        return df_take
 
     def sequential_basedon_window(self, dataframe, col_partition, col_order_by):
        
@@ -183,6 +189,46 @@ class PysparkHelper:
         dataframe= dataframe.groupBy(col_group).pivot("ts_groups", calculated_groups).mean()
         return dataframe
 
-   
+    def run_ml(self, model_name,y,xi):
 
+        if model_name=="RandomForest":
+
+            
+            RF_NUM_TREES = 3
+            RF_MAX_DEPTH = 4
+            RF_NUM_BINS = 32
+
+            rf = RandomForestRegressor(featuresCol = 'features', labelCol = 'MV')
+            rf_model=rf.fit(train)
+            rf_predictions = rf_model.transform(test)
+            rf_evaluator = RegressionEvaluator(
+            labelCol="MV", predictionCol="prediction", metricName="rmse")
+            rmse = rf_evaluator.evaluate(rf_predictions)
+            print("Root Mean Squared Error (RMSE) on test data = %g" % rmse)
+            # feature importance
+            rf_model.featureImportances
+
+        else: return None
+
+    def pipeline_ml(self, df, target_y):
+
+        df_dataset_final=df.withColumnRenamed(target_y,"MV")
+        df_dataset_final=df_dataset_final.na.drop()
+
+        categoricalCol="first(Treatment)"
+        indexer=StringIndexer(inputCol = categoricalCol, outputCol = categoricalCol + 'Index')
+        encoder = OneHotEncoderEstimator(inputCols=[indexer.getOutputCol()], outputCols=[categoricalCol + "classVec"])
+
+        assemblerInputs=["2_avg(object_sum_area)",categoricalCol + "classVec"]
+        assembler = VectorAssembler(inputCols=assemblerInputs, outputCol="features")
+
+        stages=[indexer,encoder,assembler]
+
+
+    def joiner_corrrelations(self):
+
+        columnList = [item[0] for item in self.sql_joiner.dtypes if item[1].startswith('double')]
+        joiner_aux= self.sql_joiner.select(columnList)
+        correlation_df = self.cal_correlation(joiner_aux)
+        print(correlation_df)
         

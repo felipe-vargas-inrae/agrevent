@@ -8,9 +8,11 @@ import { connect } from 'react-redux';
 //import { bindActionCreators} from "redux";
 import PipelineML from './components/PipelineML'
 import MachineLearningLayout from './components/MachineLearningLayout'
+
+
 var mapStateToProps = (state)=>{
   return { 
-    dataset:state.analytics.joinerDataset
+    //dataset:state.analytics.joinerDataset
   };
 }
 
