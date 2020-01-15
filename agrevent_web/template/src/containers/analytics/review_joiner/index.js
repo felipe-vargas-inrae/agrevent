@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 //import { bindActionCreators} from "redux";
 import PlotHeatMap from './components/PlotHeatMap'
 
+import DatasetTable from './components/DataTable'
+
 var mapStateToProps = (state)=>{
   return { 
     dataset:state.analytics.joinerDataset
@@ -22,9 +24,7 @@ var mapStateToProps = (state)=>{
 
 class ReviewJoiner extends PureComponent {
 
-  constructor(props) {
-    super(props);
-  }
+  
 
 
   
@@ -43,6 +43,8 @@ class ReviewJoiner extends PureComponent {
         </Row>
 
         <PlotHeatMap ></PlotHeatMap>
+        <DatasetTable dataset={dataset}></DatasetTable>
+
       </Container>
     )
   }
