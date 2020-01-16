@@ -7,7 +7,7 @@ import Pagination from '../../../../components/Pagination';
 
 const extractKeys= (dataset)=>{
 
-  return dataset[0].keys().map((item)=>{ return {key:item,name:item,sortable:false}})
+  return Object.keys(dataset[0]).map((item)=>{ return {key:item,name:item,sortable:false}})
 }
 export default class DatasetTable extends PureComponent {
   
@@ -66,7 +66,7 @@ export default class DatasetTable extends PureComponent {
     console.log("render table")
     return (
       <Col md={12} lg={12}>
-        {/* <Card>
+        <Card>
           <CardBody>
             <div className='card__title'>
               <h5 className='bold-text'>data table</h5>
@@ -80,10 +80,10 @@ export default class DatasetTable extends PureComponent {
               </select>
               entries
             </p>
-            <EditTable heads={this.heads} rows={this.state.rows}/>
+            <EditTable heads={this.state.heads} rows={this.state.rows}/>
             <Pagination items={this.state.rows} onChangePage={this.onChangePage}/>
           </CardBody>
-        </Card> */}
+        </Card>
       </Col>
     )
   }

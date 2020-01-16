@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {Col, Container, Row, Card, CardBody, Button} from 'reactstrap';
+import {Col, Container, Row} from 'reactstrap';
 import DataframeList from './components/DataframeList';
 import Pipeline from './components/Pipeline';
 import {translate} from 'react-i18next';
@@ -9,11 +9,11 @@ import Joiner from './components/Joiner';
 //import {showCreateSensor,hideCreateSensor} from "../../../redux/actions/sensorActions"
 
 class Preprocessing extends PureComponent {
-  constructor(props) {
-    super(props)
-    // this.showCreate=this.showCreate.bind(this)
-    // this.hideCreate=this.hideCreate.bind(this)
-  }
+  // constructor(props) {
+  //   super(props)
+  //   // this.showCreate=this.showCreate.bind(this)
+  //   // this.hideCreate=this.hideCreate.bind(this)
+  // }
 
   render() {
     const {t} = this.props;

@@ -10,8 +10,10 @@ import { withRouter } from 'react-router-dom';
 
 import JoinerForm from '../forms/JoinerForm'
 import {Card, CardBody,   Col} from 'reactstrap';
+
+import LoadModal from '../../../../components/LoadModal'
 import axios from 'axios';
-import datasetJoiner from './db/PipelineResult'
+//import datasetJoiner from './db/PipelineResult'
 
 import {API_PREPROCESSING_PIPELINES} from '../../../../app/Constans'
 
@@ -55,6 +57,7 @@ class Joiner extends Component {
 
       const requestData= {pipelineList:this.props.pipelinesList,joinner: values}
       
+      this.setState({processing:true})
 
       axios({
         method: 'post',
@@ -63,11 +66,12 @@ class Joiner extends Component {
         headers: []
       }).then((response)=>{
 
-        debugger
+        
+        this.setState({processing:false })
         this.props.updateJoinerDataset(response.data)
         //this.props.history.push('/analytics/pipeline_ml');
         this.props.history.push('/analytics/review_joiner');
-
+        
       
       });
     }
@@ -75,6 +79,7 @@ class Joiner extends Component {
     constructor(props) {
       super(props);
       this.state = {
+        processing:false
       };
       this.handleSubmit=this.handleSubmit.bind(this)
     }
@@ -82,9 +87,9 @@ class Joiner extends Component {
       
       const pipelinesList= this.props.pipelinesList;
       
-      const list= pipelinesList.map((item,i)=>{
-        return  {value: item.name, label: item.name}
-      })
+      // const list= pipelinesList.map((item,i)=>{
+      //   return  {value: item.name, label: item.name}
+      // })
 
       return ( 
         <Col sm="12" md="12">
@@ -98,7 +103,13 @@ class Joiner extends Component {
               <h5 className='subhead'>Combine the pipelines to create a consilidated dataframe</h5>
             </div>
         
-            <JoinerForm onSubmit={this.handleSubmit} pipelinesList={this.props.pipelinesList} ></JoinerForm>
+            <JoinerForm onSubmit={this.handleSubmit} pipelinesList={pipelinesList} ></JoinerForm>
+            {this.state.processing && 
+
+             <LoadModal/>
+
+            }
+            
         </CardBody>
         </Card>
         </Col>

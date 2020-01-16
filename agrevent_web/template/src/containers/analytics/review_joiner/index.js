@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import PlotHeatMap from './components/PlotHeatMap'
 
 import DatasetTable from './components/DataTable'
+import MaterialTable from './components/MaterialTable'
+import {Link, withRouter} from 'react-router-dom'
 
 var mapStateToProps = (state)=>{
   return { 
@@ -33,6 +35,19 @@ class ReviewJoiner extends PureComponent {
 
     console.log(dataset)
 
+    if (dataset==null || dataset.length===0){
+      return (
+        <Container>
+      <Row> <p> No avalaible, please go to <Link to='/analytics/preprocessing'> pre-processing </Link> </p>
+      </Row>
+
+      <Row>
+        <MaterialTable></MaterialTable>
+      </Row>
+      
+      </Container>)
+    }
+
     return (
       <Container>
         <Row>
@@ -42,12 +57,12 @@ class ReviewJoiner extends PureComponent {
           </Col>
         </Row>
 
-        <PlotHeatMap ></PlotHeatMap>
-        <DatasetTable dataset={dataset}></DatasetTable>
-
+        <PlotHeatMap dataset={dataset}></PlotHeatMap>
+        {/* <DatasetTable dataset={dataset}></DatasetTable> */}
+        {/* <MaterialTable></MaterialTable> */}
       </Container>
     )
   }
 }
 
-export default connect(mapStateToProps) (translate('common')(ReviewJoiner));
+export default withRouter(connect(mapStateToProps) (translate('common')(ReviewJoiner)))
