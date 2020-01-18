@@ -5,6 +5,8 @@ import pyspark
 from pyspark.sql import SparkSession
 import json
 
+import pandas as pd 
+
 import pyspark.sql.functions as F
 from pyspark.sql.window import *
 
@@ -12,6 +14,8 @@ from pyspark.ml.regression import RandomForestRegressor
 from pyspark.ml.evaluation import RegressionEvaluator
 
 from pyspark.ml.feature import OneHotEncoderEstimator, StringIndexer, VectorAssembler
+
+from pyspark.mllib.stat import Statistics
 
 
 class PysparkHelper:
@@ -112,6 +116,9 @@ class PysparkHelper:
         elif m == 'mean':
             col = self.pipeline_param_value(params,"col")
             return df_previous.mean(col)
+        elif m == 'sample':
+            percentage = self.pipeline_param_value(params,"percentage")
+            return df_previous.sample(False, float(percentage), 12345)
         elif m == 'timeseriesSumarizator':
             col_partition = self.pipeline_param_value(params,"colPartition")
             col_order_by = self.pipeline_param_value(params,"colOrderBy")
@@ -227,8 +234,10 @@ class PysparkHelper:
 
     def joiner_corrrelations(self):
 
-        columnList = [item[0] for item in self.sql_joiner.dtypes if item[1].startswith('double')]
-        joiner_aux= self.sql_joiner.select(columnList)
-        correlation_df = self.cal_correlation(joiner_aux)
-        print(correlation_df)
+        # columnList = [item[0] for item in self.sql_joiner.dtypes if item[1].startswith('double')]
+        # joiner_aux= self.sql_joiner.select(columnList)
+        # correlation_df = self.cal_correlation(joiner_aux)
+        #  print(correlation_df)
+        print('jello')
+
         
