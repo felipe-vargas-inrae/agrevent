@@ -5,16 +5,8 @@ import { Row } from 'reactstrap';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {API_JOINER_CORRELATIONS} from '../../../../app/Constans'
-import {Link, withRouter} from 'react-router-dom'
 
-const mapStateToProps = (state) => {
-  return {
-    joinerDataset:state.analytics.joinerDataset
-  }
-}
-const mapDispatchToProps = (dispatch) => {
-return {}
-}
+
 
 
 const getCorrelations=()=>{
@@ -64,12 +56,10 @@ class PlotHeatMap extends React.Component {
   render() {
     
     //const {trace1, trace2} = this.state
-    const {joinerDataset} = this.props
+    const {dataset} = this.props
 
     
-    if (joinerDataset==null || joinerDataset.length===0){
-      return (<Row> <p> No avalaible, please go to <Link to='/analytics/preprocessing'> pre-processing </Link> </p></Row>)
-    }
+   
 
 
     return (
@@ -101,4 +91,4 @@ class PlotHeatMap extends React.Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PlotHeatMap))
+export default PlotHeatMap

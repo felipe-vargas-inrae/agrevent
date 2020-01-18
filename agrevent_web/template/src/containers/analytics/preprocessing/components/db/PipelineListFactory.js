@@ -30,6 +30,8 @@ const list = [
     "methods": 
     [{ "method": "read", "params":
      [{ "name": "dataframeName", "value": "phis_imagenanalysesangle_aggregated_by_day", "type": "value" }] }, 
+
+     { "method": "sample", "params": [{ "name": "percentage", "value": "0.1", "type": "value" }] }, 
      { "method": "select", "params": [{ "name": "cols", "value": "plantURI,dayOfYear,variableCode,variableCodeValueAvg", "type": "list" }] },
      { "method": "groupBy", "params": [{ "name": "cols", "value": "plantURI,dayOfYear", "type": "list" }] }, 
      { "method": "pivot", "params": [{ "name": "col", "value": "variableCode", "type": "value" }] }, 
