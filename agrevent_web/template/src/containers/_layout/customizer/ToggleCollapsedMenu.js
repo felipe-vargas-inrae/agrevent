@@ -12,7 +12,7 @@ class ToggleCollapsedMenu extends PureComponent {
     return (
       <label className='toggle-btn customizer__toggle'>
         <input className='toggle-btn__input' type='checkbox' name='collapse_toggle'
-               checked={this.props.sidebar.collapse}/>
+               checked={this.props.sidebar.collapse} readOnly onChange={()=>{}}/>
         <label className='toggle-btn__input-label' htmlFor='collapse_toggle'
                onClick={this.handleClick}>Toggle</label>
         <span>Collapsed Menu</span>

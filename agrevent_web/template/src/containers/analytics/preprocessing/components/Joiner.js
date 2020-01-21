@@ -120,3 +120,7 @@ class Joiner extends Component {
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Joiner));
 
+/**
+ * 
+ * no hizo render despues de poner la data de la correlacion
+ */

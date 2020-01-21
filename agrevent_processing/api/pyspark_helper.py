@@ -168,11 +168,15 @@ class PysparkHelper:
             self.iterator_sql_pipeline(pipe)
         
         # this method assume that pipelines exists in PysparkHelper.self.sql_pipeline_dfs
-        # result is saved in final_dataset
+        # result is saved in final_dataset temporary it keeps in sql_joiner
         self.iterator_sql_join(joiner)
+
+        
+
+       # self.sql_joiner = self.sql_joiner()
         df_take=self.sql_joiner.toJSON().map(lambda j: json.loads(j)).take(50)
 
-        df_describe=self.sql_joiner.describe().toJSON().map(lambda j: json.loads(j)).collect()
+        # df_describe=self.sql_joiner.describe().toJSON().map(lambda j: json.loads(j)).collect()
         return df_take
 
     def sequential_basedon_window(self, dataframe, col_partition, col_order_by):
@@ -232,12 +236,18 @@ class PysparkHelper:
         stages=[indexer,encoder,assembler]
 
 
+
     def joiner_corrrelations(self):
 
-        # columnList = [item[0] for item in self.sql_joiner.dtypes if item[1].startswith('double')]
-        # joiner_aux= self.sql_joiner.select(columnList)
-        # correlation_df = self.cal_correlation(joiner_aux)
-        #  print(correlation_df)
+        columnList = [item[0] for item in self.sql_joiner.dtypes if item[1].startswith('double')]
+        joiner_aux= self.sql_joiner.select(columnList)
+
+        joiner_aux=joiner_aux.na.fill(0.0)
+
+        correlation_df = self.cal_correlation(joiner_aux) # pandas dataframe
+        print(correlation_df)
         print('jello')
+
+        return correlation_df.to_json()
 
         

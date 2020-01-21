@@ -45,7 +45,7 @@ class ReviewJoiner extends PureComponent {
             <PipelineML> </PipelineML>
           </Col> */}
           <Col md={12}>
-            <MachineLearningLayout></MachineLearningLayout>
+            {/* <MachineLearningLayout></MachineLearningLayout> */}
           </Col>
         </Row>
       </Container>

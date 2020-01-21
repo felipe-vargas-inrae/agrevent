@@ -84,8 +84,7 @@ def preprocessing_pipelines():
 @app.route('/api/v1/resources/joiner/correlations')
 def joiner_corrrelations():
     
-    my_spark_helper.joiner_corrrelations()
-    return jsonify({})
+    return my_spark_helper.joiner_corrrelations()
 
 
 
