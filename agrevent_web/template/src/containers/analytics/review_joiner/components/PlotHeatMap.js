@@ -75,22 +75,20 @@ class PlotHeatMap extends React.Component {
     // this.state= { trace1: trace1, trace2: trace2 }
 
     this.state={}
-    const that = this 
 
+  }
+
+  componentWillUnmount(){
+
+  }
+  componentDidMount(){
 
     getCorrelations().then((response)=>{
       debugger
-      that.state= 
-      { 
-        data:getRows(response.data),
-        headers:getKeys(response.data)
-      }
-      console.log(response)
+      this.setState( {data:getRows(response.data),headers:getKeys(response.data)})
+      console.log("data arrive")
     })
-
-    
   }
-  componentDidMount(){}
   render() {
     
     //const {trace1, trace2} = this.state
@@ -106,7 +104,7 @@ class PlotHeatMap extends React.Component {
           layout={{ width: 450, height: 340, title: 'Box Plot for Numerical Features' }}
         /> */
 
-        console.log("state in plot ly ", this.state)
+    console.log("state in plot ly render ", this.state)
 
     if(!this.state.headers){
       return <div>loading ... </div>
@@ -135,7 +133,8 @@ class PlotHeatMap extends React.Component {
                   }
 
                 ]}
-                layout={{ width: 450, height: 340 }}
+                // layout={{ width: 1000, height: 800 }}
+                layout={{ width:800, height: 600,xaxis:{automargin:true},yaxis:{automargin: true}}}
               />
 
             </CardBody>

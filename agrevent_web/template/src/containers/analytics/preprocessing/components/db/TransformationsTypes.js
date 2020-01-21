@@ -22,6 +22,12 @@ const list= [
     ]
 },
 {
+    method:"drop",
+    params:[
+        {name:"cols" , value:"", type:"list" }
+    ]
+},
+{
     method:"groupBy",
     params:[
         {name:"cols" , value:"", type:"list" }
