@@ -26,10 +26,17 @@ class MachineLearningForm extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
+    this.onChangeTargetOption=this.onChangeTargetOption.bind(this)
+
   }
 
   
 
+  onChangeTargetOption(e){
+    this.setState({targetVariable: e.value});
+    //console.log("value 1 ",e.target.value)
+    
+  }
   render() {
     const {features ,models, handleSubmit, reset, t} = this.props;
     
@@ -38,21 +45,23 @@ class MachineLearningForm extends PureComponent {
     })
     
     const featuresLayout=features.map((item, index)=>{
-      const name= item.name
-      const label = name + " ("+item.type+")"
+      const name= item
+      //const label = name + " ("+item.type+")"
+      const disabled= name === this.state.targetVariable? true:false 
       return (<div key={index} className='form__form-group'>
                   <div className='form__form-group-field'>
                     <Field
                       name={name}
                       component={renderCheckBoxField}
-                      label={label}
-                      defaultChecked={true}
+                      label={name}
+                      defaultChecked={false}
+                      disabled={disabled}
                     />
                   </div>
                 </div>)
     })
 
-    const listOption= features.map((item)=>{return {value:item.name, label:item.name}})
+    const listOption= features.map((item)=>{return {value:item, label:item}})
     
     return (
       <Container >
@@ -62,7 +71,7 @@ class MachineLearningForm extends PureComponent {
               <CardBody>
                 <form  className="form form--vertical" onSubmit={handleSubmit}>
 
-                    <div className='form-row'>  
+                    <div className='form-row' style={{width: "100%"}}>  
                       <div className='col-md-4' style={{ maxWidth: "260px"}}>
                         <h4>Features(Xi)</h4><br></br>
                         {featuresLayout}
@@ -76,12 +85,13 @@ class MachineLearningForm extends PureComponent {
                               component={renderSelectField}
                               options={listOption}
                               validate={required}
+                              onChange = {this.onChangeTargetOption}
                             />
                           </div>
                         </div>
                       </div>
                       <div className='col-md-4 col-sm-12'>
-                        <h4> ML Models </h4><br></br>
+                        <h4> ML Regression Models </h4><br></br>
                           <div className='form__form-group'>
                             <div className='form__form-group-field'>
                               <Field

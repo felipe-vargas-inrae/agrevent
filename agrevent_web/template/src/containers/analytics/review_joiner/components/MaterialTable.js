@@ -25,7 +25,11 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 const extractKeys= (dataset)=>{
   return Object.keys(dataset[0]).map((item)=>{ return {title:item,field:item}})
 }
-
+const formatColumns = (columns)=>{
+  return columns.map((col)=>{
+    return {title:col, field:col}
+  })
+}
 
 const roundNumbers=(dataset)=>{
 
@@ -44,6 +48,33 @@ const roundNumbers=(dataset)=>{
     return newRow
     
   })
+
+}
+
+const unifyColumns= (dataset, columns)=>{
+
+ 
+
+  return dataset.map((row)=>{
+
+    
+    const keys= Object.keys(row)
+
+    const newColumns = columns.filter((xi)=>{
+      return !keys.includes(xi)
+    })
+
+    const additionalObject= newColumns.reduce((accum, item)=>{
+      accum[item]="<no value>"
+      return accum
+    }, {})
+    
+    return {...row ,...additionalObject  }
+
+
+
+  })
+  
 
 }
 
@@ -75,11 +106,12 @@ export default class MaterialTableDataset extends Component {
     constructor(props){
       super(props);
       
+      
       if(this.props.dataset.length>0){
-        debugger
+        
         this.state = {
-          data: roundNumbers(this.props.dataset),
-          heads:extractKeys(this.props.dataset)
+          data: unifyColumns(roundNumbers(this.props.dataset), this.props.columns),
+          heads:formatColumns(this.props.columns)
         };
         console.log(this.state)
       }

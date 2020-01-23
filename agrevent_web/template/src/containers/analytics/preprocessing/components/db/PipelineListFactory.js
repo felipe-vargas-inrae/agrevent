@@ -37,7 +37,7 @@ const list = [
                 { "method": "pivot", "params": [{ "name": "col", "value": "variableCode", "type": "value" }] }, 
                 { "method": "mean", "params": [{ "name": "col", "value": "variableCodeValueAvg", "type": "value" }] },
                 { "method": "timeseriesSumarizator", "params": [{ "name": "colPartition", "value": "plantURI", "type": "value" }, { "name": "colOrderBy", "value": "dayOfYear", "type": "value" }, { "name": "nDays", "value": "30", "type": "value" }, { "name": "groupSizeDays", "value": "15", "type": "value" }] },
-                { "method": "drop", "params": [{ "name": "cols", "value": "1_avg(CAST(dayOfYear AS BIGINT)),1_avg(CAST(row_number AS BIGINT)),1_avg(ts_groups)", "type": "list" }] }
+                
             ] 
     
     }

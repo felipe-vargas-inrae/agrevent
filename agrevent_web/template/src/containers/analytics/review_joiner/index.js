@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {Col, Container, Row} from 'reactstrap';
+import {Col, Container, Row, ButtonToolbar, Button} from 'reactstrap';
 //import showResults from './components/Show';
 import {translate} from 'react-i18next';
 //import  * as actions  from '../../../redux/actions/sensorActions'
@@ -10,11 +10,13 @@ import PlotHeatMap from './components/PlotHeatMap'
 
 //import DatasetTable from './components/DataTable'
 import MaterialTable from './components/MaterialTable'
-import {Link, withRouter} from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom';
 
+import sparkResponse from './components/db/reponse_spark'
 var mapStateToProps = (state)=>{
   return { 
     dataset:state.analytics.joinerDataset
+    //dataset:sparkResponse
   };
 }
 
@@ -25,6 +27,11 @@ var mapStateToProps = (state)=>{
 // }
 
 class ReviewJoiner extends PureComponent {
+
+  handleSubmit = (e)=>{
+
+    this.props.history.push('/analytics/pipeline_ml');
+  }
   
   render() {
     const {t, dataset} = this.props;
@@ -51,9 +58,20 @@ class ReviewJoiner extends PureComponent {
           </Col>
         </Row>
 
-        <PlotHeatMap dataset={dataset}></PlotHeatMap>
+        {/* <PlotHeatMap dataset={dataset.rows} columns={dataset.columns}></PlotHeatMap> */}
         {/* <DatasetTable dataset={dataset}></DatasetTable> */}
-        <MaterialTable dataset={dataset}></MaterialTable>
+        <MaterialTable dataset={dataset.rows} columns={dataset.columns}></MaterialTable>
+
+
+        <Row>
+          <ButtonToolbar className='form__button-toolbar'>
+            <Button color='primary' onClick={this.handleSubmit}> Continue to Modelling </Button>
+          </ButtonToolbar>
+
+        </Row>
+
+
+
       </Container>
     )
   }

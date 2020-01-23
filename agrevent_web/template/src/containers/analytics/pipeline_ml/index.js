@@ -8,11 +8,13 @@ import { connect } from 'react-redux';
 //import { bindActionCreators} from "redux";
 import PipelineML from './components/PipelineML'
 import MachineLearningLayout from './components/MachineLearningLayout'
+import { withRouter, Link } from 'react-router-dom';
 
 
 var mapStateToProps = (state)=>{
   return { 
-    //dataset:state.analytics.joinerDataset
+    dataset:state.analytics.joinerDataset
+    //dataset:sparkResponse
   };
 }
 
@@ -28,7 +30,15 @@ class ReviewJoiner extends PureComponent {
     super(props);
   }
   render() {
-    const {t} = this.props;
+    const {t, dataset} = this.props;
+
+    if (dataset==null || dataset.length===0){
+      return (
+        <Container>
+          <Row> <p> No avalaible, please go to <Link to='/analytics/preprocessing'> pre-processing </Link> </p>
+          </Row>
+      </Container>)
+    }
     return (
       <Container>
         <Row>
@@ -45,7 +55,7 @@ class ReviewJoiner extends PureComponent {
             <PipelineML> </PipelineML>
           </Col> */}
           <Col md={12}>
-            {/* <MachineLearningLayout></MachineLearningLayout> */}
+            <MachineLearningLayout columns={dataset.columns}></MachineLearningLayout>
           </Col>
         </Row>
       </Container>
@@ -53,4 +63,4 @@ class ReviewJoiner extends PureComponent {
   }
 }
 
-export default connect(mapStateToProps) (translate('common')(ReviewJoiner));
+export default withRouter(connect(mapStateToProps) (translate('common')(ReviewJoiner)));

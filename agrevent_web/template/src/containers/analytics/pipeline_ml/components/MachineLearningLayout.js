@@ -24,8 +24,12 @@ class MachineLearningLayout extends Component {
     }
     constructor(props) {
       super(props);
+      // this.state = {
+      //   features:DatasetML.columns,
+      //   models: DatasetML.models
+      // }
       this.state = {
-        features:DatasetML.columns,
+        features:this.props.columns,
         models: DatasetML.models
       }
       this.handleSubmit=this.handleSubmit.bind(this)
@@ -33,6 +37,22 @@ class MachineLearningLayout extends Component {
 
     handleSubmit (e){
       console.log(e)
+      const listVariables=[]
+      for (const x in e ){
+        if(typeof(e[x])==='boolean'){
+          if (e[x]){
+            listVariables.push(x)
+          }
+        }
+      }
+      
+      const request={} 
+      request.target= e.targetVariable.value
+      request.ModelML= e.ModelML.value
+      request.listVariables=listVariables
+
+      console.log(request)
+
     }
     render(){
         

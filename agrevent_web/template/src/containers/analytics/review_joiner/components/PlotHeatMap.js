@@ -5,11 +5,13 @@ import { Card,Row, Col, CardBody } from 'reactstrap';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {API_JOINER_CORRELATIONS} from '../../../../app/Constans'
-
-
+import LoadModal from '../../../../components/LoadModal'
+import heatmapData from './db/response_correlation'
 
 
 const getCorrelations=()=>{
+
+  //return heatmapData
   return axios({
     method: 'get',
     url: API_JOINER_CORRELATIONS,
@@ -88,6 +90,9 @@ class PlotHeatMap extends React.Component {
       this.setState( {data:getRows(response.data),headers:getKeys(response.data)})
       console.log("data arrive")
     })
+
+    //const response= getCorrelations()
+    //this.setState( {data:getRows(response),headers:getKeys(response)})
   }
   render() {
     
@@ -107,8 +112,13 @@ class PlotHeatMap extends React.Component {
     console.log("state in plot ly render ", this.state)
 
     if(!this.state.headers){
-      return <div>loading ... </div>
+      return (<LoadModal/>)
     }
+
+    const x = { x: this.state.headers,
+      y: this.state.headers,
+      z: this.state.data}
+    console.log("data in plot", x)
     return (
       <Row>
 
@@ -129,12 +139,16 @@ class PlotHeatMap extends React.Component {
                     x: this.state.headers,
                     y: this.state.headers,
                     z: this.state.data,
-                    type: 'heatmap'
+                    type: 'heatmap',
+                    zmax:1,
+                    zmin:-1,
+                    zmid:0,
+                    colorscale:"balance"
                   }
 
                 ]}
-                // layout={{ width: 1000, height: 800 }}
-                layout={{ width:800, height: 600,xaxis:{automargin:true},yaxis:{automargin: true}}}
+                // layout={{ width:  height: 800 }}
+                layout={{height: 800,xaxis:{automargin:true},yaxis:{automargin: true}}}
               />
 
             </CardBody>
