@@ -1,20 +1,17 @@
 import React, {PureComponent} from 'react';
 import {Col, Container, Row} from 'reactstrap';
-//import showResults from './components/Show';
 import {translate} from 'react-i18next';
-//import  * as actions  from '../../../redux/actions/sensorActions'
-//import  {connectSensor}  from '../../../redux/actions/sensorActions'
 import { connect } from 'react-redux';
-//import { bindActionCreators} from "redux";
-import PipelineML from './components/PipelineML'
 import MachineLearningLayout from './components/MachineLearningLayout'
+import MachineLearningResponse from './components/MachineLearningResponse'
 import { withRouter, Link } from 'react-router-dom';
 
 
 var mapStateToProps = (state)=>{
   return { 
-    dataset:state.analytics.joinerDataset
+    dataset:state.analytics.joinerDataset,
     //dataset:sparkResponse
+    responseMachineLearning:state.analytics.responseMachineLearning
   };
 }
 
@@ -28,9 +25,10 @@ class ReviewJoiner extends PureComponent {
 
   constructor(props) {
     super(props);
+    this.state={}
   }
   render() {
-    const {t, dataset} = this.props;
+    const {t, dataset, responseMachineLearning} = this.props;
 
     if (dataset==null || dataset.length===0){
       return (
@@ -56,6 +54,7 @@ class ReviewJoiner extends PureComponent {
           </Col> */}
           <Col md={12}>
             <MachineLearningLayout columns={dataset.columns}></MachineLearningLayout>
+            <MachineLearningResponse response={responseMachineLearning}></MachineLearningResponse>
           </Col>
         </Row>
       </Container>

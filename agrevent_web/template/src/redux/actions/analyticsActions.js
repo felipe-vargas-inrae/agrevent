@@ -26,6 +26,8 @@ export const UPDATE_TRANSFORMATIONS_TYPES = "UPDATE_TRANSFORMATIONS_TYPES"
 
 export const UPDATE_JOINER_DATASET = "UPDATE_JOINER_DATASET"
 
+export const UPDATE_MACHINE_LEARNING_RESPONSE = "UPDATE_MACHINE_LEARNING_RESPONSE"
+
 export function fetchDataframes() {
   console.log("entra al la action");
   const request = axios({
@@ -112,6 +114,13 @@ export function updateJoinerDataset(dataset){
   return {
     type: UPDATE_JOINER_DATASET,
     payload: dataset,
+  };
+}
+
+export function updateMachineLearningResponse(response){
+  return {
+    type: UPDATE_MACHINE_LEARNING_RESPONSE,
+    payload: response,
   };
 }
 

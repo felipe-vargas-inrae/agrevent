@@ -1,12 +1,9 @@
 
 import { connect } from 'react-redux';
 import React,{Component} from 'react'
-import ModalTransformationML from './ModalTransformationML';
 
-import DeleteForeverIcon from 'mdi-react/DeleteForeverIcon';
 import DatasetML from './db/DatasetMLInfo'
-import {deleteTransformationML, pushTransformationML} from '../../../../redux/actions/analyticsActions'
-import {ListGroup, ListGroupItem,CardText,CardTitle,Card, CardBody,  Button, Col, ButtonGroup, ButtonToolbar} from 'reactstrap';
+import {updateMachineLearningResponse} from '../../../../redux/actions/analyticsActions'
 import MachineLearningForm from '../forms/MachineLearningForm';
 import axios from 'axios';
 
@@ -18,6 +15,9 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
+    updateMachineLearningResponse:(newResponse)=>{
+      dispatch(updateMachineLearningResponse(newResponse))
+    }
   }
 }
 
@@ -66,7 +66,7 @@ class MachineLearningLayout extends Component {
         //this.setState({processing:false })
         debugger 
         console.log(response)
-        // this.props.updateJoinerDataset(response.data)
+        this.props.updateMachineLearningResponse(response.data)
         // //this.props.history.push('/analytics/pipeline_ml');
         // this.props.history.push('/analytics/review_joiner');
         

@@ -9,6 +9,7 @@ import {
   UPDATE_JOINER_DATASET,
   PUSH_TRANSFORMATION_ML,
   DELETE_TRANSFORMATION_ML,
+  UPDATE_MACHINE_LEARNING_RESPONSE
 } from '../actions/analyticsActions';
 
 
@@ -37,7 +38,8 @@ const initialState = {
   pipelinesList:[],
   transformationsTypesList:[],
   pipelineML:{name:"PipelineML", methods:[]},
-  joinerDataset:[]
+  joinerDataset:[],
+  responseMachineLearning:{}
 
 };
 
@@ -82,7 +84,7 @@ export default function (state = initialState, action) {
     {
       
       const newList = state.pipelinesList.map(item => {
-        if(item.name==action.payload){
+        if(item.name===action.payload){
          return pushTransformationPipeline(item,action.method)
         }
         return {...item}
@@ -96,6 +98,10 @@ export default function (state = initialState, action) {
 
     case UPDATE_JOINER_DATASET:{
       return {...state, joinerDataset:action.payload }
+    }
+
+    case UPDATE_MACHINE_LEARNING_RESPONSE:{
+      return {...state, responseMachineLearning:action.payload }
     }
 
     case DELETE_TRANSFORMATION_ML:{

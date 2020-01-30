@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import React,{Component} from 'react'
 import ModalTransformationML from './ModalTransformationML';
 
-import DeleteForeverIcon from 'mdi-react/DeleteForeverIcon';
 import transformationsTypesListML from './db/TransformationsTypesListML'
 import {deleteTransformationML, pushTransformationML} from '../../../../redux/actions/analyticsActions'
 import {ListGroup, ListGroupItem,CardText,CardTitle,Card, CardBody,  Button, Col, ButtonGroup, ButtonToolbar} from 'reactstrap';
