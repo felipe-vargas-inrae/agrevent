@@ -10,6 +10,7 @@ from flask import jsonify
 from pyspark_helper import PysparkHelper
 from flask_cors import CORS
 
+# amazing tutorial https://j2logo.com/tutorial-flask-leccion-10-anadiendo-seguridad-vistas-decoradores/?fbclid=IwAR1ojn18aVJamvKVthR7Vd8AmHRdEZjPevpUTUmJ8b0EZz-QWlsUplegTwI
 # flask app and logger
 #logging.basicConfig(level=logging.INFO)
 #logger = logging.getLogger(__name__)
@@ -37,16 +38,19 @@ def home():
     return "<h1>AgrevenT Processin API</h1><p>This API allows to interact with Spark Methods.</p>"
 
 
-@app.route('/run_ml', methods=['POST'])
+
+@app.route('/api/v1/resources/ml/run_ml', methods=['POST'])
 def run_ml():
 
-    PARAM1="modelName"
-    PARAM2="y"
-    PARAM3="xi"
+    PARAM1="ModelML"
+    PARAM2="target"
+    PARAM3="listVariables"
 
-    model_name = request.args[PARAM1]
-    y = request.args[PARAM2]
-    xi = request.args[PARAM3]
+    print(request.json)
+
+    model_name = request.json[PARAM1]
+    y = request.json[PARAM2]
+    xi = request.json[PARAM3]
 
     df_final_json=my_spark_helper.run_ml(model_name,y,xi)
     return jsonify(df_final_json)
@@ -77,8 +81,10 @@ def preprocessing_pipelines():
     
     #validate structure
     print(request.json)
-    rows=my_spark_helper.preprocessing_pipelines(request.json)
-    return jsonify(rows)
+    rows,columns=my_spark_helper.preprocessing_pipelines(request.json)
+
+    response= {'rows':rows,'columns':columns}
+    return jsonify(response)
 
 
 @app.route('/api/v1/resources/joiner/correlations')

@@ -13,9 +13,12 @@ from pyspark.sql.window import *
 from pyspark.ml.regression import RandomForestRegressor
 from pyspark.ml.evaluation import RegressionEvaluator
 
+
 from pyspark.ml.feature import OneHotEncoderEstimator, StringIndexer, VectorAssembler
 
 from pyspark.mllib.stat import Statistics
+
+from pyspark.ml import Pipeline
 
 
 class PysparkHelper:
@@ -107,6 +110,9 @@ class PysparkHelper:
         elif m == 'select':
             cols= self.pipeline_param_value(params,"cols")
             return df_previous.select(cols)
+        elif m == 'drop':
+            cols= self.pipeline_param_value(params,"cols")
+            return df_previous.select([column for column in df_previous.columns if column not in cols])
         elif m == 'groupBy':
             cols = self.pipeline_param_value(params,"cols")
             return df_previous.groupBy(cols)
@@ -174,10 +180,13 @@ class PysparkHelper:
         
 
        # self.sql_joiner = self.sql_joiner()
+        columns= self.sql_joiner.columns
+        # fill na because problem with json tranformation
         df_take=self.sql_joiner.toJSON().map(lambda j: json.loads(j)).take(50)
 
+        print("expected values",df_take)
         # df_describe=self.sql_joiner.describe().toJSON().map(lambda j: json.loads(j)).collect()
-        return df_take
+        return df_take, columns
 
     def sequential_basedon_window(self, dataframe, col_partition, col_order_by):
        
@@ -197,43 +206,102 @@ class PysparkHelper:
 
         print(number_groups)
         calculated_groups= list(range(1,number_groups+1)) # optimizing pivot function 
-        dataframe= dataframe.groupBy(col_group).pivot("ts_groups", calculated_groups).mean()
+
+
+        excluded= ["ts_groups", "row_number", "dayOfYear","plantURI"]
+        new_list= list(filter(lambda x: x not in excluded  , dataframe.columns))
+        dict_vars =dict.fromkeys(new_list , 'mean')
+        
+
+        dataframe= dataframe.groupBy(col_group).pivot("ts_groups", calculated_groups).agg(dict_vars)
         return dataframe
 
     def run_ml(self, model_name,y,xi):
 
+        xi.append(y)
+        df_final= self.sql_joiner.select(xi)
+        df_final=self.pipeline_ml(df_final,y)
+
+        #df_take=df_final.toJSON().map(lambda j: json.loads(j)).take(50)
+
+        # training dataset 
+        df_final=df_final.na.drop()
+        train, test = df_final.randomSplit([0.7, 0.3], seed = 2018)
+        print("Training Dataset Count: " + str(train.count()))
+        print("Test Dataset Count: " + str(test.count()))
+
+        # return df_take
         if model_name=="RandomForest":
 
-            
-            RF_NUM_TREES = 3
-            RF_MAX_DEPTH = 4
-            RF_NUM_BINS = 32
 
+            # rf = RandomForestRegressor(featuresCol = 'features', labelCol = 'MV')
+            # rf_model=rf.fit(train)
+            # rf_predictions = rf_model.transform(test)
+            # rf_evaluator = RegressionEvaluator(
+            # labelCol="MV", predictionCol="prediction", metricName="rmse")
+            # rmse = rf_evaluator.evaluate(rf_predictions)
+            # print("Root Mean Squared Error (RMSE) on test data = %g" % rmse)
+            # # feature importance
+            # rf_model.featureImportances
+
+            
             rf = RandomForestRegressor(featuresCol = 'features', labelCol = 'MV')
             rf_model=rf.fit(train)
             rf_predictions = rf_model.transform(test)
-            rf_evaluator = RegressionEvaluator(
-            labelCol="MV", predictionCol="prediction", metricName="rmse")
-            rmse = rf_evaluator.evaluate(rf_predictions)
-            print("Root Mean Squared Error (RMSE) on test data = %g" % rmse)
-            # feature importance
-            rf_model.featureImportances
+
+            # poner los valores de respuesta estan en el notebook 
+
+            return rf_predictions
+
 
         else: return None
 
     def pipeline_ml(self, df, target_y):
 
-        df_dataset_final=df.withColumnRenamed(target_y,"MV")
+       
+        df_dataset_final=df
+
+        # df_dataset_final=df_dataset_final.withColumnRenamed(target_y,"MV")
+        # df_dataset_final=df_dataset_final.na.drop()
+
+        # delete rows with no biomass value
+        #df_dataset_final = df_dataset_final.na.drop(subset=[target_y])
+
+        df_dataset_final=df_dataset_final.withColumn("MV", df_dataset_final[target_y].cast("double"))
+
+        df_dataset_final= df_dataset_final.drop(target_y)
         df_dataset_final=df_dataset_final.na.drop()
 
-        categoricalCol="first(Treatment)"
-        indexer=StringIndexer(inputCol = categoricalCol, outputCol = categoricalCol + 'Index')
-        encoder = OneHotEncoderEstimator(inputCols=[indexer.getOutputCol()], outputCols=[categoricalCol + "classVec"])
 
-        assemblerInputs=["2_avg(object_sum_area)",categoricalCol + "classVec"]
+
+        numeric_features = [t[0] for t in df_dataset_final.dtypes if t[1] == 'double' and t[0]!= "MV"]
+
+        categorical_features = [t[0] for t in df_dataset_final.dtypes if t[1] == 'string' and t[0]!= "MV"]
+
+        stages = []
+        for categoricalCol in categorical_features:
+            stringIndexer = StringIndexer(inputCol = categoricalCol, outputCol = categoricalCol + 'Index')
+            encoder = OneHotEncoderEstimator(inputCols=[stringIndexer.getOutputCol()], outputCols=[categoricalCol + "classVec"])
+            stages += [stringIndexer, encoder]
+
+
+        assemblerInputs = [c + "classVec" for c in categorical_features] + numeric_features
+
         assembler = VectorAssembler(inputCols=assemblerInputs, outputCol="features")
 
-        stages=[indexer,encoder,assembler]
+        stages+=[assembler]
+
+        # pipeline 
+        
+        pipeline = Pipeline(stages = stages)
+        pipelineModel = pipeline.fit(df_dataset_final)
+        df = pipelineModel.transform(df_dataset_final)
+        selectedCols = ['MV', 'features'] + assemblerInputs
+        df = df.select(selectedCols)
+
+
+
+        return df
 
 
 

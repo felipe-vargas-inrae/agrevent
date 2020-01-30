@@ -8,7 +8,9 @@ import DatasetML from './db/DatasetMLInfo'
 import {deleteTransformationML, pushTransformationML} from '../../../../redux/actions/analyticsActions'
 import {ListGroup, ListGroupItem,CardText,CardTitle,Card, CardBody,  Button, Col, ButtonGroup, ButtonToolbar} from 'reactstrap';
 import MachineLearningForm from '../forms/MachineLearningForm';
+import axios from 'axios';
 
+import {API_ML} from '../../../../app/Constans' 
 
 const mapStateToProps = (state) => {
     return {
@@ -53,7 +55,26 @@ class MachineLearningLayout extends Component {
 
       console.log(request)
 
+      axios({
+        method: 'post',
+        url: API_ML,
+        data:request,
+        headers: []
+      }).then((response)=>{
+
+        
+        //this.setState({processing:false })
+        debugger 
+        console.log(response)
+        // this.props.updateJoinerDataset(response.data)
+        // //this.props.history.push('/analytics/pipeline_ml');
+        // this.props.history.push('/analytics/review_joiner');
+        
+      
+      });
     }
+
+
     render(){
         
         return  (<div>

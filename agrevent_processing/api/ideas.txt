@@ -1,0 +1,26 @@
+how to modularize this part 
+
+a component who call spark session,
+it is possible to instant the other componens calling the spark session
+as part of the constructor 
+
+
+
+process pyspark manager session link to , (services)
+
+process focus on spark session 
+process focus on sql  summary
+process focus on sql timeseries
+process focus on ML, 
+process focus on SQL dataframes,
+
+ir considerando mas adelante modulizar los routers (controllers)
+
+ir pensando en que processos documentar
+crear pipelines.
+add name, add dataframe.
+modificar pipeline anadir transformation, borrar pipeline
+joiner, left item, right join
+
+
+hay dos grandes librerias en spark  mllib y ml mencionar
