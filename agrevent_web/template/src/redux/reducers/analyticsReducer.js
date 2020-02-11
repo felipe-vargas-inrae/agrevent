@@ -12,7 +12,7 @@ import {
   UPDATE_MACHINE_LEARNING_RESPONSE
 } from '../actions/analyticsActions';
 
-import DataResponseML from '../../containers/analytics/pipeline_ml/components/db/MachineLearningResponseData'
+//import DataResponseML from '../../containers/analytics/pipeline_ml/components/db/MachineLearningResponseData'
 
 function deleteTransformationPipeline(pipeline,index){
   const pipe= pipeline
@@ -40,7 +40,7 @@ const initialState = {
   transformationsTypesList:[],
   pipelineML:{name:"PipelineML", methods:[]},
   joinerDataset:[],
-  responseMachineLearning:DataResponseML
+  responseMachineLearning:{}//DataResponseML
 
 };
 

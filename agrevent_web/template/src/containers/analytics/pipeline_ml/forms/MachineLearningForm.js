@@ -30,65 +30,77 @@ class MachineLearningForm extends PureComponent {
     this.state = {};
     this.onChangeTargetOption=this.onChangeTargetOption.bind(this)
     this.handleSelectChange= this.handleSelectChange.bind(this)
+    this.onChangeMLModel=this.onChangeMLModel.bind(this)
   }
 
   handleSelectChange (value) {
     console.log('You\'ve selected:', value);
     this.setState({ featuresSelected: value });
-
     this.props.change('featuresSelected', value)
   }
 
   
 
   onChangeTargetOption(e){
-    this.setState({targetVariable: e.value});
+    this.setState({targetVariable: e.value})
+    this.setState({featuresSelected:null})
+    this.props.change('featuresSelected', null)
+  }
 
-    if(this.state.featuresSelected.includes(e.value)){
-      this.setState({featuresSelected:null});
-    }
-    //console.log("value 1 ",e.target.value)
-    
+  onChangeMLModel(e){
+    this.setState({ModelML: e.value})
   }
   render() {
     const {features ,models, handleSubmit, reset, t} = this.props;
 
-    const {featuresSelected, targetVariable} = this.state
+    const {featuresSelected, targetVariable, ModelML} = this.state
     
     const listmodels= models.map((item)=>{
       return {value:item, label:item}
     })
     
-    // const featuresLayout=features.map((item, index)=>{
-    //   const name= item
-    //   //const label = name + " ("+item.type+")"
-    //   const disabled= name === this.state.targetVariable? true:false 
-    //   return (<div key={index} className='form__form-group'>
-    //               <div className='form__form-group-field'>
-    //                 <Field
-    //                   name={name}
-    //                   component={renderCheckBoxField}
-    //                   label={name}
-    //                   defaultChecked={false}
-    //                   disabled={disabled}
-    //                 />
-    //               </div>
-    //             </div>)
-    // })
+    
 
-    const listOption= features.map((item)=>{return {value:item, label:item}}).filter((obj)=>{return obj.value!=targetVariable})
+    const listOption= features.map((item)=>{
+      const disabled = item === targetVariable ? true:false 
+      return {value:item, label:item, disabled: disabled}
+    })
     
     return (
-      <Container >
+      
         <Row>
           <Col md={12} lg={12}>
             <Card className="">
               <CardBody>
+
+              <div className='card__title'>
+                <h5 className='bold-text'>
+                  Parameter tuning 
+                  
+                </h5>
+                <h5 className='subhead'>Select the information to run the model</h5>
+              </div>
                 <form  className="form form--vertical" onSubmit={handleSubmit}>
 
                     <div className='form-row' style={{width: "100%"}}>  
+                      
+                      <div className='col-md-4 col-sm-12'>
+                        <label> Target Variable(Y)</label><br></br>
+                        <div className='form__form-group'>
+                          <div className='form__form-group-field'>
+                            <Field
+                              name="targetVariable"
+                              component={renderSelectField}
+                              options={listOption}
+                              validate={required}
+                              onChange = {this.onChangeTargetOption}
+                              value= {targetVariable}
+                            />
+                          </div>
+                        </div>
+                      </div>
                       <div className='col-md-4' style={{ maxWidth: "260px"}}>
-                        <h4>Features(Xi)</h4><br></br>
+                        <label>Features(Xi)</label><br></br>
                         
                         <Select
                           name="featuresList"
@@ -102,21 +114,7 @@ class MachineLearningForm extends PureComponent {
                         />
                       </div>
                       <div className='col-md-4 col-sm-12'>
-                        <h4> Target Variable(Y)</h4><br></br>
-                        <div className='form__form-group'>
-                          <div className='form__form-group-field'>
-                            <Field
-                              name="targetVariable"
-                              component={renderSelectField}
-                              options={listOption}
-                              validate={required}
-                              onChange = {this.onChangeTargetOption}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className='col-md-4 col-sm-12'>
-                        <h4> ML Regression Models </h4><br></br>
+                        <label> ML Regression Models </label><br></br>
                           <div className='form__form-group'>
                             <div className='form__form-group-field'>
                               <Field
@@ -124,22 +122,28 @@ class MachineLearningForm extends PureComponent {
                                 component={renderSelectField}
                                 options={listmodels}
                                 validate={required}
+                                value={ModelML}
+                                onChange={this.onChangeMLModel}
                               />
                             </div>
                         </div>
-                        <ButtonToolbar className='form__button-toolbar'>
-                          <Button color='primary' type='submit'>Run ML Model</Button>
-                        </ButtonToolbar>
+                          {
+                            ModelML && featuresSelected && targetVariable? 
+                            <ButtonToolbar className='form__button-toolbar'>
+                              <Button color='primary' type='submit'>Run ML Model</Button>
+                            </ButtonToolbar> : null 
+                          }
                       </div>
                     </div>
                   
                 </form>
-                </CardBody>
+                
+              
+              </CardBody>
 
-                </Card>
+              </Card>
           </Col>
         </Row>
-      </Container>
     )
   }
 }

@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import React,{Component} from 'react'
 import Plot from 'react-plotly.js';
-import {Card, CardBody} from 'reactstrap';
+import {Card, CardBody, Col , Row} from 'reactstrap';
 
 
 
@@ -66,9 +66,18 @@ class MachineLearningResponse extends Component {
           const range=[xmin,xmax]
 
           return  (
-          
+            <Row>
+            <Col md={12} lg={12}>
           <Card className="">
             <CardBody>
+
+            <div className='card__title'>
+                <h5 className='bold-text'>
+                  Model Results
+                  
+                </h5>
+                <h5 className='subhead'>Look here the model results</h5>
+              </div>
          
             <p>{response.messageR2}</p>
             <p>{response.messageRMSE}</p>
@@ -92,7 +101,7 @@ class MachineLearningResponse extends Component {
 
                 ]}
                 // layout={{ width:  height: 800 }}
-                layout={{height: 400, width: 400 ,
+                layout={{height: 500, width: 500 ,
                   xaxis:{automargin:true, range:range, title:{text: 'Observed'}},
                   yaxis:{automargin: true, range:range,  title:{text: 'Predicted'} }}}
               />
@@ -100,12 +109,13 @@ class MachineLearningResponse extends Component {
 
               
           </CardBody>
-          </Card>)
+          </Card>
+          </Col>
+          </Row>
+          )
         }
 
-        return  (<div>
-          Response will be display here 
-        </div>)
+        return  null
         
         
      }

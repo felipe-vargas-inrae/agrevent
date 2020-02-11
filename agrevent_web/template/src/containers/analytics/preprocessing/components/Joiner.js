@@ -68,12 +68,15 @@ class Joiner extends Component {
 
         
         this.setState({processing:false })
-        debugger 
+         
         this.props.updateJoinerDataset(response.data)
         //this.props.history.push('/analytics/pipeline_ml');
         this.props.history.push('/analytics/review_joiner');
         
       
+      }).catch((e)=>{
+        console.error(e)
+        this.setState({processing:false })
       });
     }
 

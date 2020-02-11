@@ -11,8 +11,8 @@ export default class Footer extends PureComponent {
         <Container>
           <Row>
             <Col md={12}>
-              <p className='landing__footer-text'>Made with love and tons of coffee in
-                <a href='http://themes.aspirity.com/'> Aspirity Studio</a></p>
+              <p className='landing__footer-text'>2020 Universidad del Valle, Cali, Colombia Developed  by
+                <a href='https://www.linkedin.com/in/felipex10/'> Felipe Vargas-Rojas</a></p>
             </Col>
           </Row>
         </Container>
