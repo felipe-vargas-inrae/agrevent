@@ -13,7 +13,7 @@ i18next.init(i18nextConfig);
 
 render(
   <Provider store={store}>
-    <BrowserRouter basename='/easydev'>
+    <BrowserRouter basename='/agrevent'>
       <I18nextProvider i18n={i18next}>
         <ScrollToTop>
           <App/>

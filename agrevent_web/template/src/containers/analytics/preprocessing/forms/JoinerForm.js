@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Container, Row, Card, CardBody, Col, Button, ButtonToolbar } from 'reactstrap';
+import {  Row,  Col, Button, ButtonToolbar } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 //import renderFileInputField from '../../../../components/form/FileInput';
 import renderSelectField from '../../../../components/form/Select';
@@ -7,7 +7,7 @@ import renderSelectField from '../../../../components/form/Select';
 import { formValueSelector, getFormValues } from 'redux-form';  // ES6
 
 import { connect } from 'react-redux';
-import validate from './validate';
+// import validate from './validate';
 import { translate } from 'react-i18next';
 
 const renderField = ({ input, label, placeholder, type, meta: { touched, error } }) => (
@@ -43,7 +43,7 @@ class JoinerForm extends PureComponent {
   }
 
   render() {
-    const { pipelinesList, handleSubmit, reset, t, formValues } = this.props;
+    const { pipelinesList, handleSubmit,  formValues } = this.props;
     
 
     
@@ -164,7 +164,6 @@ let myForm= reduxForm({
   form: 'joiner' // a unique identifier for this form
 })(translate('common')(JoinerForm));
 
-const selector = formValueSelector('joiner')
 
 myForm = connect(
   state => {

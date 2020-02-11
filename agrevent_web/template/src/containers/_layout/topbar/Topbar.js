@@ -17,9 +17,9 @@ class Topbar extends PureComponent {
             <Link className='topbar__logo' to='/dashboard_default'/>
           </div>
           <div className='topbar__right'>
-            <TopbarSearch/>
+            {/* <TopbarSearch/>
             <TopbarNotification/>
-            <TopbarMail new/>
+            <TopbarMail new/> */}
             <TopbarProfile/>
             <TopbarLanguage/>
           </div>

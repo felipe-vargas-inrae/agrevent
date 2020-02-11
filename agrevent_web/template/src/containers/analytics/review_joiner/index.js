@@ -12,7 +12,7 @@ import PlotHeatMap from './components/PlotHeatMap'
 import MaterialTable from './components/MaterialTable'
 import { withRouter, Link } from 'react-router-dom';
 
-import sparkResponse from './components/db/reponse_spark'
+// import sparkResponse from './components/db/reponse_spark'
 var mapStateToProps = (state)=>{
   return { 
     dataset:state.analytics.joinerDataset
@@ -34,7 +34,7 @@ class ReviewJoiner extends PureComponent {
   }
   
   render() {
-    const {t, dataset} = this.props;
+    const { dataset} = this.props;
 
     console.log(dataset)
 

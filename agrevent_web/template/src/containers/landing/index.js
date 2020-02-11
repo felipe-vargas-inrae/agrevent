@@ -1,15 +1,15 @@
 import React, {PureComponent} from 'react';
-import {Col, Row, Container} from 'reactstrap';
-import scrollToComponent from 'react-scroll-to-component';
+// import {Col, Row, Container} from 'reactstrap';
+// import scrollToComponent from 'react-scroll-to-component';
 import Header from './components/Header';
-import Technologies from './components/Technologies';
-import Demos from './components/Demos';
-import Features from './components/Features';
-import Purchase from './components/Purchase';
+// import Technologies from './components/Technologies';
+// import Demos from './components/Demos';
+// import Features from './components/Features';
+// import Purchase from './components/Purchase';
 import Footer from './components/Footer';
-import FeatureRequest from './components/FeatureRequest';
+// import FeatureRequest from './components/FeatureRequest';
 
-const logo = process.env.PUBLIC_URL + '/img/landing/logo_svg.svg';
+// const logo = process.env.PUBLIC_URL + '/img/landing/logo_svg.svg';
 
 export default class Landing extends PureComponent {
   render() {
@@ -36,7 +36,7 @@ export default class Landing extends PureComponent {
         }}/>
         
         <Purchase/> */}
-        <Features/>
+        {/* <Features/> */}
         <Footer/>
       </div>
     )

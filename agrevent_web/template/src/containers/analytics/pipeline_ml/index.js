@@ -35,10 +35,7 @@ class ReviewJoiner extends PureComponent {
         <Container>
           <Row> <p> No avalaible, please go to <Link to='/analytics/preprocessing'> pre-processing </Link> </p>
           </Row>
-          <Row>
-          <MachineLearningResponse response={responseMachineLearning}></MachineLearningResponse>
-
-          </Row>
+          
       </Container>)
     }
     return (

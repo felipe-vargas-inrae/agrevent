@@ -16,7 +16,7 @@ class Preprocessing extends PureComponent {
   // }
 
   render() {
-    const {t} = this.props;
+    // const {t} = this.props;
 
     console.log("render index.js", this.state)
     

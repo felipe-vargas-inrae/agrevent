@@ -148,13 +148,13 @@ class SidebarContent extends PureComponent {
             </SidebarCategory>
            </SidebarCategory> 
         </ul> */}
-        <ul className='sidebar__block'>
+        {/* <ul className='sidebar__block'>
           <SidebarLink title='Log Out' icon='exit' route='/log_in'/>
         </ul>
         <ul className='sidebar__block'>
           <SidebarLink title='Documentation' icon='text-align-justify' route='/documentation/introduction'
                        onClick={this.hideSidebar}/>
-        </ul>
+        </ul> */}
       </div>
     )
   }

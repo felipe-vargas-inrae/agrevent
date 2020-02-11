@@ -18,8 +18,8 @@ export default class TopbarWithNavigation extends PureComponent {
           </div>
           <TopbarNav/>
           <div className='topbar__right'>
-            <TopbarNotification/>
-            <TopbarMail new/>
+            {/* <TopbarNotification/> */}
+            {/* <TopbarMail new/> */}
             <TopbarProfile/>
             <TopbarLanguage/>
           </div>

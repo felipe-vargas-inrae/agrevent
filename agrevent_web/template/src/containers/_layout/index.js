@@ -13,9 +13,8 @@ NotificationSystem.newInstance({}, (n) => notification = n);
 
 const showNotification = () => {
   notification.notice({
-    content: <BasicNotification title='👋 Welcome to the EasyDev!'
-                                message='You have successfully registered in the EasyDev. Now you can start to explore the dashboard
-                interface with a bunch of components and applications. Enjoy!'/>,
+    content: <BasicNotification title='👋 Welcome to AgrevenT prototype!'
+                                message='Try all the features and Enjoy!'/>,
     duration: 5,
     closable: true,
     style: {top: 0, left: 'calc(100vw - 100%)'},
