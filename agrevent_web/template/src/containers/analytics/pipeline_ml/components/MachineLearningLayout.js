@@ -39,19 +39,21 @@ class MachineLearningLayout extends Component {
 
     handleSubmit (e){
       console.log(e)
+
+      debugger 
       const listVariables=[]
-      for (const x in e ){
-        if(typeof(e[x])==='boolean'){
-          if (e[x]){
-            listVariables.push(x)
-          }
-        }
-      }
+      // for (const x in e ){
+      //   if(typeof(e[x])==='boolean'){
+      //     if (e[x]){
+      //       listVariables.push(x)
+      //     }
+      //   }
+      // }
       
       const request={} 
       request.target= e.targetVariable.value
       request.ModelML= e.ModelML.value
-      request.listVariables=listVariables
+      request.listVariables=e.featuresList.value
 
       console.log(request)
 

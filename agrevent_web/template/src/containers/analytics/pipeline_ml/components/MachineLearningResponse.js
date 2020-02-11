@@ -2,6 +2,10 @@
 import { connect } from 'react-redux';
 import React,{Component} from 'react'
 import Plot from 'react-plotly.js';
+import {Card, CardBody} from 'reactstrap';
+
+
+
 
 const projectField = (predictions, field)=>{
 
@@ -32,7 +36,8 @@ class MachineLearningResponse extends Component {
     }
     constructor(props) {
       super(props);
-      this.state={}
+      this.handleSelectChange= this.handleSelectChange.bind(this)
+      
     }
     
     componentWillUpdate(nextProps) {
@@ -40,45 +45,62 @@ class MachineLearningResponse extends Component {
       
     }
     
+    handleSelectChange (value) {
+      console.log('You\'ve selected:', value);
+      this.setState({ value });
+    }
 
 
     render(){
         
         const {response}= this.props
-        debugger
+        
+
+        const { value } = this.state;
 
 
         if(response.predictions){
           
+          const xmin= Math.min(this.state.xAxis)
+          const xmax= Math.max(this.state.xAxis)
+          const range=[xmin,xmax]
 
-          return  (<div>
-            <h3>Hello I have the predictions</h3>
+          return  (
+          
+          <Card className="">
+            <CardBody>
+         
+            <p>{response.messageR2}</p>
+            <p>{response.messageRMSE}</p>
 
             <Plot
                 data={[
                   {
                     x: this.state.xAxis,
                     y: this.state.yAxis,
-                    cmax:1000,
                     mode: 'markers',
                     type: 'scatter',
-                    colorscale:"balance",
-                    layout:{
-                      xaxis:{
-                        nticks: 7,
-                        fixedrange: [-100, 100]
-                      },yaxis:{nticks: 7,
-                        fixedrange: [-100, 100]}, 
-                      height:600,
-                      width:600
-                    }
+                    name: "Predictions"
+                  },
+
+                  {
+                    x: this.state.xAxis,
+                    y: this.state.xAxis,
+                    type: 'scatter',
+                    name: "1:1"
                   }
 
                 ]}
                 // layout={{ width:  height: 800 }}
-                layout={{height: 800,xaxis:{automargin:true},yaxis:{automargin: true}}}
+                layout={{height: 400, width: 400 ,
+                  xaxis:{automargin:true, range:range, title:{text: 'Observed'}},
+                  yaxis:{automargin: true, range:range,  title:{text: 'Predicted'} }}}
               />
-          </div>)
+
+
+              
+          </CardBody>
+          </Card>)
         }
 
         return  (<div>

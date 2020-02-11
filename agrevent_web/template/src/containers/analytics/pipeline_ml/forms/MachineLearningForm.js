@@ -7,6 +7,8 @@ import renderSelectField from '../../../../components/form/Select';
 //import renderMultiSelectField from '../../../../components/form/MultiSelect';
 import renderCheckBoxField from '../../../../components/form/CheckBox';
  
+import Select from 'react-select';
+
 import {translate} from 'react-i18next';
 
 const RenderField = ({input, label, placeholder, type, meta: {touched, error}}) => (
@@ -27,41 +29,54 @@ class MachineLearningForm extends PureComponent {
     super(props);
     this.state = {};
     this.onChangeTargetOption=this.onChangeTargetOption.bind(this)
+    this.handleSelectChange= this.handleSelectChange.bind(this)
+  }
 
+  handleSelectChange (value) {
+    console.log('You\'ve selected:', value);
+    this.setState({ featuresSelected: value });
+
+    this.props.change('featuresSelected', value)
   }
 
   
 
   onChangeTargetOption(e){
     this.setState({targetVariable: e.value});
+
+    if(this.state.featuresSelected.includes(e.value)){
+      this.setState({featuresSelected:null});
+    }
     //console.log("value 1 ",e.target.value)
     
   }
   render() {
     const {features ,models, handleSubmit, reset, t} = this.props;
+
+    const {featuresSelected, targetVariable} = this.state
     
     const listmodels= models.map((item)=>{
       return {value:item, label:item}
     })
     
-    const featuresLayout=features.map((item, index)=>{
-      const name= item
-      //const label = name + " ("+item.type+")"
-      const disabled= name === this.state.targetVariable? true:false 
-      return (<div key={index} className='form__form-group'>
-                  <div className='form__form-group-field'>
-                    <Field
-                      name={name}
-                      component={renderCheckBoxField}
-                      label={name}
-                      defaultChecked={false}
-                      disabled={disabled}
-                    />
-                  </div>
-                </div>)
-    })
+    // const featuresLayout=features.map((item, index)=>{
+    //   const name= item
+    //   //const label = name + " ("+item.type+")"
+    //   const disabled= name === this.state.targetVariable? true:false 
+    //   return (<div key={index} className='form__form-group'>
+    //               <div className='form__form-group-field'>
+    //                 <Field
+    //                   name={name}
+    //                   component={renderCheckBoxField}
+    //                   label={name}
+    //                   defaultChecked={false}
+    //                   disabled={disabled}
+    //                 />
+    //               </div>
+    //             </div>)
+    // })
 
-    const listOption= features.map((item)=>{return {value:item, label:item}})
+    const listOption= features.map((item)=>{return {value:item, label:item}}).filter((obj)=>{return obj.value!=targetVariable})
     
     return (
       <Container >
@@ -74,7 +89,17 @@ class MachineLearningForm extends PureComponent {
                     <div className='form-row' style={{width: "100%"}}>  
                       <div className='col-md-4' style={{ maxWidth: "260px"}}>
                         <h4>Features(Xi)</h4><br></br>
-                        {featuresLayout}
+                        
+                        <Select
+                          name="featuresList"
+                          disabled={false}
+                          multi
+                          onChange={this.handleSelectChange}
+                          options={listOption}
+                          removeSelected={true}
+                          simpleValue
+                          value={featuresSelected}
+                        />
                       </div>
                       <div className='col-md-4 col-sm-12'>
                         <h4> Target Variable(Y)</h4><br></br>

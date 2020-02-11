@@ -249,12 +249,26 @@ class PysparkHelper:
             rf_model=rf.fit(train)
             rf_predictions = rf_model.transform(test)
 
-            # poner los valores de respuesta estan en el notebook 
+            # output results
+            rf_evaluator_rmse = RegressionEvaluator(
+                labelCol="MV", predictionCol="prediction", metricName="rmse")
+            rf_evaluator_r2 = RegressionEvaluator(
+                labelCol="MV", predictionCol="prediction", metricName="r2")
+            
+            rmse = rf_evaluator_rmse.evaluate(rf_predictions)
+            r2 = rf_evaluator_r2.evaluate(rf_predictions)
+            rmse_message=("Root Mean Squared Error (RMSE) on test data = %g" % rmse) 
 
-            return rf_predictions
+            r2_message=("R2 on test data = %g" % r2) 
+
+
+            evaluator_vs=  rf_predictions.toPandas()[['MV','prediction']].to_json(orient='records')
+
+            return {"messageRMSE":rmse_message, "messageR2":r2_message , "predictions": evaluator_vs }
 
 
         else: return None
+        
 
     def pipeline_ml(self, df, target_y):
 
