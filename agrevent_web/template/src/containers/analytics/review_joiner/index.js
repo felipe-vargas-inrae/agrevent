@@ -58,7 +58,7 @@ class ReviewJoiner extends PureComponent {
           </Col>
         </Row>
 
-        <PlotHeatMap dataset={dataset.rows} columns={dataset.columns}></PlotHeatMap>
+        {/* <PlotHeatMap dataset={dataset.rows} columns={dataset.columns}></PlotHeatMap> */}
         
         <MaterialTable dataset={dataset.rows} columns={dataset.columns}></MaterialTable>
 

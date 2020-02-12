@@ -40,7 +40,7 @@ const initialState = {
   transformationsTypesList:[],
   pipelineML:{name:"PipelineML", methods:[]},
   joinerDataset:[],
-  responseMachineLearning:{}//DataResponseML
+  responseMachineLearning:null//DataResponseML
 
 };
 

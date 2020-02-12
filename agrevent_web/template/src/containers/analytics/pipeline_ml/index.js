@@ -38,6 +38,8 @@ class ReviewJoiner extends PureComponent {
           
       </Container>)
     }
+
+    debugger 
     return (
       <Container>
         <Row>
@@ -49,7 +51,7 @@ class ReviewJoiner extends PureComponent {
         <Row>
           <Col md={12}>
             <MachineLearningLayout columns={dataset.columns}></MachineLearningLayout>
-            <MachineLearningResponse response={responseMachineLearning}></MachineLearningResponse>
+            {responseMachineLearning? <MachineLearningResponse response={responseMachineLearning}></MachineLearningResponse>:null}
           </Col>
         </Row>
       </Container>

@@ -1,0 +1,34 @@
+
+supossing most of the records have at least 30 days,
+
+* after visualice the correlaxion plot were discarted the variables related with the window 1 
+"2_avg(convex_hull_perimeter)", "2_avg(height)", "2_avg(height_over_pot)", 
+"2_avg(object_sum_area)", "2_avg(Silk_area)", "2_avg(convex_hull_area)", 
+"2_avg(number_of_objects)", "2_avg(width)"
+
+scenery 1: 
+split: 15 days, windows: 2 
+"2_avg(convex_hull_area)"
+
+scenery 2: 
+split: 15 days, windows: 2 
+"Treatment"
+"2_avg(convex_hull_area)"
+
+scenery 3: 
+split: 15 days, windows: 2 
+"Treatment"
+"2_avg(height_over_pot)"
+"2_avg(width)"
+
+scenery 4: 
+split: 15 days, windows: 2 
+"2_avg(height_over_pot)"
+"2_avg(width)"
+
+scenery 5: 
+split: 15 days, windows: 2 
+"Treatment"
+"2_avg(convex_hull_area)"
+"2_avg(height_over_pot)"
+"2_avg(width)"

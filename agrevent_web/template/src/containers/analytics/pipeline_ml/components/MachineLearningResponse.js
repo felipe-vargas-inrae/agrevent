@@ -25,6 +25,7 @@ const mapDispatchToProps = (dispatch) => {
 
 class MachineLearningResponse extends Component {
     componentWillMount() {
+      debugger
       if(this.props.response.predictions){
         this.setState(
           {

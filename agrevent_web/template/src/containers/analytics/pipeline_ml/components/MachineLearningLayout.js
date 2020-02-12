@@ -53,7 +53,7 @@ class MachineLearningLayout extends Component {
       const request={} 
       request.target= e.targetVariable.value
       request.ModelML= e.ModelML.value
-      request.listVariables=e.featuresList.value
+      request.listVariables=e.featuresSelected.split(',')
 
       console.log(request)
 
@@ -66,8 +66,9 @@ class MachineLearningLayout extends Component {
 
         
         //this.setState({processing:false })
-        debugger 
+         
         console.log(response)
+        response.data.predictions= JSON.parse(response.data.predictions)
         this.props.updateMachineLearningResponse(response.data)
         // //this.props.history.push('/analytics/pipeline_ml');
         // this.props.history.push('/analytics/review_joiner');
