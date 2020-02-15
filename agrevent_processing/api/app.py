@@ -83,8 +83,10 @@ def preprocessing_pipelines():
     print(request.json)
     rows,columns=my_spark_helper.preprocessing_pipelines(request.json)
 
+
     response= {'rows':rows,'columns':columns}
     return jsonify(response)
+
 
 
 @app.route('/api/v1/resources/joiner/correlations')

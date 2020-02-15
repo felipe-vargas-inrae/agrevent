@@ -2,7 +2,7 @@
 supossing most of the records have at least 30 days,
 
 * after visualice the correlaxion plot were discarted the variables related with the window 1 
-"2_avg(convex_hull_perimeter)", "2_avg(height)", "2_avg(height_over_pot)", 
+"2_avg(convex_hull_perimeter)", "2_avg(height)", "2_avg(height)", 
 "2_avg(object_sum_area)", "2_avg(Silk_area)", "2_avg(convex_hull_area)", 
 "2_avg(number_of_objects)", "2_avg(width)"
 
@@ -10,25 +10,40 @@ scenery 1:
 split: 15 days, windows: 2 
 "2_avg(convex_hull_area)"
 
+2020/02/12 13:49:34
+toPandas at D:\diskLenovoHarvest\v2(all data)\D\Felipe\Tesis\Prototipo\Mongo\agrevent\git\agrevent_processing\api\pyspark_helper.py:265+details	2020/02/12 13:55:08	1 s
+
 scenery 2: 
 split: 15 days, windows: 2 
 "Treatment"
 "2_avg(convex_hull_area)"
 
+treeAggregate at MongoInferSchema.scala:88+details	2020/02/12 14:24:52	19 ms
+toPandas at D:\diskLenovoHarvest\v2(all data)\D\Felipe\Tesis\Prototipo\Mongo\agrevent\git\agrevent_processing\api\pyspark_helper.py:265+details	2020/02/12 14:39:39	2 s
+
+
 scenery 3: 
 split: 15 days, windows: 2 
 "Treatment"
-"2_avg(height_over_pot)"
+"2_avg(height)"
 "2_avg(width)"
+to pandas 2020/02/12 15:24:21
+rdd at StringIndexer.scala:138+details	2020/02/12 15:17:25
 
 scenery 4: 
 split: 15 days, windows: 2 
-"2_avg(height_over_pot)"
+"2_avg(height)"
 "2_avg(width)"
+
+to pandas 15:33:0
+string indexer 2020/02/12 15:27:17
 
 scenery 5: 
 split: 15 days, windows: 2 
 "Treatment"
 "2_avg(convex_hull_area)"
-"2_avg(height_over_pot)"
+"2_avg(height)"
 "2_avg(width)"
+
+to pandas 15:48:00
+indexer 15:40:51 
