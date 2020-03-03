@@ -8,6 +8,7 @@ Develop a Big Data Product requires the implementation and configuration of nume
 
 Broadly, this project presents three developments:
 
+| Folder | Description |
 | --- | --- |
 | agrevent_processing  | A Python Flask API that enables Apache Spark methods and user-defined process. The main goal is to retrieve data and in-memory distribute processing |
 | agrevent_storage | A NodeJS project that connects with a MongoDB Database and creates Kafka Producers and consumers. The main goal is to insert data and apply ETLs |
