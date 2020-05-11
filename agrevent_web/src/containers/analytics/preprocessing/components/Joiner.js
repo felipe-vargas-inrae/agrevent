@@ -54,8 +54,8 @@ class Joiner extends Component {
         }
       }
 
-
-      const requestData= {pipelineList:this.props.pipelinesList,joinner: values}
+      debugger
+      const requestData= {pipelineList:this.props.pipelinesList,joiner: values}
       
       this.setState({processing:true})
 

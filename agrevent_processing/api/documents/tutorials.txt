@@ -1,0 +1,7 @@
+# amazing tutorial https://j2logo.com/tutorial-flask-leccion-10-anadiendo-seguridad-vistas-decoradores/?fbclid=IwAR1ojn18aVJamvKVthR7Vd8AmHRdEZjPevpUTUmJ8b0EZz-QWlsUplegTwI
+
+testing 
+http://www.patricksoftwareblog.com/unit-testing-a-flask-application/
+
+## assert funtions 
+https://docs.python.org/3.3/library/unittest.html

@@ -20,8 +20,8 @@ class Topbar extends PureComponent {
             {/* <TopbarSearch/>
             <TopbarNotification/>
             <TopbarMail new/> */}
-            <TopbarProfile/>
-            <TopbarLanguage/>
+            {/* <TopbarProfile/>
+            <TopbarLanguage/> */}
           </div>
         </div>
       </div>

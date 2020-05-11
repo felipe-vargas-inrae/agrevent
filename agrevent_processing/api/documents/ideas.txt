@@ -22,5 +22,7 @@ add name, add dataframe.
 modificar pipeline anadir transformation, borrar pipeline
 joiner, left item, right join
 
-
 hay dos grandes librerias en spark  mllib y ml mencionar
+
+me parece importante explicar el ciclo de ml el pipeline porque resulta un poco dificil de asimilar todos 
+los pasos necesarios para llevar a cabo el modelado

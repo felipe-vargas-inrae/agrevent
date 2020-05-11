@@ -1,0 +1,202 @@
+SCENERY
+['1_stddev_samp(object_sum_area)', '2_stddev_samp(object_sum_area)', 'label']
+LinearRegression_4f37b350037a6b59625b__solver
+Random Forest=========================================
+[0.6589442624521115, 0.6702072427612721, 0.6718828316157168]
+1_stddev_samp(object_sum_area) 0.11687373416977591
+2_stddev_samp(object_sum_area) 0.8831262658302241
+Linear Regression=========================================
+RMSE: 74.223300
+r2: 0.669346
+
+SCENERY
+['1_stddev_samp(height_over_pot)', '2_stddev_samp(height_over_pot)', 'label']
+LinearRegression_4b02a7b332804bcf4ab2__solver
+Random Forest=========================================
+[0.45498656210698935, 0.46072157233271127, 0.46490114880722466]
+1_stddev_samp(height_over_pot) 0.10336902553043913
+2_stddev_samp(height_over_pot) 0.8966309744695609
+Linear Regression=========================================
+RMSE: 95.783092
+r2: 0.449355
+
+SCENERY
+['1_stddev_samp(convex_hull_area)', '2_stddev_samp(convex_hull_area)', 'label']
+LinearRegression_4e91894a1681c5485467__solver
+Random Forest=========================================
+[0.5328810972313953, 0.5290192147663251, 0.5370005523085842]
+1_stddev_samp(convex_hull_area) 0.12497284068424527
+2_stddev_samp(convex_hull_area) 0.8750271593157547
+Linear Regression=========================================
+RMSE: 89.897900
+r2: 0.514943
+SCENERY
+['2_stddev_samp(width)', '2_stddev_samp(height_over_pot)', 'label']
+LinearRegression_481ba310f41ab7fa00a1__solver
+Random Forest=========================================
+[0.44051927820994274, 0.4450673094006343, 0.45188844389184096]
+2_stddev_samp(width) 0.28564967051387247
+2_stddev_samp(height_over_pot) 0.7143503294861275
+Linear Regression=========================================
+RMSE: 95.916071
+r2: 0.447825
+SCENERY
+['first(Treatment)', '2_stddev_samp(width)', '2_stddev_samp(height_over_pot)', 'label']
+[StringIndexer_4d5aa13dbd74a5178ee5, OneHotEncoderEstimator_4c529d036b2501063957, VectorAssembler_4502b1894b2059e2f5e6]
+LinearRegression_4448b44b57bac830f426__solver
+[StringIndexer_4c7685bfa749c56cb051, OneHotEncoderEstimator_46babbe114a253d6c854, VectorAssembler_4652aac1bc0056323752]
+Random Forest=========================================
+[0.45824907285614425, 0.4526670057970945, 0.4589391137317665]
+first(Treatment)classVec 0.3197843920044858
+2_stddev_samp(width) 0.16439351636834432
+2_stddev_samp(height_over_pot) 0.5158220916271699
+Linear Regression=========================================
+RMSE: 94.450080
+r2: 0.464575
+SCENERY
+['first(Treatment)', '2_stddev_samp(width)', '2_stddev_samp(object_sum_area)', 'label']
+[StringIndexer_4b479105c4ebcfdfbe21, OneHotEncoderEstimator_4974b1d8d6da1ee5381f, VectorAssembler_42ef8180d7b805b8fca9]
+LinearRegression_44138ebc8d442a403510__solver
+[StringIndexer_429b9928ad24a69a5c80, OneHotEncoderEstimator_4dd99838e1d9a7caf401, VectorAssembler_4a72afbda157b0a30501]
+Random Forest=========================================
+[0.5956726214139159, 0.5903534762348738, 0.5982685423909814]
+first(Treatment)classVec 0.2705465173881824
+2_stddev_samp(width) 0.12783543843210607
+2_stddev_samp(object_sum_area) 0.6016180441797115
+Linear Regression=========================================
+RMSE: 78.357999
+r2: 0.631480
+
+#10:48 pm 
+#11:24 pm
+#36 minutos
+
+
+
+
+
+AVG ==============================
+
+sceneries=[
+    ['1_avg(object_sum_area)','2_avg(object_sum_area)' ,'label'],
+    ['1_avg(height_over_pot)', '2_avg(height_over_pot)','label'],
+    ['1_avg(convex_hull_area)','2_avg(convex_hull_area)','label'],
+    ['2_avg(width)', '2_avg(height_over_pot)','label'],
+    ['first(Treatment)','2_avg(width)', '2_avg(height_over_pot)','label'],
+    ['first(Treatment)','2_avg(width)','2_avg(object_sum_area)', 'label'],
+    ['first(Treatment)','2_avg(width)','2_avg(object_sum_area)', '1_avg(object_sum_area)', 'label'],
+    ['2_avg(width)','2_avg(object_sum_area)', '1_avg(object_sum_area)', 'label']
+]
+
+
+SCENERY
+['1_avg(object_sum_area)', '2_avg(object_sum_area)', 'label']
+[VectorAssembler_46d9993b2c5ccf328de7]
+LinearRegression_4e33b1cb7a330e11d0a6__solver
+[VectorAssembler_4b29b945b561b7f1bdfa]
+Random Forest=========================================
+[0.6543387200356003, 0.6683395457263005, 0.6705762805495457]
+1_avg(object_sum_area) 0.1244429205257372
+2_avg(object_sum_area) 0.8755570794742629
+Linear Regression=========================================
+[0.6536124626084002, 0.6536059520907344]
+RMSE: 75.383090
+r2: 0.658844
+SCENERY
+['1_avg(height_over_pot)', '2_avg(height_over_pot)', 'label']
+[VectorAssembler_4108936a4e54ad463408]
+LinearRegression_4181bb677394c963ee08__solver
+[VectorAssembler_482da43899323ca30a49]
+Random Forest=========================================
+[0.4785852522158078, 0.48705111677894275, 0.49210586021812575]
+1_avg(height_over_pot) 0.13288304414127622
+2_avg(height_over_pot) 0.8671169558587238
+Linear Regression=========================================
+[0.4530218595690798, 0.4530221127670948]
+RMSE: 94.750069
+r2: 0.461031
+SCENERY
+['1_avg(convex_hull_area)', '2_avg(convex_hull_area)', 'label']
+[VectorAssembler_488f97071774fc1d39d7]
+LinearRegression_4bd9be7809edf08fb143__solver
+[VectorAssembler_49bf95484c32665e1473]
+Random Forest=========================================
+[0.5493649536426376, 0.5504082314106457, 0.5579019230989323]
+1_avg(convex_hull_area) 0.12858426006213558
+2_avg(convex_hull_area) 0.8714157399378645
+Linear Regression=========================================
+[0.5290885155175539, 0.5290921044233312]
+RMSE: 87.893571
+r2: 0.536212
+SCENERY
+['2_avg(width)', '2_avg(height_over_pot)', 'label']
+[VectorAssembler_44c68ecdf59484bedc99]
+LinearRegression_4f358479b1aaa9dd6d5e__solver
+[VectorAssembler_484ea57c805bfc565996]
+Random Forest=========================================
+[0.46529602893356303, 0.4790785585356956, 0.4761794609668534]
+2_avg(width) 0.46185124857541887
+2_avg(height_over_pot) 0.5381487514245812
+Linear Regression=========================================
+[0.43057371796657207, 0.4305762559741888]
+RMSE: 96.670179
+r2: 0.438965
+SCENERY
+['first(Treatment)', '2_avg(width)', '2_avg(height_over_pot)', 'label']
+[StringIndexer_490aa165ea3125ba5b89, OneHotEncoderEstimator_4b34a17db8d039f61c03, VectorAssembler_4f6998216a73f47a2952]
+LinearRegression_4909b9ad34f91f63a130__solver
+[StringIndexer_48f5919c5ff533ae5c2d, OneHotEncoderEstimator_4ff48057434db66fd4f1, VectorAssembler_41808ef94cf958e38515]
+Random Forest=========================================
+[0.5028340708513234, 0.4999397170592727, 0.5048832290474528]
+first(Treatment)classVec 0.3053105785039602
+2_avg(width) 0.2912573811367802
+2_avg(height_over_pot) 0.40343204035925967
+Linear Regression=========================================
+[0.48293826270838447, 0.4829430667996786]
+RMSE: 92.047909
+r2: 0.491334
+SCENERY
+['first(Treatment)', '2_avg(width)', '2_avg(object_sum_area)', 'label']
+[StringIndexer_41048dba9302dbe4d223, OneHotEncoderEstimator_4c3ca3b2968a507484eb, VectorAssembler_470c8fc17f4f1ce23505]
+LinearRegression_4a18ba1276356d2b23fa__solver
+[StringIndexer_4a538aa2a79251de74f7, OneHotEncoderEstimator_4003ade02f2fdfbb15c7, VectorAssembler_47eaaba496e07d841d7a]
+Random Forest=========================================
+[0.6080055050154825, 0.6007315116172951, 0.6064783036270223]
+first(Treatment)classVec 0.21182130862854068
+2_avg(width) 0.29023786545619723
+2_avg(object_sum_area) 0.49794082591526206
+Linear Regression=========================================
+[0.5846198308224032, 0.584616254415728]
+RMSE: 82.435075
+r2: 0.592029
+
+
+SCENERY
+['first(Treatment)', '2_avg(width)', '2_avg(object_sum_area)', '1_avg(object_sum_area)', 'label']
+[StringIndexer_4ccd8cec8ad07b1a2f5b, OneHotEncoderEstimator_4691acf08340e7ab8597, VectorAssembler_43aab8daf6df430ef8b3]
+LinearRegression_4f5283d8de330b201b20__solver
+[StringIndexer_45e7a316cd9eb3c4bfcc, OneHotEncoderEstimator_49e9b8afda2f15f04910, VectorAssembler_49c3903bf9ee0f82fdd5]
+Random Forest=========================================
+[0.6833389165249952, 0.6885991376140552, 0.692670884946271]
+first(Treatment)classVec 0.10339655759493593
+2_avg(width) 0.20715660221734108
+2_avg(object_sum_area) 0.6251444576954226
+1_avg(object_sum_area) 0.06430238249230037
+Linear Regression=========================================
+[0.667686045663653, 0.6676535231018111]
+RMSE: 73.795077
+r2: 0.673066
+SCENERY
+['2_avg(width)', '2_avg(object_sum_area)', '1_avg(object_sum_area)', 'label']
+[VectorAssembler_4989919d6fb39dc9167c]
+LinearRegression_4400ba2ef290e45809fe__solver
+[VectorAssembler_478a919b562840ebac22]
+Random Forest=========================================
+[0.6456881109631146, 0.6360290401884061, 0.6394425883381747]
+2_avg(width) 0.2288804358911361
+2_avg(object_sum_area) 0.6818911085682131
+1_avg(object_sum_area) 0.08922845554065084
+Linear Regression=========================================
+[0.6543051527135078, 0.654273721603708]
+RMSE: 75.297352
+r2: 0.659620
