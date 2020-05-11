@@ -9,10 +9,6 @@ Develop a Big Data Product requires the implementation and configuration of nume
 Broadly, this project presents three developments:
 
 
-| Column 1       | Column 2     | Column 3     |
-| :------------- | :----------: | -----------: |
-|  Cell Contents | More Stuff   | And Again    |
-| You Can Also   | Put Pipes In | Like this \| |
 
 | Project       | Description     |
 | :------------- | :----------: |
