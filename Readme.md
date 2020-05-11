@@ -15,7 +15,9 @@ Broadly, this project presents three developments:
 
 ## Videos
 
-[Introduction](https://vimeo.com/410733754)
-[Tutorial](https://vimeo.com/411019366)
+* [Introduction](https://vimeo.com/410733754)
+* [Tutorial](https://vimeo.com/411019366)
 
 ## Survey Results
+
+* [Survey](https://github.com/felipe-vargas-inrae/agrevent/blob/master/agrevent_processing/api/documents/agrevent_survey.pdf)
