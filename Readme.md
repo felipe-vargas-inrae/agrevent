@@ -8,7 +8,14 @@ Develop a Big Data Product requires the implementation and configuration of nume
 
 Broadly, this project presents three developments:
 
-| --- | --- |
+
+| Column 1       | Column 2     | Column 3     |
+| :------------- | :----------: | -----------: |
+|  Cell Contents | More Stuff   | And Again    |
+| You Can Also   | Put Pipes In | Like this \| |
+
+| Project       | Description     |
+| :------------- | :----------: |
 | agrevent_processing  | A Python Flask API that enables Apache Spark methods and user-defined process. The main goal is to retrieve data and in-memory distribute processing | 
 | agrevent_storage | A NodeJS project that connects with a MongoDB Database and creates Kafka Producers and consumers. The main goal is to insert data and apply ETLs | 
 | agrevent_web  | A React front-end application that creates graphical components to interact with the Big Data Environment  | 
